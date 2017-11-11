@@ -178,12 +178,12 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		int height = surface.getHeight();
 		int width = surface.getWidth();
 
-		// draw the middle card-pile
-		Card c = state.getDeck(2).peekAtTopCard(); // top card in pile
+		// draw the middle card-hand
+		Card c = state.getDeck(2).peekAtTopCard(); // top card in hand
 		if (c != null) {
 			// if middle card is not empty, draw a set of N card-backs
 			// behind the middle card, so that the user can see the size of
-			// the pile
+			// the hand
 			RectF midTopLocation = middlePileTopCardLocation();
 			drawCardBacks(g, midTopLocation,
 					0.0025f*width, -0.01f*height, state.getDeck(2).size());
@@ -203,7 +203,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		
 		// draw a red bar to denote which player is to play (flip) a card
 		RectF currentPlayerRect =
-				state.toPlay() == this.playerNum ? thisTopLocation : oppTopLocation;
+				state.whoseTurn() == this.playerNum ? thisTopLocation : oppTopLocation;
 		RectF turnIndicator =
 				new RectF(currentPlayerRect.left,
 						currentPlayerRect.bottom,
@@ -251,7 +251,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 	/**
 	 * @return
 	 * 		the rectangle that represents the location on the drawing
-	 * 		surface where the top card in the middle pile is to
+	 * 		surface where the top card in the middle hand is to
 	 * 		be drawn
 	 */	
 	private RectF middlePileTopCardLocation() {
@@ -312,16 +312,16 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		int y = (int) event.getY();
 		
 		// determine whether the touch occurred on the top-card of either
-		// the player's pile or the middle pile
+		// the player's hand or the middle hand
 		RectF myTopCardLoc = thisPlayerTopCardLocation();
 		RectF middleTopCardLoc = middlePileTopCardLocation();
 		if (myTopCardLoc.contains(x, y)) {
-			// it's on my pile: we're playing a card: send action to
+			// it's on my hand: we're playing a card: send action to
 			// the game
 			game.sendAction(new GFPlayAction(this));
 		}
 		else if (middleTopCardLoc.contains(x, y)) {
-			// it's on the middlel pile: we're slapping a card: send
+			// it's on the middlel hand: we're slapping a card: send
 			// action to the game
 			game.sendAction(new GFSlapAction(this));
 		}

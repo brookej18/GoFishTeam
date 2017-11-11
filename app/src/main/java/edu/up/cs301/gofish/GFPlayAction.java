@@ -4,7 +4,7 @@ import edu.up.cs301.game.GamePlayer;
 
 /**
  * A GFPlayAction is an action that represents playing a card on the "up"
- * pile.
+ * hand.
  * 
  * @author Steven R. Vegdahl
  * @version 31 July 2002

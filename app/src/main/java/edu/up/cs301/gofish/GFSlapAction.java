@@ -4,7 +4,7 @@ import edu.up.cs301.game.GamePlayer;
 
 /**
  * A GFSlapAction is an action that represents slapping the card that is
- * on the "up" pile.
+ * on the "up" hand.
  * 
  * @author Steven R. Vegdahl
  * @version 31 July 2002

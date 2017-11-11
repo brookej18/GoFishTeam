@@ -11,24 +11,23 @@ import edu.up.cs301.game.infoMsg.GameState;
  * @author Steven R. Vegdahl 
  * @version July 2013
  */
-public class GFState extends GameState
-{
+public class GFState extends GameState {
 	private static final long serialVersionUID = -8269749892027578792L;
 
     ///////////////////////////////////////////////////
     // ************** instance variables ************
     ///////////////////////////////////////////////////
 
-	// the three piles of cards:
-    //  - 0: pile for player 0
-    //  - 1: pile for player 1
-    //  - 2: the "up" pile, where the top card
-	// Note that when players receive the state, all but the top card in all piles
+	// the three hand of cards:
+    //  - 0: hand for player 0
+    //  - 1: hand for player 1
+    //  - 2: the "up" hand, where the top card
+	// Note that when players receive the state, all but the top card in all hand
 	// are passed as null.
-    private Deck[] piles;
+    private Deck[] hand;
     
-    // whose turn is it to turn a card?
-    private int toPlay;
+    // integer that sets the turn of the player
+    private int whoseTurn;
 
     /**
      * Constructor for objects of class GFState. Initializes for the beginning of the
@@ -37,22 +36,22 @@ public class GFState extends GameState
      */
     public GFState() {
     	// randomly pick the player who starts
-    	toPlay = (int)(2* Math.random());
+    	whoseTurn = (int)(2* Math.random());
     	
     	// initialize the decks as follows:
     	// - each player deck (#0 and #1) gets half the cards, randomly
     	//   selected
     	// - the middle deck (#2) is empty
-    	piles = new Deck[3];
-    	piles[0] = new Deck(); // create empty deck
-    	piles[1] = new Deck(); // create empty deck
-    	piles[2] = new Deck(); // create empty deck
-    	piles[toPlay].add52(); // give all cards to player whose turn it is, in order
-    	piles[toPlay].shuffle(); // shuffle the cards
-    	// move cards to opponent, until to piles have ~same size
-    	while (piles[toPlay].size() >=
-    			piles[1-toPlay].size()+1) {
-    		piles[toPlay].moveTopCardTo(piles[1-toPlay]);
+    	hand = new Deck[3];
+    	hand[0] = new Deck(); // create empty deck
+    	hand[1] = new Deck(); // create empty deck
+    	hand[2] = new Deck(); // create empty deck
+    	hand[whoseTurn].add52(); // give all cards to player whose turn it is, in order
+    	hand[whoseTurn].shuffle(); // shuffle the cards
+    	// move cards to opponent, until to hand have ~same size
+    	while (hand[whoseTurn].size() >=
+    			hand[1-whoseTurn].size()+1) {
+    		hand[whoseTurn].moveTopCardTo(hand[1-whoseTurn]);
     	}
     }
     
@@ -63,12 +62,12 @@ public class GFState extends GameState
      */
     public GFState(GFState orig) {
     	// set index of player whose turn it is
-    	toPlay = orig.toPlay;
+    	whoseTurn = orig.whoseTurn;
     	// create new deck array, making copy of each deck
-    	piles = new Deck[3];
-    	piles[0] = new Deck(orig.piles[0]);
-    	piles[1] = new Deck(orig.piles[1]);
-    	piles[2] = new Deck(orig.piles[2]);
+    	hand = new Deck[3];
+    	hand[0] = new Deck(orig.hand[0]);
+    	hand[1] = new Deck(orig.hand[1]);
+    	hand[2] = new Deck(orig.hand[2]);
     }
     
     /**
@@ -79,7 +78,7 @@ public class GFState extends GameState
      */
     public Deck getDeck(int num) {
         if (num < 0 || num > 2) return null;
-        return piles[num];
+        return hand[num];
     }
     
     /**
@@ -87,8 +86,8 @@ public class GFState extends GameState
      * 
      * @return the index (0 or 1) of the player whose turn it is.
      */
-    public int toPlay() {
-        return toPlay;
+    public int whoseTurn() {
+        return whoseTurn;
     }
     
     /**
@@ -97,8 +96,8 @@ public class GFState extends GameState
      * @param idx
      * 		the index of the player whose move it now is
      */
-    public void setToPlay(int idx) {
-    	toPlay = idx;
+    public void setwhoseTurn(int idx) {
+    	whoseTurn = idx;
     }
  
     /**
@@ -106,17 +105,25 @@ public class GFState extends GameState
      */
     public void nullAllButTopOf2() {
     	// see if the middle deck is empty; remove top card from middle deck
-    	boolean empty2 = piles[2].size() == 0;
-    	Card c = piles[2].removeTopCard();
+    	boolean empty2 = hand[2].size() == 0;
+    	Card c = hand[2].removeTopCard();
     	
     	// set all cards in deck to null
-    	for (Deck d : piles) {
+    	for (Deck d : hand) {
     		d.nullifyDeck();
     	}
     	
     	// if middle deck had not been empty, add back the top (non-null) card
     	if (!empty2) {
-    		piles[2].add(c);
+    		hand[2].add(c);
     	}
     }
+
+    public int getScore(int idx){
+    	return 0;
+	}
+
+	public void setScore(int idx, int score){
+
+	}
 }

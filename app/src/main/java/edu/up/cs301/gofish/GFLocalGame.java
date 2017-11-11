@@ -40,18 +40,18 @@ public class GFLocalGame extends LocalGame {
     protected String checkIfGameOver() {
     	
     	if (state.getDeck(2).size() > 0) {
-    		// there are cards in the middle pile
+    		// there are cards in the middle hand
     		if (state.getDeck(0).size() == 0 &&
     				state.getDeck(1).size() == 0 &&
     				state.getDeck(2).peekAtTopCard().getRank() != Rank.JACK) {
-    			// All the cards have ended up in the middle pile, and the top card
+    			// All the cards have ended up in the middle hand, and the top card
     			// is not a Jack. This situation is a draw, since the only move a player
     			// would would be to slap the top card, causing his opponent to win.
     			return "game is a draw";
     		}
     		else {
-    			// there are either cards in at least two piles, or all cards are in the
-    			// middle pile with a Jack on top; return null, as the game is not over
+    			// there are either cards in at least two hand, or all cards are in the
+    			// middle hand with a Jack on top; return null, as the game is not over
     			return null;
     		}
     	}
@@ -107,7 +107,7 @@ public class GFLocalGame extends LocalGame {
 		else {
 			// player can move if it's their turn, or if the middle deck is non-empty
 			// so they can slap
-			return state.getDeck(2).size() > 0 || state.toPlay() == playerIdx;
+			return state.getDeck(2).size() > 0 || state.whoseTurn() == playerIdx;
 		}
 	}
 
@@ -151,7 +151,7 @@ public class GFLocalGame extends LocalGame {
 			}
 		}
 		else if (GFma.isPlay()) { // we have a "play" action
-			if (thisPlayerIdx != state.toPlay()) {
+			if (thisPlayerIdx != state.whoseTurn()) {
 				// attempt to play when it's the other player's turn
 				return false;
 			}
@@ -161,7 +161,7 @@ public class GFLocalGame extends LocalGame {
 				state.getDeck(thisPlayerIdx).moveTopCardTo(state.getDeck(2));
 				// if the opponent has any cards, make it the opponent's move
 				if (state.getDeck(1-thisPlayerIdx).size() > 0) {
-					state.setToPlay(1-thisPlayerIdx);
+					state.setwhoseTurn(1-thisPlayerIdx);
 				}
 			}
 		}

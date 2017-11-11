@@ -96,7 +96,7 @@ public class GFComputerPlayer extends GameComputerPlayer
     		this.getTimer().setInterval(time);
     		this.getTimer().start();
     	}
-    	else if (savedState.toPlay() == this.playerNum) {
+    	else if (savedState.whoseTurn() == this.playerNum) {
     		// not a Jack but it's my turn to play a card
     		
     		// delay for up to two seconds; then play
