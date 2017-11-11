@@ -318,12 +318,12 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		if (myTopCardLoc.contains(x, y)) {
 			// it's on my hand: we're playing a card: send action to
 			// the game
-			game.sendAction(new GFPlayAction(this));
+			game.sendAction(new GFCheckHandAction(this));
 		}
 		else if (middleTopCardLoc.contains(x, y)) {
 			// it's on the middlel hand: we're slapping a card: send
 			// action to the game
-			game.sendAction(new GFSlapAction(this));
+			game.sendAction(new GFRequestAction(this));
 		}
 		else {
 			// illegal touch-location: flash for 1/20 second

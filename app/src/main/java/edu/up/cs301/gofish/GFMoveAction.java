@@ -4,11 +4,10 @@ import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.actionMsg.GameAction;
 
 /**
- * A game-move object that a tic-tac-toe player sends to the game to make
- * a move.
+ * A game-move object that a go fish player sends to the game to make a move.
  * 
- * @author Steven R. Vegdahl
- * @version 2 July 2001
+ * @author Alex Costa, Jackson Brooke, Logan Crawford
+ * @version November 2017
  */
 public abstract class GFMoveAction extends GameAction {
 	
@@ -19,26 +18,25 @@ public abstract class GFMoveAction extends GameAction {
      *
      * @param player the player making the move
      */
-    public GFMoveAction(GamePlayer player)
-    {
-        // invoke superclass constructor to set source
+    public GFMoveAction(GamePlayer player) {
+        //invoke superclass constructor to set source
         super(player);
     }
     
     /**
      * @return
-     * 		whether the move was a slap
+     * 		whether the move is a brook or not
      */
-    public boolean isSlap() {
+    public boolean isBrook() {
     	return false;
     }
     
     /**
      * @return
-     * 		whether the move was a "play"
+     * 		whether the move is a request from another player or not
      */
-    public boolean isPlay() {
-    	return false;
+    public boolean isRequest(){
+        return false;
     }
 
 }

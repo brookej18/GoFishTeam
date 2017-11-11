@@ -134,7 +134,7 @@ public class GFLocalGame extends LocalGame {
 			return false;
 		}
 
-		if (GFma.isSlap()) {
+		if (GFma.isBrook()) {
 			// if we have a slap 
 			if (state.getHand(2).size() == 0) {
 				// empty deck: return false, as move is illegal
@@ -149,7 +149,7 @@ public class GFLocalGame extends LocalGame {
 				giveMiddleCardsToPlayer(1-thisPlayerIdx);
 			}
 		}
-		else if (GFma.isPlay()) { // we have a "play" action
+		else if (GFma.isRequest()) { // we have a "play" action
 			if (thisPlayerIdx != state.whoseTurn()) {
 				// attempt to play when it's the other player's turn
 				return false;

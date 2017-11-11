@@ -57,7 +57,7 @@ public class GFComputerPlayer extends GameComputerPlayer
     	Card topCard = savedState.getHand(2).peekAtTopCard();
     	if (topCard != null && topCard.getRank() == Rank.JACK) {
     		// the Jack is still there, so submit our move to the game object
-    		game.sendAction(new GFSlapAction(this));
+    		game.sendAction(new GFRequestAction(this));
     	}
     	
     	// stop the timer, since we don't want another timer-tick until it
@@ -103,7 +103,7 @@ public class GFComputerPlayer extends GameComputerPlayer
         	sleep((int)(2000* Math.random()));
         	
         	// submit our move to the game object
-        	game.sendAction(new GFPlayAction(this));
+        	game.sendAction(new GFRequestAction(this));
     	}
     }
 }
