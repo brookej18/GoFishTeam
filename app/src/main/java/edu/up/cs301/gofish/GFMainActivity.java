@@ -11,59 +11,49 @@ import edu.up.cs301.game.config.GameConfig;
 import edu.up.cs301.game.config.GamePlayerType;
 
 /**
- * this is the primary activity for Go Fish game
+ * This is the primary activity for the Go Fish game. This sets up the objects
+ * where the user may select the different players they wish to play against.
  * 
- * @author Steven R. Vegdahl
- * @version July 2013
+ * @author Alex Costa, Jackson Brooke, Logan Crawford
+ * @version November 2017
  */
 public class GFMainActivity extends GameMainActivity {
 	
 	public static final int PORT_NUMBER = 4752;
 
-	/** a gofish game for two players. The default is human vs. computer */
+	/** A Go Fish game for two to four players. The default is local human vs. dumb computer */
+
 	@Override
 	public GameConfig createDefaultConfig() {
 
 		// Define the allowed player types
-		ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
+		ArrayList<GamePlayerType> playerTypes = new ArrayList<>();
 		
 		playerTypes.add(new GamePlayerType("human player (green)") {
 			public GamePlayer createPlayer(String name) {
 				return new GFHumanPlayer(name, Color.GREEN);
 			}});
+
 		playerTypes.add(new GamePlayerType("human player (yellow)") {
 			public GamePlayer createPlayer(String name) {
 				return new GFHumanPlayer(name, Color.YELLOW);
 			}
 		});
-		playerTypes.add(new GamePlayerType("computer player (normal)") {
+
+		playerTypes.add(new GamePlayerType("Computer Player (simple)") {
 			public GamePlayer createPlayer(String name) {
-				return new GFComputerPlayer(name);
+				return new GFComputerPlayer(name, false);
 			}
 		});
-		playerTypes.add(new GamePlayerType("computer player (fast)") {
+
+		playerTypes.add(new GamePlayerType("Computer Player (smart)") {
 			public GamePlayer createPlayer(String name) {
-				return new GFComputerPlayer(name, 0.3);
-			}
-		});
-		playerTypes.add(new GamePlayerType("computer player (slow)") {
-			public GamePlayer createPlayer(String name) {
-				return new GFComputerPlayer(name, 1.0);
-			}
-		});
-		playerTypes.add(new GamePlayerType("computer player (very fast)") {
-			public GamePlayer createPlayer(String name) {
-				return new GFComputerPlayer(name, 0.15);
-			}
-		});
-		playerTypes.add(new GamePlayerType("computer player (very slow)") {
-			public GamePlayer createPlayer(String name) {
-				return new GFComputerPlayer(name, 3.5);
+				return new GFComputerPlayer(name, true);
 			}
 		});
 
 		// Create a game configuration class for Go Fish
-		GameConfig defaultConfig = new GameConfig(playerTypes, 2, 2, "Go Fish", PORT_NUMBER);
+		GameConfig defaultConfig = new GameConfig(playerTypes, 2, 4, "Go Fish", PORT_NUMBER);
 
 		// Add the default players
 		defaultConfig.addPlayer("Human", 0);

@@ -31,42 +31,102 @@ public class GFLocalGame extends LocalGame {
 
 
     /**
-     * checks whether the game is over; if so, returns a string giving the result
+     * Checks whether the game is over; if so, returns a string giving the result. Else,
+	 * the method returns null, signifying that the game is not over.
      * 
      * @result
      * 		the end-of-game message, or null if the game is not over
      */
     @Override
     protected String checkIfGameOver() {
-    	
-    	if (state.getHand(2).size() > 0) {
-    		// there are cards in the middle hand
-    		if (state.getHand(0).size() == 0 &&
-    				state.getHand(1).size() == 0 &&
-    				state.getHand(2).peekAtTopCard().getRank() != Rank.JACK) {
-    			// All the cards have ended up in the middle hand, and the top card
-    			// is not a Jack. This situation is a draw, since the only move a player
-    			// would would be to slap the top card, causing his opponent to win.
-    			return "game is a draw";
-    		}
-    		else {
-    			// there are either cards in at least two hand, or all cards are in the
-    			// middle hand with a Jack on top; return null, as the game is not over
-    			return null;
-    		}
-    	}
-    	else if (state.getHand(0).size() <= 0) {
-    		// player 1 has all the cards
-    		return this.playerNames[1]+" is the winner";
-    	}
-    	else if (state.getHand(1).size() <= 0) {
-    		// player 0 has all the cards
-    		return this.playerNames[0]+" is the winner";
-    	}
-    	else {
-    		// each player has some cards: no winner yet
-    		return null;
-    	}
+
+    	//if the number of cards in the discard pile is 52, the game is over.
+		//else, the game is not and the function will return null
+    	if(state.getHand(5).size() == 52){
+
+    		int player1Score = state.getScore(0);
+    		int player2Score = state.getScore(1);
+			int player3Score = 0;	//initialized to 0 to avoid warnings
+			int player4Score = 0;	//initialized to 0 to avoid warnings
+    		if(state.getNumPlayers() > 2){player3Score = state.getScore(2);}
+    		if(state.getNumPlayers() > 3){player4Score = state.getScore(3);}
+
+    		switch(state.getNumPlayers()){
+				case 2:
+					//individual winners
+					if(player1Score > player2Score) return this.playerNames[0]+" is the winner!";
+					if(player1Score < player2Score) return this.playerNames[1]+" is the winner!";
+					//case where everyone tied
+					return this.playerNames[0]+" and "+this.playerNames[1]+" have tied...";
+
+				case 3:
+					//individual winners
+					if(player1Score > player2Score && player1Score > player3Score) return this.playerNames[0]+" is the winner!";
+					if(player2Score > player1Score && player2Score > player3Score) return this.playerNames[1]+" is the winner!";
+					if(player3Score > player1Score && player3Score > player2Score) return this.playerNames[2]+" is the winner!";
+					//case where two people tied
+					if(player1Score == player2Score && player1Score > player3Score) return this.playerNames[0]+" and "+this.playerNames[1]+" have tied...";
+					if(player1Score == player3Score && player1Score > player2Score) return this.playerNames[0]+" and "+this.playerNames[2]+" have tied...";
+					if(player2Score == player3Score && player2Score > player1Score) return this.playerNames[1]+" and "+this.playerNames[2]+" have tied...";
+					//case where everyone tied
+					return this.playerNames[0]+", "+this.playerNames[1]+", and "+this.playerNames[2]+" have all tied...";
+
+				case 4:
+					//individual winners
+					if(player1Score > player2Score && player1Score > player3Score && player1Score > player4Score) return this.playerNames[0]+" is the winner!";
+					if(player2Score > player1Score && player2Score > player3Score && player2Score > player4Score) return this.playerNames[1]+" is the winner!";
+					if(player3Score > player1Score && player3Score > player2Score && player3Score > player4Score) return this.playerNames[2]+" is the winner!";
+					if(player4Score > player1Score && player4Score > player2Score && player4Score > player3Score) return this.playerNames[3]+" is the winner!";
+					//case where two people tied
+					if(player1Score == player2Score && player1Score > player3Score && player1Score > player4Score)
+						return this.playerNames[0]+" and "+this.playerNames[1]+" have tied...";
+					if(player1Score == player3Score && player1Score > player2Score && player1Score > player4Score)
+						return this.playerNames[0]+" and "+this.playerNames[2]+" have tied...";
+					if(player1Score == player4Score && player1Score > player2Score && player1Score > player3Score)
+						return this.playerNames[0]+" and "+this.playerNames[3]+" have tied...";
+
+					if(player2Score == player1Score && player2Score > player3Score && player2Score > player4Score)
+						return this.playerNames[1]+" and "+this.playerNames[0]+" have tied...";
+					if(player2Score == player3Score && player2Score > player1Score && player2Score > player4Score)
+						return this.playerNames[1]+" and "+this.playerNames[2]+" have tied...";
+					if(player2Score == player4Score && player2Score > player1Score && player2Score > player3Score)
+						return this.playerNames[1]+" and "+this.playerNames[3]+" have tied...";
+
+					if(player3Score == player1Score && player3Score > player2Score && player3Score > player4Score)
+						return this.playerNames[2]+" and "+this.playerNames[0]+" have tied...";
+					if(player3Score == player2Score && player3Score > player1Score && player3Score > player4Score)
+						return this.playerNames[2]+" and "+this.playerNames[1]+" have tied...";
+					if(player3Score == player4Score && player3Score > player1Score && player3Score > player2Score)
+						return this.playerNames[2]+" and "+this.playerNames[3]+" have tied...";
+
+					//case where three people tied
+					if(player1Score == player2Score && player1Score == player3Score && player1Score > player4Score)
+						return this.playerNames[0]+", "+this.playerNames[1]+", and "+this.playerNames[2]+" have all tied...";
+					if(player1Score == player2Score && player1Score == player4Score && player1Score > player3Score)
+						return this.playerNames[0]+", "+this.playerNames[1]+", and "+this.playerNames[3]+" have all tied...";
+					if(player1Score == player3Score && player1Score == player4Score && player1Score > player2Score)
+						return this.playerNames[0]+", "+this.playerNames[2]+", and "+this.playerNames[3]+" have all tied...";
+
+					if(player2Score == player1Score && player2Score == player3Score && player2Score > player4Score)
+						return this.playerNames[1]+", "+this.playerNames[0]+", and "+this.playerNames[2]+" have all tied...";
+					if(player2Score == player1Score && player2Score == player4Score && player2Score > player3Score)
+						return this.playerNames[1]+", "+this.playerNames[0]+", and "+this.playerNames[3]+" have all tied...";
+					if(player2Score == player3Score && player2Score == player4Score && player2Score > player1Score)
+						return this.playerNames[1]+", "+this.playerNames[2]+", and "+this.playerNames[3]+" have all tied...";
+
+					if(player3Score == player2Score && player3Score == player1Score && player3Score > player4Score)
+						return this.playerNames[0]+", "+this.playerNames[1]+", and "+this.playerNames[2]+" have all tied...";
+					if(player3Score == player2Score && player3Score == player4Score && player3Score > player1Score)
+						return this.playerNames[1]+", "+this.playerNames[2]+", and "+this.playerNames[3]+" have all tied...";
+					if(player3Score == player1Score && player3Score == player4Score && player3Score > player2Score)
+						return this.playerNames[0]+", "+this.playerNames[2]+", and "+this.playerNames[3]+" have all tied...";
+					//case where everyone tied
+					return this.playerNames[0]+", "+this.playerNames[1]+", "+this.playerNames[2]+", and "+this.playerNames[3]+" have all tied...";
+			}
+
+		}
+
+    	return null;
     }
 
     /**
@@ -139,10 +199,6 @@ public class GFLocalGame extends LocalGame {
 			if (state.getHand(2).size() == 0) {
 				// empty deck: return false, as move is illegal
 				return false;
-			}
-			else if (state.getHand(2).peekAtTopCard().getRank() == Rank.JACK){
-				// a Jack was slapped: give all cards to slapping player
-				giveMiddleCardsToPlayer(thisPlayerIdx);
 			}
 			else {
 				// a non-Jack was slapped: give all cards to non-slapping player

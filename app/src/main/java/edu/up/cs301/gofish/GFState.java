@@ -198,4 +198,14 @@ public class GFState extends GameState {
 	public String[] turnHistory(int whoseTurn, Card cardPlayed){
 		return null;
 	}
+
+	/**
+	 * Getter method to return the number of players from the state
+	 *
+	 * @return numPlayers
+	 * 		is the number of players in the game
+	 */
+	public int getNumPlayers() {
+		return numPlayers;
+	}
 }
