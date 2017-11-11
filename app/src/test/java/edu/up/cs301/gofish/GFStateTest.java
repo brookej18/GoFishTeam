@@ -23,20 +23,20 @@ public class GFStateTest {
     @Test
     public void testGetHand() throws Exception {
         GFState state = new GFState();
-        state.getDeck(0).add52();
+        state.getHand(0).add52();
 
         Deck hand = new Deck();
         hand.add52();
 
-        assertEquals(state.getDeck(0).peekAtTopCard(), hand.peekAtTopCard());
+        assertEquals(state.getHand(0).peekAtTopCard(), hand.peekAtTopCard());
 
-        state.getDeck(0).moveTopCardTo(state.getDeck(1));
-        hand.moveTopCardTo(state.getDeck(1));
-        assertEquals(state.getDeck(0).peekAtTopCard(), hand.peekAtTopCard());
+        state.getHand(0).moveTopCardTo(state.getHand(1));
+        hand.moveTopCardTo(state.getHand(1));
+        assertEquals(state.getHand(0).peekAtTopCard(), hand.peekAtTopCard());
 
-        state.getDeck(0).moveTopCardTo(state.getDeck(1));
-        hand.moveTopCardTo(state.getDeck(1));
-        assertEquals(state.getDeck(0).peekAtTopCard(), hand.peekAtTopCard());
+        state.getHand(0).moveTopCardTo(state.getHand(1));
+        hand.moveTopCardTo(state.getHand(1));
+        assertEquals(state.getHand(0).peekAtTopCard(), hand.peekAtTopCard());
     }
 
     @Test
@@ -46,7 +46,7 @@ public class GFStateTest {
         //assuming the game starts with player index 1
         assertEquals(state.whoseTurn(), 1);
 
-        state.setwhoseTurn(2);
+        state.setWhoseTurn(2);
 
         assertEquals(state.whoseTurn(), 2);
     }
@@ -81,24 +81,24 @@ public class GFStateTest {
     public void testGFStateCopy() throws Exception {
         GFState state = new GFState();
 
-        state.getDeck(0).add52();
-        state.setwhoseTurn(1);
+        state.getHand(0).add52();
+        state.setWhoseTurn(1);
 
-        state.getDeck(0).moveTopCardTo(state.getDeck(1));
-        state.getDeck(0).moveTopCardTo(state.getDeck(1));
-        state.getDeck(0).moveTopCardTo(state.getDeck(1));
-        state.getDeck(0).moveTopCardTo(state.getDeck(1));
-        state.getDeck(0).moveTopCardTo(state.getDeck(2));
-        state.getDeck(0).moveTopCardTo(state.getDeck(2));
-        state.getDeck(0).moveTopCardTo(state.getDeck(2));
-        state.getDeck(0).moveTopCardTo(state.getDeck(2));
+        state.getHand(0).moveTopCardTo(state.getHand(1));
+        state.getHand(0).moveTopCardTo(state.getHand(1));
+        state.getHand(0).moveTopCardTo(state.getHand(1));
+        state.getHand(0).moveTopCardTo(state.getHand(1));
+        state.getHand(0).moveTopCardTo(state.getHand(2));
+        state.getHand(0).moveTopCardTo(state.getHand(2));
+        state.getHand(0).moveTopCardTo(state.getHand(2));
+        state.getHand(0).moveTopCardTo(state.getHand(2));
 
 
         GFState copy = new GFState(state);
 
-        assertEquals(state.getDeck(0), copy.getDeck(0));
-        assertEquals(state.getDeck(1), copy.getDeck(1));
-        assertEquals(state.getDeck(2), copy.getDeck(2));
+        assertEquals(state.getHand(0), copy.getHand(0));
+        assertEquals(state.getHand(1), copy.getHand(1));
+        assertEquals(state.getHand(2), copy.getHand(2));
         assertEquals(state.whoseTurn(), copy.whoseTurn());
 
     }

@@ -179,14 +179,14 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		int width = surface.getWidth();
 
 		// draw the middle card-hand
-		Card c = state.getDeck(2).peekAtTopCard(); // top card in hand
+		Card c = state.getHand(2).peekAtTopCard(); // top card in hand
 		if (c != null) {
 			// if middle card is not empty, draw a set of N card-backs
 			// behind the middle card, so that the user can see the size of
 			// the hand
 			RectF midTopLocation = middlePileTopCardLocation();
 			drawCardBacks(g, midTopLocation,
-					0.0025f*width, -0.01f*height, state.getDeck(2).size());
+					0.0025f*width, -0.01f*height, state.getHand(2).size());
 			// draw the top card, face-up
 			drawCard(g, midTopLocation, c);
 		}
@@ -194,12 +194,12 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		// draw the opponent's cards, face down
 		RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
 		drawCardBacks(g, oppTopLocation,
-				0.0025f*width, -0.01f*height, state.getDeck(1-this.playerNum).size());
+				0.0025f*width, -0.01f*height, state.getHand(1-this.playerNum).size());
 
 		// draw my cards, face down
 		RectF thisTopLocation = thisPlayerTopCardLocation(); // drawing size/location
 		drawCardBacks(g, thisTopLocation,
-				0.0025f*width, -0.01f*height, state.getDeck(this.playerNum).size());
+				0.0025f*width, -0.01f*height, state.getHand(this.playerNum).size());
 		
 		// draw a red bar to denote which player is to play (flip) a card
 		RectF currentPlayerRect =

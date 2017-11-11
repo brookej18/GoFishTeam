@@ -39,11 +39,11 @@ public class GFLocalGame extends LocalGame {
     @Override
     protected String checkIfGameOver() {
     	
-    	if (state.getDeck(2).size() > 0) {
+    	if (state.getHand(2).size() > 0) {
     		// there are cards in the middle hand
-    		if (state.getDeck(0).size() == 0 &&
-    				state.getDeck(1).size() == 0 &&
-    				state.getDeck(2).peekAtTopCard().getRank() != Rank.JACK) {
+    		if (state.getHand(0).size() == 0 &&
+    				state.getHand(1).size() == 0 &&
+    				state.getHand(2).peekAtTopCard().getRank() != Rank.JACK) {
     			// All the cards have ended up in the middle hand, and the top card
     			// is not a Jack. This situation is a draw, since the only move a player
     			// would would be to slap the top card, causing his opponent to win.
@@ -55,11 +55,11 @@ public class GFLocalGame extends LocalGame {
     			return null;
     		}
     	}
-    	else if (state.getDeck(0).size() <= 0) {
+    	else if (state.getHand(0).size() <= 0) {
     		// player 1 has all the cards
     		return this.playerNames[1]+" is the winner";
     	}
-    	else if (state.getDeck(1).size() <= 0) {
+    	else if (state.getHand(1).size() <= 0) {
     		// player 0 has all the cards
     		return this.playerNames[0]+" is the winner";
     	}
@@ -87,7 +87,6 @@ public class GFLocalGame extends LocalGame {
 		// make a copy of the state; null out all cards except for the
 		// top card in the middle deck
 		GFState stateForPlayer = new GFState(state); // copy of state
-		stateForPlayer.nullAllButTopOf2(); // put nulls except for visible card
 		
 		// send the modified copy of the state to the player
 		p.sendInfo(stateForPlayer);
@@ -107,7 +106,7 @@ public class GFLocalGame extends LocalGame {
 		else {
 			// player can move if it's their turn, or if the middle deck is non-empty
 			// so they can slap
-			return state.getDeck(2).size() > 0 || state.whoseTurn() == playerIdx;
+			return state.getHand(2).size() > 0 || state.whoseTurn() == playerIdx;
 		}
 	}
 
@@ -137,11 +136,11 @@ public class GFLocalGame extends LocalGame {
 
 		if (GFma.isSlap()) {
 			// if we have a slap 
-			if (state.getDeck(2).size() == 0) {
+			if (state.getHand(2).size() == 0) {
 				// empty deck: return false, as move is illegal
 				return false;
 			}
-			else if (state.getDeck(2).peekAtTopCard().getRank() == Rank.JACK){
+			else if (state.getHand(2).peekAtTopCard().getRank() == Rank.JACK){
 				// a Jack was slapped: give all cards to slapping player
 				giveMiddleCardsToPlayer(thisPlayerIdx);
 			}
@@ -158,10 +157,10 @@ public class GFLocalGame extends LocalGame {
 			else {
 				// it's the correct player's turn: move the top card from the
 				// player's deck to the top of the middle deck
-				state.getDeck(thisPlayerIdx).moveTopCardTo(state.getDeck(2));
+				state.getHand(thisPlayerIdx).moveTopCardTo(state.getHand(2));
 				// if the opponent has any cards, make it the opponent's move
-				if (state.getDeck(1-thisPlayerIdx).size() > 0) {
-					state.setwhoseTurn(1-thisPlayerIdx);
+				if (state.getHand(1-thisPlayerIdx).size() > 0) {
+					state.setWhoseTurn(1-thisPlayerIdx);
 				}
 			}
 		}
@@ -185,9 +184,9 @@ public class GFLocalGame extends LocalGame {
 		if (idx < 0 || idx > 1) return;
 		
 		// move all cards from the middle deck to the target deck
-		state.getDeck(2).moveAllCardsTo(state.getDeck(idx));
+		state.getHand(2).moveAllCardsTo(state.getHand(idx));
 		
 		// shuffle the target deck
-		state.getDeck(idx).shuffle();
+		state.getHand(idx).shuffle();
 	}
 }
