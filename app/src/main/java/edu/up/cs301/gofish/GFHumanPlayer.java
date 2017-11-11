@@ -335,7 +335,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 			surface.flash(Color.RED, 50);
 		}
 	}
-
+  
 	/**
 	 * draws a card on the canvas; if the card is null, draw a card-back
 	 *
