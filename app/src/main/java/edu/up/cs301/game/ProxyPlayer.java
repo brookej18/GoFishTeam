@@ -12,14 +12,14 @@ import edu.up.cs301.game.util.NetworkObjectPasser;
  * machine on the network. Whenever a message is sent to the ProxyPlayer object,
  * it serializes the message and sends it across the network; when
  * the ProxyPlayer object receives a message from the network, it
- * unserializes the message and sends it to its game.
+ * un-serializes the message and sends it to its game.
  * 
  * @author Steven R. Vegdahl
  * @version July 2013
  */
 public class ProxyPlayer implements GamePlayer {
     
-    // the game object
+    //the game object
     private Game game;
     
     // the object that connects us to the network
@@ -139,6 +139,14 @@ public class ProxyPlayer implements GamePlayer {
      */
     public boolean supportsGui() {
     	return false;
+    }
+
+    /**
+     * Getter method to return the players index for the game. NOT IMPLEMENTED CORRECTLY
+     *
+     */
+    public int getPlayerNum(){
+        return 0;
     }
 }
 

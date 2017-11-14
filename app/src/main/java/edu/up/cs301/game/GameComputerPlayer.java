@@ -286,6 +286,14 @@ public abstract class GameComputerPlayer implements GamePlayer, Tickable {
 	public boolean supportsGui() {
 		return false;
 	}
+
+	/**
+	 * Getter method to return the players index for the game
+	 *
+	 */
+	public int getPlayerNum(){
+		return playerNum;
+	}
 	
 	/**
 	 * Invoked whenever the player's timer has ticked. It is expected

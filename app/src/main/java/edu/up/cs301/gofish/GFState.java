@@ -193,7 +193,7 @@ public class GFState extends GameState {
 	}
 
 	/**
-	 *
+	 * NOT IMPLEMENTED YET
 	 */
 	public String[] turnHistory(int whoseTurn, Card cardPlayed){
 		return null;
@@ -207,5 +207,25 @@ public class GFState extends GameState {
 	 */
 	public int getNumPlayers() {
 		return numPlayers;
+	}
+
+	/**
+	 * This method should null out all the cards that the passed player should not
+	 * be able to see. The hand that a player should never see is what is in the deck,
+	 * as well as other players hands.
+	 *
+	 * @param playerNum
+	 */
+	public void nullCards(int playerNum){
+
+		//for every hand, if the playerNum does match, those cards will become null.
+		//The hand itself will still contain 'x' amount of cards, but they will just
+		//be null
+		if(playerNum != 0) hand[0].nullifyDeck();
+		if(playerNum != 1) hand[1].nullifyDeck();
+		if(playerNum != 2) hand[2].nullifyDeck();
+		if(playerNum != 3) hand[3].nullifyDeck();
+		if(playerNum != 4) hand[4].nullifyDeck();
+		if(playerNum != 5) hand[5].nullifyDeck();
 	}
 }

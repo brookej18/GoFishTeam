@@ -32,4 +32,7 @@ public interface GamePlayer {
 	// whether this player supports a GUI
 	public boolean supportsGui();
 
+	//the specific player index as an int
+	public int getPlayerNum();
+
 }// interface GamePlayer

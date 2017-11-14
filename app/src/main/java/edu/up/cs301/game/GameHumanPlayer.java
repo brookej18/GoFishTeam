@@ -335,6 +335,14 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 	}
 
 	/**
+	 * Getter method to return the players index for the game
+	 *
+	 */
+	public int getPlayerNum(){
+		return playerNum;
+	}
+
+	/**
 	 * Invoked whenever the player's timer has ticked. It is expected
 	 * that this will be overridden in many games.
 	 */
