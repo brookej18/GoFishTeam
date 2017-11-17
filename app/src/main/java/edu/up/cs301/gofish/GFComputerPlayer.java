@@ -32,19 +32,16 @@ public class GFComputerPlayer extends GameComputerPlayer
 	public GFComputerPlayer(String name) {
 		// invoke general constructor to create player whose average reaction
 		// time is half a second.
-		this(name, 0.5);
+		this(name, false);
 	}
 
 	/*
      * Constructor for the GFComputerPlayer class
      */
-	public GFComputerPlayer(String name, double avgReactionTime) {
+	public GFComputerPlayer(String name, boolean difficulty) {
 		// invoke superclass constructor
 		super(name);
 
-		// set the minimum reaction time, which is half the average reaction
-		// time, converted to milliseconds (0.5 * 1000 = 500)
-		minReactionTimeInMillis = 500*avgReactionTime;
 	}
 
 	/**

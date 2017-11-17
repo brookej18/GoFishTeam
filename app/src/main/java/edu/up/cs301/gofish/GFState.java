@@ -57,7 +57,7 @@ public class GFState extends GameState {
 		// else, there are 4 players and each should receive 5
 
 		//create an empty deck for each player and the draw and discard hand
-    	hand = new Deck[5];
+    	hand = new Deck[6];
 		int i;
     	for(i=0; i<6; i++) hand[i] = new Deck();
 
@@ -69,7 +69,7 @@ public class GFState extends GameState {
 		switch(numPlayers){
 			//case where there are only two players (deal out 7 cards to each)
 			case 2:
-				for(i=0; i<7; i++){
+				for(i=0; i<6; i++){
 					hand[4].moveTopCardTo(hand[0]);
 					hand[4].moveTopCardTo(hand[1]);
 				}
@@ -77,7 +77,7 @@ public class GFState extends GameState {
 
 			//case where there are three players (deal out 7 cards to each)
 			case 3:
-				for(i=0; i<7; i++){
+				for(i=0; i<6; i++){
 					hand[4].moveTopCardTo(hand[0]);
 					hand[4].moveTopCardTo(hand[1]);
 					hand[4].moveTopCardTo(hand[2]);
@@ -86,7 +86,7 @@ public class GFState extends GameState {
 
 			//case where there are four players (deal out 5 cards to each)
 			case 4:
-				for(i=0; i<5; i++){
+				for(i=0; i<4; i++){
 					hand[4].moveTopCardTo(hand[0]);
 					hand[4].moveTopCardTo(hand[1]);
 					hand[4].moveTopCardTo(hand[2]);
@@ -110,7 +110,7 @@ public class GFState extends GameState {
 		numPlayers = orig.numPlayers;
 
 		//create a new array of Deck, and copy all hands (even if empty)
-		hand = new Deck[5];
+		hand = new Deck[6];
 		hand[0] = new Deck(orig.hand[0]);	//for player one
 		hand[1] = new Deck(orig.hand[1]);	//for player two
 		hand[2] = new Deck(orig.hand[2]);	//for player three
