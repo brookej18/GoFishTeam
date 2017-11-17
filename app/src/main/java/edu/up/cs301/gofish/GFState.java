@@ -69,7 +69,7 @@ public class GFState extends GameState {
 		switch(numPlayers){
 			//case where there are only two players (deal out 7 cards to each)
 			case 2:
-				for(i=0; i<6; i++){
+				for(i=0; i<7; i++){
 					hand[4].moveTopCardTo(hand[0]);
 					hand[4].moveTopCardTo(hand[1]);
 				}
@@ -77,7 +77,7 @@ public class GFState extends GameState {
 
 			//case where there are three players (deal out 7 cards to each)
 			case 3:
-				for(i=0; i<6; i++){
+				for(i=0; i<7; i++){
 					hand[4].moveTopCardTo(hand[0]);
 					hand[4].moveTopCardTo(hand[1]);
 					hand[4].moveTopCardTo(hand[2]);
@@ -86,7 +86,7 @@ public class GFState extends GameState {
 
 			//case where there are four players (deal out 5 cards to each)
 			case 4:
-				for(i=0; i<4; i++){
+				for(i=0; i<5; i++){
 					hand[4].moveTopCardTo(hand[0]);
 					hand[4].moveTopCardTo(hand[1]);
 					hand[4].moveTopCardTo(hand[2]);

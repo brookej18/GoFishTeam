@@ -183,41 +183,33 @@ public class GFLocalGame extends LocalGame {
 		int thisPlayerIdx = getPlayerIdx(GFma.getPlayer());
 		if (thisPlayerIdx < 0 || thisPlayerIdx > state.getNumPlayers()) return false;
 
-		if (GFma.isBrook()) {
-			//if we have a brook
+		/************GAME RULES NEED TO BE IMPLEMENTED PASSED THIS POINT**************/
 
-			/************GAME RULES NEED TO BE IMPLEMENTED PASSED THIS POINT**************/
+		if (GFma.isBrook()) {	//if we have a brook
 
-			if (state.getHand(2).size() == 0) {
-				// empty deck: return false, as move is illegal
+			// empty deck: return false, as move is illegal
+			if (state.getHand(thisPlayerIdx).size() == 0) {
 				return false;
+			}else{
+
 			}
-			else {
-				// a non-Jack was slapped: give all cards to non-slapping player
-				giveMiddleCardsToPlayer(1-thisPlayerIdx);
-			}
-		}
-		else if (GFma.isRequest()) { // we have a "play" action
+
+		}else if (GFma.isRequest()) {	//the player is requesting a card
 			if (thisPlayerIdx != state.whoseTurn()) {
-				// attempt to play when it's the other player's turn
+				//the player attempted to play when it was not their turn, return false
 				return false;
+			}else{
+				//the correct player is playing, and they will request a card from another
+				//players hand
+
 			}
-			else {
-				// it's the correct player's turn: move the top card from the
-				// player's deck to the top of the middle deck
-				state.getHand(thisPlayerIdx).moveTopCardTo(state.getHand(2));
-				// if the opponent has any cards, make it the opponent's move
-				if (state.getHand(1-thisPlayerIdx).size() > 0) {
-					state.setWhoseTurn(1-thisPlayerIdx);
-				}
-			}
-		}
-		else { // some unexpected action
+		}else{	//some unexpected action, return false
 			return false;
 		}
 
-		// return true, because the move was successful if we get her
+		//if all actions were successful, return true
 		return true;
+
 
 		/************END GAME RULES NEED TO BE IMPLEMENTED PASSED THIS POINT**************/
 	}

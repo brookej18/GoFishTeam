@@ -44,7 +44,7 @@ public class GFStateTest {
         GFState state = new GFState();
 
         //assuming the game starts with player index 1
-        assertEquals(state.whoseTurn(), 1);
+        assertEquals(state.whoseTurn(), 0);
 
         state.setWhoseTurn(2);
 
@@ -55,8 +55,8 @@ public class GFStateTest {
     public void testGetScore() throws Exception {
         GFState state = new GFState();
 
+        assertEquals(state.getScore(0), 0);
         assertEquals(state.getScore(1), 0);
-        assertEquals(state.getScore(2), 0);
     }
 
     @Test
