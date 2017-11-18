@@ -19,7 +19,7 @@ public class Deck implements Serializable {
 	
 	// the cards in our deck; the last card in the ArrayList is the top card
 	// in the deck
-	private ArrayList<Card> cards;
+	public ArrayList<Card> cards;
 	
 	/**
 	 * constructor, creating an empty deck
@@ -231,5 +231,30 @@ public class Deck implements Serializable {
 		// surround by brackets and retuirn
 		rtnVal = "[" + rtnVal + " ]";
 		return rtnVal;
+	}
+
+	/**
+	 * Helper method that will sort the deck passed to it. NOTE: this sort method
+	 * will only sort the rank of the cards (i.e. in 2 - ACE order) and will not
+	 * sort the cards by suit.
+	 *
+	 */
+	public void sort(){
+		Deck sortedCopy = new Deck();
+
+		int i, j, index, smallest;
+		while(cards.size() > 0){
+			index = 0;
+			smallest = cards.get(index).getRank().value(14);
+			for(j = 0; j < size(); j++){
+				if(cards.get(j).getRank().value(14) < smallest){
+					index = j;
+					smallest = cards.get(j).getRank().value(14);
+				}
+			}
+			sortedCopy.cards.add(cards.get(index));
+			cards.remove(index);
+		}
+		for(i = 0; i < sortedCopy.cards.size(); i++) cards.add(sortedCopy.cards.get(i));
 	}
 }

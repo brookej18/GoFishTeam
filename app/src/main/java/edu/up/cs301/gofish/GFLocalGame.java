@@ -215,13 +215,13 @@ public class GFLocalGame extends LocalGame {
 	}
 	
 	/**
-	 * helper method that gives the top card of the dealing deck to the
-	 * player that is specified by the parameter
-	 * 
+	 * Helper method that gives a card from the dealing hand (provided there are some left)
+	 * to the player specified by the parameter
+	 *
 	 * @param idx
-	 * 		the index of the player to whom the cards should be given
+	 * 		index of the player to whom the cards should be given
 	 */
-	private void giveMiddleCardsToPlayer(int idx) {
+	private void dealCardToPlayer(int idx) {
 		//if the index of the player is not in the range, return immediately
 		if (idx < 0 || idx > state.getNumPlayers()) return;
 
