@@ -2,6 +2,7 @@ package edu.up.cs301.game.actionMsg;
 
 import java.io.Serializable;
 
+import edu.up.cs301.card.Card;
 import edu.up.cs301.game.GamePlayer;
 
 /**

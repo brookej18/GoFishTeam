@@ -2,6 +2,7 @@ package edu.up.cs301.gofish;
 
 import android.util.Log;
 
+import edu.up.cs301.card.Card;
 import edu.up.cs301.card.Rank;
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.LocalGame;
@@ -202,6 +203,11 @@ public class GFLocalGame extends LocalGame {
 				//the correct player is playing, and they will request a card from another
 				//players hand
 
+				//check if the targetPlayer has that card
+				if(!checkTargetDeck(state.getHand(GFma.getTargetPlayer()), GFma.getTargetCard())) return false;
+
+				//if they do, then pull all of those similarly ranked cards into your deck
+				moveTargetCards(thisPlayerIdx, GFma.getTargetPlayer(), GFma.getTargetCard());
 			}
 		}else{	//some unexpected action, return false
 			return false;
@@ -213,7 +219,7 @@ public class GFLocalGame extends LocalGame {
 
 		/************END GAME RULES NEED TO BE IMPLEMENTED PASSED THIS POINT**************/
 	}
-	
+
 	/**
 	 * Helper method that gives a card from the dealing hand (provided there are some left)
 	 * to the player specified by the parameter
@@ -228,5 +234,37 @@ public class GFLocalGame extends LocalGame {
 		//else, if the dealing hand is larger than 0, move the top card of that hand
 		//into the hand of the player specified by idx
 		if(state.getHand(4).size() > 0) state.getHand(4).moveTopCardTo(state.getHand(idx));
+	}
+
+	/**
+	 * Helper method to check the targetPlayers deck for a specific card
+	 */
+	private boolean checkTargetDeck(Deck hand, Card c){
+		int i;
+		for(i = 0; i < hand.size(); i++){
+			if(hand.cards.get(i).getRank().value(14) == c.getRank().value(14)){
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private void moveTargetCards(int player, int targetPlayer, Card targetCard) {
+		int i;
+		//search through all cards in the target players deck
+		for(i = 0; i < state.getHand(targetPlayer).size(); i++){
+			//if we found a card that has the same rank as the card we are looking for...
+			if(state.getHand(targetPlayer).cards.get(i).getRank().value(14) == targetCard.getRank().value(14)){
+				//add that card to the current players hand
+				state.getHand(player).add(state.getHand(targetPlayer).cards.get(i));
+				//and remove it from the target players deck
+				state.getHand(targetPlayer).cards.remove(i);
+				i--;
+			}
+		}
+		//sort both decks afterwards to keep them in order
+		state.getHand(player).sort();
+		state.getHand(targetPlayer).sort();
 	}
 }

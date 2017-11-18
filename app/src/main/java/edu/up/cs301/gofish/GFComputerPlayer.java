@@ -85,7 +85,16 @@ public class GFComputerPlayer extends GameComputerPlayer
 			// delay for up to two seconds; then play
 			sleep((int)(2000* Math.random()));
 			// submit our move to the game object)
-			game.sendAction(new GFRequestAction(this));
+
+			//Random request move for computer player
+			int handSize = savedState.getHand(this.playerNum).size();
+			Card requestCard = savedState.getHand(this.playerNum).cards.get(
+					(int)(Math.random()*handSize + 1));
+			int requestPlayer = this.playerNum;
+			while(requestPlayer != this.playerNum){
+				requestPlayer = (int)(Math.random()*savedState.getNumPlayers() + 1);
+			}
+			game.sendAction(new GFRequestAction(this, requestPlayer,requestCard));
 		}
 	}
 }

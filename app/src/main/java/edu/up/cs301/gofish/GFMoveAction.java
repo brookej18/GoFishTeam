@@ -1,5 +1,6 @@
 package edu.up.cs301.gofish;
 
+import edu.up.cs301.card.Card;
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.actionMsg.GameAction;
 
@@ -12,6 +13,8 @@ import edu.up.cs301.game.actionMsg.GameAction;
 public abstract class GFMoveAction extends GameAction {
 	
 	private static final long serialVersionUID = -3107100271012188849L;
+    private int targetPlayer;
+    private Card targetCard;
 
     /**
      * Constructor for GFMoveAction
@@ -21,6 +24,13 @@ public abstract class GFMoveAction extends GameAction {
     public GFMoveAction(GamePlayer player) {
         //invoke superclass constructor to set source
         super(player);
+    }
+
+    public GFMoveAction(GamePlayer player, int target, Card card) {
+        //invoke superclass constructor to set source
+        super(player);
+        targetPlayer = target;
+        targetCard = card;
     }
     
     /**
@@ -37,6 +47,14 @@ public abstract class GFMoveAction extends GameAction {
      */
     public boolean isRequest(){
         return false;
+    }
+
+    public Card getTargetCard() {
+        return targetCard;
+    }
+
+    public int getTargetPlayer() {
+        return targetPlayer;
     }
 
 }

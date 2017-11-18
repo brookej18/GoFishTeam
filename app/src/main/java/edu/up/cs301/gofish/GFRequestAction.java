@@ -1,5 +1,6 @@
 package edu.up.cs301.gofish;
 
+import edu.up.cs301.card.Card;
 import edu.up.cs301.game.GamePlayer;
 
 /**
@@ -14,13 +15,16 @@ public class GFRequestAction extends GFMoveAction {
 
     private static final long serialVersionUID = 3250639793499599047L;
 
+    private int targetPlayer;
+    private Card targetCard;
+
     /**
      * Constructor for GFMoveAction
      *
      * @param player the player making the move
      */
-    public GFRequestAction(GamePlayer player) {
-        super(player);
+    public GFRequestAction(GamePlayer player, int target, Card card) {
+        super(player, target, card);
     }
 
     /**
@@ -29,5 +33,13 @@ public class GFRequestAction extends GFMoveAction {
      */
     public boolean isRequest(){
         return false;
+    }
+
+    public Card getTargetCard() {
+        return targetCard;
+    }
+
+    public int getTargetPlayer() {
+        return targetPlayer;
     }
 }

@@ -240,21 +240,32 @@ public class Deck implements Serializable {
 	 *
 	 */
 	public void sort(){
+		//create a new copy of the deck for cards to be placed to
 		Deck sortedCopy = new Deck();
 
-		int i, j, index, smallest;
+		int i, index, smallest;
 		while(cards.size() > 0){
+			//always set the placeholders back to the first index
 			index = 0;
 			smallest = cards.get(index).getRank().value(14);
-			for(j = 0; j < size(); j++){
-				if(cards.get(j).getRank().value(14) < smallest){
-					index = j;
-					smallest = cards.get(j).getRank().value(14);
+
+			//loop through the hand to try and find the smallest value of card
+			for(i = 0; i < size(); i++){
+				//if we found a card that has a smaller value than our current lowest
+				if(cards.get(i).getRank().value(14) < smallest){
+					//set the new index to that card and change the rank
+					index = i;
+					smallest = cards.get(i).getRank().value(14);
 				}
 			}
+
+			//after the loop, add the smallest current card to the back of the sorted deck
+			//and remove that card from the hand
 			sortedCopy.cards.add(cards.get(index));
 			cards.remove(index);
 		}
+
+		//lastly, move every card from the sortedCopy to the hand in ascending order
 		for(i = 0; i < sortedCopy.cards.size(); i++) cards.add(sortedCopy.cards.get(i));
 	}
 }

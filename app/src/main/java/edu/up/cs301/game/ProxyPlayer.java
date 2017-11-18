@@ -146,7 +146,7 @@ public class ProxyPlayer implements GamePlayer {
      *
      */
     public int getPlayerNum(){
-        return 0;
+        return this.getPlayerNum();
     }
 }
 
