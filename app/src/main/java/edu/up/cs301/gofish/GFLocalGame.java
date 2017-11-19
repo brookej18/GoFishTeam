@@ -282,6 +282,4 @@ public class GFLocalGame extends LocalGame {
 		state.getHand(player).sort();
 		state.getHand(targetPlayer).sort();
 	}
-
-
 }

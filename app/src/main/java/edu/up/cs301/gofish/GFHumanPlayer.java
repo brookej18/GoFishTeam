@@ -183,7 +183,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 //Edit for the GUI as it's developing
 
 		// draw the Local DrawPile
-		Deck drawPile = state.getHand(4); // top card in pile
+		Deck drawPile = state.getHand(4);
 		if (drawPile != null) {
 			// if drawPile is not empty, draw a set of N card-backs,
 			// so that the user can see the size of
@@ -194,15 +194,24 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		}
 
 		// draw the opponent's cards, face down
+		Deck playerTwoHand  = state.getHand(1);
 		RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
-		drawCardBacks(g, oppTopLocation,
-				0.01f*width, 0, state.getHand(1-this.playerNum).size());
-
+		if(playerTwoHand != null)
+		{
+			//if player Two's Hand is not empty, draw a set of N card-backs,
+			//so the user's can see the size of the pile.
+			drawCardBacks(g, oppTopLocation,
+					0.01f*width, 0, state.getHand(1-this.playerNum).size());
+		}
 		// draw my cards, face down
+		Deck playerOneHand = state.getHand(0);
 		RectF thisTopLocation = thisPlayerTopCardLocation(); // drawing size/location
-		drawCardBacks(g, thisTopLocation,
-				0.0025f*width, -0.01f*height, state.getHand(this.playerNum).size());
-
+		if(playerOneHand != null)
+		{
+			//If our Hand is not empty, draw our cards so we can see them along side each other.
+			drawCardBacks(g, thisTopLocation,
+					0.12f*width, 0, state.getHand(this.playerNum).size());
+		}
 //May use similar denotion to mark whose turn, or update a string with the player's name..
 
 		// draw a red bar to denote which player is to play (flip) a card
@@ -224,8 +233,6 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 	 * 		surface where the top card in the opponent's deck is to
 	 * 		be drawn
 	 */
-
-//There will be a possibility of multiple opponent card locations.(one for each opponent selected)
 
 	private RectF opponentTopCardLocation() {
 		// near the left-bottom of the drawing surface, based on the height
@@ -250,10 +257,10 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		// and width, and the percentages defined above
 		int width = surface.getWidth();
 		int height = surface.getHeight();
-		return new RectF((100-RIGHT_BORDER_PERCENT-CARD_WIDTH_PERCENT)*width/100f,
-				(100-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f,
-				(100-RIGHT_BORDER_PERCENT)*width/100f,
-				(100-VERTICAL_BORDER_PERCENT)*height/100f);
+		return new RectF((42-RIGHT_BORDER_PERCENT-CARD_WIDTH_PERCENT)*width/100f,
+				(101-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f,
+				(42-RIGHT_BORDER_PERCENT)*width/100f,
+				(101-VERTICAL_BORDER_PERCENT)*height/100f);
 	}
 
 	/**
@@ -267,10 +274,10 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		// and width, and the percentages defined above
 		int height = surface.getHeight();
 		int width = surface.getWidth();
-		float rectLeft = (100-CARD_WIDTH_PERCENT+LEFT_BORDER_PERCENT-RIGHT_BORDER_PERCENT)*width/200;
+		float rectLeft = (75-CARD_WIDTH_PERCENT+LEFT_BORDER_PERCENT-RIGHT_BORDER_PERCENT)*width/200;
 		float rectRight = rectLeft + width*CARD_WIDTH_PERCENT/100;
-		float rectTop = (100-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f;
-		float rectBottom = (100-VERTICAL_BORDER_PERCENT)*height/100f;
+		float rectTop = (60-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f;
+		float rectBottom = (60-VERTICAL_BORDER_PERCENT)*height/100f;
 		return new RectF(rectLeft, rectTop, rectRight, rectBottom);
 	}
 
