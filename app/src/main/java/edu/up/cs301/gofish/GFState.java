@@ -73,6 +73,8 @@ public class GFState extends GameState {
 					hand[4].moveTopCardTo(hand[0]);
 					hand[4].moveTopCardTo(hand[1]);
 				}
+				hand[0].sort();
+				hand[1].sort();
 				break;
 
 			//case where there are three players (deal out 7 cards to each)
@@ -82,6 +84,9 @@ public class GFState extends GameState {
 					hand[4].moveTopCardTo(hand[1]);
 					hand[4].moveTopCardTo(hand[2]);
 				}
+				hand[0].sort();
+				hand[1].sort();
+				hand[2].sort();
 				break;
 
 			//case where there are four players (deal out 5 cards to each)
@@ -92,6 +97,10 @@ public class GFState extends GameState {
 					hand[4].moveTopCardTo(hand[2]);
 					hand[4].moveTopCardTo(hand[3]);
 				}
+				hand[0].sort();
+				hand[1].sort();
+				hand[2].sort();
+				hand[3].sort();
 				break;
 		}
 
@@ -227,5 +236,36 @@ public class GFState extends GameState {
 		if(playerNum != 3) hand[3].nullifyDeck();
 		if(playerNum != 4) hand[4].nullifyDeck();
 		if(playerNum != 5) hand[5].nullifyDeck();
+	}
+
+	public void findBrook(int playerIdx){
+
+		if(getHand(playerIdx).size() <= 0) return;
+
+		int startIndex = 0;
+		int currValue = getHand(playerIdx).cards.get(0).getRank().value(14);
+
+		int i;
+		for(i = 0; i < getHand(playerIdx).size(); i++){
+			if(currValue != getHand(playerIdx).cards.get(i).getRank().value(14)){
+				currValue = getHand(playerIdx).cards.get(i).getRank().value(14);
+				startIndex = i;
+				continue;
+			}
+			if(3 == i - startIndex){
+				getHand(5).cards.add(getHand(playerIdx).cards.get(i));
+				getHand(playerIdx).cards.remove(i);
+				getHand(5).cards.add(getHand(playerIdx).cards.get(i-1));
+				getHand(playerIdx).cards.remove(i-1);
+				getHand(5).cards.add(getHand(playerIdx).cards.get(i-2));
+				getHand(playerIdx).cards.remove(i-2);
+				getHand(5).cards.add(getHand(playerIdx).cards.get(i-3));
+				getHand(playerIdx).cards.remove(i-3);
+				setScore(playerIdx, currValue);
+				i -= 3;
+			}
+		}
+
+		return;
 	}
 }

@@ -27,6 +27,6 @@ public class GFCheckHandAction extends GFMoveAction {
      * 		whether the move is a brook or not
      */
     public boolean isBrook() {
-        return false;
+        return true;
     }
 }

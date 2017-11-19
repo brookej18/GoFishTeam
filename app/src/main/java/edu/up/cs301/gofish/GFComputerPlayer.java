@@ -65,36 +65,42 @@ public class GFComputerPlayer extends GameComputerPlayer
 	@Override
 	protected void receiveInfo(GameInfo info) {
 		// if we don't have a game-state, ignore
-		if (!(info instanceof GFState)) {
-			return;
-		}
+		if (!(info instanceof GFState)) return;
 
 		// update our state variable
 		savedState = (GFState)info;
 
-		// If it's our turn to play, play a card.
-		if (savedState.whoseTurn() == this.playerNum) {
+
+
+		// If it's not our turn to play, play a card.
+		if (savedState.whoseTurn() != this.playerNum) {
 			// If it's my turn to play a card,
 			// delay for up to two seconds; then play
 			sleep((int)(2000* Math.random()));
 			// submit our move to the game object
-			game.sendAction(new GFCheckHandAction(this));
+			//game.sendAction(new GFCheckHandAction(this));
 		}
 		else if(savedState.whoseTurn() == this.playerNum) {
 			// If it's my turn to play a card,
 			// delay for up to two seconds; then play
-			sleep((int)(2000* Math.random()));
+			//sleep((int)(2000* Math.random()));
 			// submit our move to the game object)
 
+			game.sendAction(new GFCheckHandAction(this));
+
 			//Random request move for computer player
-			int handSize = savedState.getHand(this.playerNum).size();
-			Card requestCard = savedState.getHand(this.playerNum).cards.get(
-					(int)(Math.random()*handSize + 1));
-			int requestPlayer = this.playerNum;
-			while(requestPlayer != this.playerNum){
-				requestPlayer = (int)(Math.random()*savedState.getNumPlayers() + 1);
+			if(savedState.getHand(this.playerNum).size() > 0) {
+				int handSize = savedState.getHand(this.playerNum).size();
+				Card requestCard = savedState.getHand(this.playerNum).cards.get(
+						(int) (Math.random() * handSize));
+				int requestPlayer = this.playerNum;
+				while (requestPlayer == this.playerNum) {
+					requestPlayer = (int) (Math.random() * savedState.getNumPlayers() + 1);
+				}
+				game.sendAction(new GFRequestAction(this, requestPlayer, requestCard));
+			}else{
+				game.sendAction(new GFRequestAction(this, 0, null));
 			}
-			game.sendAction(new GFRequestAction(this, requestPlayer,requestCard));
 		}
 	}
 }

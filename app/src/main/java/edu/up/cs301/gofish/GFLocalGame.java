@@ -192,34 +192,44 @@ public class GFLocalGame extends LocalGame {
 			if (state.getHand(thisPlayerIdx).size() == 0) {
 				return false;
 			}else{
-
+				state.findBrook(thisPlayerIdx);
+				return true;
 			}
 
 		}else if (GFma.isRequest()) {	//the player is requesting a card
 			if (thisPlayerIdx != state.whoseTurn()) {
 				//the player attempted to play when it was not their turn, return false
 				return false;
+			}if (state.getHand(thisPlayerIdx).size() == 0){
+				//the player cannot request a card or score a card, and their turn should move on
+				state.setWhoseTurn( (thisPlayerIdx+1)%state.getNumPlayers() );
+				return true;
 			}else{
 				//the correct player is playing, and they will request a card from another
 				//players hand
 
 				//check if the targetPlayer has that card
-				if(!checkTargetDeck(state.getHand(GFma.getTargetPlayer()), GFma.getTargetCard())) return false;
+				if(!checkTargetDeck(state.getHand(GFma.getTargetPlayer()), GFma.getTargetCard())){
+					state.setWhoseTurn( (thisPlayerIdx+1)%state.getNumPlayers() );
+					state.getHand(4).moveTopCardTo(state.getHand(thisPlayerIdx));
+					state.getHand(thisPlayerIdx).sort();
+					return true;
+				}
 
 				//if they do, then pull all of those similarly ranked cards into your deck
 				moveTargetCards(thisPlayerIdx, GFma.getTargetPlayer(), GFma.getTargetCard());
-
-				//if they don't, then draw a card from the drawPile Deck.
-
+				state.getHand(thisPlayerIdx).sort();
+				state.getHand(GFma.getTargetPlayer()).sort();
+				state.setWhoseTurn( (thisPlayerIdx+1)%state.getNumPlayers() );
+				return true;
 			}
-		}
-
-		else{	//some unexpected action, return false
+		}else{	//some unexpected action, return false
 			return false;
 		}
 
 		//if all actions were successful, return true
-		return true;
+
+		//return true;
 
 
 		/************END GAME RULES NEED TO BE IMPLEMENTED PASSED THIS POINT**************/
@@ -272,4 +282,6 @@ public class GFLocalGame extends LocalGame {
 		state.getHand(player).sort();
 		state.getHand(targetPlayer).sort();
 	}
+
+
 }

@@ -28,9 +28,7 @@ public abstract class GFMoveAction extends GameAction {
 
     public GFMoveAction(GamePlayer player, int target, Card card) {
         //invoke superclass constructor to set source
-        super(player);
-        targetPlayer = target;
-        targetCard = card;
+        super(player, target, card);
     }
     
     /**

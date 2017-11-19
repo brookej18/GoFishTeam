@@ -29,6 +29,8 @@ public abstract class GameAction implements Serializable {
 
     // the player who generated the request
     private GamePlayer player;
+    private int target;
+    private Card card;
 
     /**
      * constructor for GameAction
@@ -38,6 +40,11 @@ public abstract class GameAction implements Serializable {
      */
     public GameAction(GamePlayer player) {
         this.player = player;
+    }
+    public GameAction(GamePlayer player, int targetPlayer, Card targetCard) {
+        this.player = player;
+        this.target = targetPlayer;
+        this.card = targetCard;
     }
 
     /**

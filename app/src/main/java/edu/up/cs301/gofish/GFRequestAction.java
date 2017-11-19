@@ -24,7 +24,9 @@ public class GFRequestAction extends GFMoveAction {
      * @param player the player making the move
      */
     public GFRequestAction(GamePlayer player, int target, Card card) {
-        super(player, target, card);
+        super(player);
+        targetPlayer = target;
+        targetCard = card;
     }
 
     /**
@@ -32,7 +34,7 @@ public class GFRequestAction extends GFMoveAction {
      * 		whether the move is a request from another player or not
      */
     public boolean isRequest(){
-        return false;
+        return true;
     }
 
     public Card getTargetCard() {

@@ -326,7 +326,9 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		if (myTopCardLoc.contains(x, y)) {
 			// it's on my pile: we're playing a card: send action to
 			// the game
-			game.sendAction(new GFCheckHandAction(this));
+			game.sendAction(new GFRequestAction(this, 1, state.getHand(0).
+					cards.get((int)(Math.random()*state.getHand(0).size()))));
+			Log.i("Contains xy", "sent action.");
 		}
 		else if (drawTopCardLoc.contains(x, y)) {
 			// it's on the draw pile: we're slapping a card: send
