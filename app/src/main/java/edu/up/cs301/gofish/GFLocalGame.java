@@ -208,8 +208,13 @@ public class GFLocalGame extends LocalGame {
 
 				//if they do, then pull all of those similarly ranked cards into your deck
 				moveTargetCards(thisPlayerIdx, GFma.getTargetPlayer(), GFma.getTargetCard());
+
+				//if they don't, then draw a card from the drawPile Deck.
+
 			}
-		}else{	//some unexpected action, return false
+		}
+
+		else{	//some unexpected action, return false
 			return false;
 		}
 

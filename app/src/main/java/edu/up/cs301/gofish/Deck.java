@@ -8,7 +8,9 @@ import edu.up.cs301.card.Card;
 /**
  * Deck class - represents a deck of cards (not necessarily a full one)
  * 
- * @author Steven R. Vegdahl
+ * @author Alex Costa
+ * @author Jackson Brooke
+ * @author Logan Crawford
  * @version July 2013
  *
  */
@@ -198,7 +200,7 @@ public class Deck implements Serializable {
 			return cards.get(cards.size()-1);
 		}
 	}
-	
+
 	/**
 	 * creates a printable version of the object, a list
 	 * of two-character names for each card in the deck

@@ -95,7 +95,7 @@ public class GFState extends GameState {
 				break;
 		}
 
-		//initialize the score array so that everyone score starts at zero
+		//initialize the score array so that everyone's score starts at zero
 		score = new int[numPlayers];
 		for(i=0; i<numPlayers; i++) score[i] = 0;
     }

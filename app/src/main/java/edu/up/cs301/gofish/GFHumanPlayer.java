@@ -25,15 +25,17 @@ import edu.up.cs301.game.infoMsg.NotYourTurnInfo;
  * If the device is held in portrait mode, the cards will be very long and
  * skinny.
  *
- * @author Steven R. Vegdahl
- * @version July 2013
+ * @author Alex Costa
+ * @author Jackson Brooke
+ * @author Logan Crawford
+ * @version November, 2017
  */
 public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 	// sizes and locations of card decks and cards, expressed as percentages
 	// of the screen height and width
-	private final static float CARD_HEIGHT_PERCENT = 40; // height of a card
-	private final static float CARD_WIDTH_PERCENT = 17; // width of a card
+	private final static float CARD_HEIGHT_PERCENT = 35; // height of a card
+	private final static float CARD_WIDTH_PERCENT = 15; // width of a card
 	private final static float LEFT_BORDER_PERCENT = 4; // width of left border
 	private final static float RIGHT_BORDER_PERCENT = 20; // width of right border
 	private final static float VERTICAL_BORDER_PERCENT = 4; // width of top/bottom borders
@@ -180,28 +182,28 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 //Edit for the GUI as it's developing
 
-		// draw the middle card-pile
-		Card c = state.getHand(2).peekAtTopCard(); // top card in pile
-		if (c != null) {
-			// if middle card is not empty, draw a set of N card-backs
-			// behind the middle card, so that the user can see the size of
+		// draw the Local DrawPile
+		Deck drawPile = state.getHand(4); // top card in pile
+		if (drawPile != null) {
+			// if drawPile is not empty, draw a set of N card-backs,
+			// so that the user can see the size of
 			// the pile
 			RectF midTopLocation = middlePileTopCardLocation();
 			drawCardBacks(g, midTopLocation,
-					0.0025f*width, -0.01f*height, state.getHand(2).size());
-			// draw the top card, face-up
-			drawCard(g, midTopLocation, c);
+					0, 0, state.getHand(4).size());
 		}
 
 		// draw the opponent's cards, face down
 		RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
 		drawCardBacks(g, oppTopLocation,
-				0.0025f*width, -0.01f*height, state.getHand(1-this.playerNum).size());
+				0.01f*width, 0, state.getHand(1-this.playerNum).size());
 
 		// draw my cards, face down
 		RectF thisTopLocation = thisPlayerTopCardLocation(); // drawing size/location
 		drawCardBacks(g, thisTopLocation,
 				0.0025f*width, -0.01f*height, state.getHand(this.playerNum).size());
+
+//May use similar denotion to mark whose turn, or update a string with the player's name..
 
 		// draw a red bar to denote which player is to play (flip) a card
 		RectF currentPlayerRect =
@@ -228,12 +230,13 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 	private RectF opponentTopCardLocation() {
 		// near the left-bottom of the drawing surface, based on the height
 		// and width, and the percentages defined above
-		int width = surface.getWidth();
 		int height = surface.getHeight();
-		return new RectF(LEFT_BORDER_PERCENT*width/100f,
-				(100-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f,
-				(LEFT_BORDER_PERCENT+CARD_WIDTH_PERCENT)*width/100f,
-				(100-VERTICAL_BORDER_PERCENT)*height/100f);
+		int width = surface.getWidth();
+		float rectLeft = (100-CARD_WIDTH_PERCENT-RIGHT_BORDER_PERCENT)*width/150;
+		float rectRight = rectLeft + width*CARD_WIDTH_PERCENT/100;
+		float rectTop = (40-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f;
+		float rectBottom = (40-VERTICAL_BORDER_PERCENT)*height/100f;
+		return new RectF(rectLeft, rectTop, rectRight, rectBottom);
 	}
 
 	/**
@@ -291,7 +294,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 							   int numCards) {
 		// loop through from back to front, drawing a card-back in each location
 		for (int i = numCards-1; i >= 0; i--) {
-			// determine theh position of this card's top/left corner
+			// determine the position of this card's top/left corner
 			float left = topRect.left + i*deltaX;
 			float top = topRect.top + i*deltaY;
 			// draw a card-back (hence null) into the appropriate rectangle
@@ -335,7 +338,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 			surface.flash(Color.RED, 50);
 		}
 	}
-  
+
 	/**
 	 * draws a card on the canvas; if the card is null, draw a card-back
 	 *
