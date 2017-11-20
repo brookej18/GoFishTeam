@@ -176,63 +176,71 @@ public class GFLocalGame extends LocalGame {
 		
 		//if the action is NOT a Go Fish action, return false
 		if (!(action instanceof GFMoveAction)) return false;
+
 		//else, continue and cast the action as a GFMoveAction
 		GFMoveAction GFma = (GFMoveAction) action;
 		
 		//get the index of the player making the move, and return false if the player
-		//is out of the bounds
+		//is out of the bounds (i.e. not a legal player)
 		int thisPlayerIdx = getPlayerIdx(GFma.getPlayer());
 		if (thisPlayerIdx < 0 || thisPlayerIdx > state.getNumPlayers()) return false;
 
-		/************GAME RULES NEED TO BE IMPLEMENTED PASSED THIS POINT**************/
+		//if we have a brook request action, check for that first
+		if (GFma.isBrook()) {
 
-		if (GFma.isBrook()) {	//if we have a brook
-
-			// empty deck: return false, as move is illegal
+			//if we are checking an empty deck, return false. Cannot possibly be a brook
 			if (state.getHand(thisPlayerIdx).size() == 0) {
 				return false;
 			}else{
+				//else, we will attempt to find a brook and remove/score those cards
 				state.findBrook(thisPlayerIdx);
+
+				//successful action, return true
 				return true;
 			}
 
-		}else if (GFma.isRequest()) {	//the player is requesting a card
+		//else, we have a request for a particular card, so we'll go through all the checks
+		}else if (GFma.isRequest()) {
+
+			//if the player is requesting when it is not their turn, return false
 			if (thisPlayerIdx != state.whoseTurn()) {
-				//the player attempted to play when it was not their turn, return false
 				return false;
-			}if (state.getHand(thisPlayerIdx).size() == 0){
-				//the player cannot request a card or score a card, and their turn should move on
+
+			//else if the player is attempting to request from an empty deck
+			}else if (state.getHand(thisPlayerIdx).size() == 0){
+				//set the turn to be the next player in line, and return true
 				state.setWhoseTurn( (thisPlayerIdx+1)%state.getNumPlayers() );
 				return true;
-			}else{
-				//the correct player is playing, and they will request a card from another
-				//players hand
 
-				//check if the targetPlayer has that card
+			//else the correct player is playing, and they will request a card from another
+			//players hand
+			}else{
+
+				//check if the targetPlayer has that card in their hand
 				if(!checkTargetDeck(state.getHand(GFma.getTargetPlayer()), GFma.getTargetCard())){
+
+					//if they do not have that card, change whose turn it currently is to the
+					//next person, draw a card from the draw pile (provided there are some left)
+					//and sort the current players deck
 					state.setWhoseTurn( (thisPlayerIdx+1)%state.getNumPlayers() );
 					state.getHand(4).moveTopCardTo(state.getHand(thisPlayerIdx));
 					state.getHand(thisPlayerIdx).sort();
 					return true;
 				}
 
-				//if they do, then pull all of those similarly ranked cards into your deck
+				//if the target player DOES have the target card, pull all similarly ranked cards
+				//out of that players deck and into the current players deck
 				moveTargetCards(thisPlayerIdx, GFma.getTargetPlayer(), GFma.getTargetCard());
 				state.getHand(thisPlayerIdx).sort();
 				state.getHand(GFma.getTargetPlayer()).sort();
-				state.setWhoseTurn( (thisPlayerIdx+1)%state.getNumPlayers() );
 				return true;
 			}
-		}else{	//some unexpected action, return false
+
+
+		//some unexpected action, return false
+		}else{
 			return false;
 		}
-
-		//if all actions were successful, return true
-
-		//return true;
-
-
-		/************END GAME RULES NEED TO BE IMPLEMENTED PASSED THIS POINT**************/
 	}
 
 	/**
@@ -265,6 +273,17 @@ public class GFLocalGame extends LocalGame {
 		return false;
 	}
 
+	/**
+	 * Helper method that will check the target players deck for the requested cards rank,
+	 * and if it is present, move all of that type into the calling players hand
+	 *
+	 * @param player
+	 * 		Requesting player
+	 * @param targetPlayer
+	 * 		Player being requested from
+	 * @param targetCard
+	 * 		Card that is being searched for
+	 */
 	private void moveTargetCards(int player, int targetPlayer, Card targetCard) {
 		int i;
 		//search through all cards in the target players deck

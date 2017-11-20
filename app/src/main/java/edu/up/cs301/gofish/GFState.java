@@ -238,21 +238,40 @@ public class GFState extends GameState {
 		if(playerNum != 5) hand[5].nullifyDeck();
 	}
 
+	/**
+	 * This method will look into the calling players deck and check it for brooks.
+	 * If any are present, the method will remove all four cards from the players hand
+	 * and place them in the discard pile. The score of this player will also be updated
+	 * to reflect the new addition
+	 *
+	 * @param playerIdx
+	 * 		Player calling the method
+	 */
 	public void findBrook(int playerIdx){
 
+		//immediate check, if the hand size is 0, return
 		if(getHand(playerIdx).size() <= 0) return;
 
+		//placeholder values
 		int startIndex = 0;
 		int currValue = getHand(playerIdx).cards.get(0).getRank().value(14);
 
+		//iterate through all cards in this players hand
 		int i;
 		for(i = 0; i < getHand(playerIdx).size(); i++){
+			//if we come across a card that is a different rank than our place holder value
+			//we will reset the placeholder values to account for the next set of cards
 			if(currValue != getHand(playerIdx).cards.get(i).getRank().value(14)){
 				currValue = getHand(playerIdx).cards.get(i).getRank().value(14);
 				startIndex = i;
 				continue;
 			}
+
+			//else, if the difference of our current position (i) and our placeholder index (startIndex)
+			//is three, we have found four cards in a row that all have the same rank.
 			if(3 == i - startIndex){
+
+				//add all cards to the discard pile, and remove them from the current players hand
 				getHand(5).cards.add(getHand(playerIdx).cards.get(i));
 				getHand(playerIdx).cards.remove(i);
 				getHand(5).cards.add(getHand(playerIdx).cards.get(i-1));
@@ -261,6 +280,9 @@ public class GFState extends GameState {
 				getHand(playerIdx).cards.remove(i-2);
 				getHand(5).cards.add(getHand(playerIdx).cards.get(i-3));
 				getHand(playerIdx).cards.remove(i-3);
+
+				//set our current players score to include the cards added, and set our iterator
+				//value (i) back three places (since we just took out set of four cards)
 				setScore(playerIdx, currValue);
 				i -= 3;
 			}

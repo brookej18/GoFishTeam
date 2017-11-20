@@ -83,7 +83,7 @@ public class GFComputerPlayer extends GameComputerPlayer
 		else if(savedState.whoseTurn() == this.playerNum) {
 			// If it's my turn to play a card,
 			// delay for up to two seconds; then play
-			//sleep((int)(2000* Math.random()));
+			sleep(1000);
 			// submit our move to the game object)
 
 			game.sendAction(new GFCheckHandAction(this));
@@ -95,7 +95,7 @@ public class GFComputerPlayer extends GameComputerPlayer
 						(int) (Math.random() * handSize));
 				int requestPlayer = this.playerNum;
 				while (requestPlayer == this.playerNum) {
-					requestPlayer = (int) (Math.random() * savedState.getNumPlayers() + 1);
+					requestPlayer = 0;
 				}
 				game.sendAction(new GFRequestAction(this, requestPlayer, requestCard));
 			}else{
