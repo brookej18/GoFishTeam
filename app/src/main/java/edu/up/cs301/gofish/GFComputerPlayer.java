@@ -86,7 +86,7 @@ public class GFComputerPlayer extends GameComputerPlayer
 			sleep(1000);
 			// submit our move to the game object)
 
-			game.sendAction(new GFCheckHandAction(this));
+			//game.sendAction(new GFCheckHandAction(this));
 
 			//Random request move for computer player
 			if(savedState.getHand(this.playerNum).size() > 0) {

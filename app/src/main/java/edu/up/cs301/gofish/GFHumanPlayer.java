@@ -34,11 +34,11 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 	// sizes and locations of card decks and cards, expressed as percentages
 	// of the screen height and width
-	private final static float CARD_HEIGHT_PERCENT = 35; // height of a card
-	private final static float CARD_WIDTH_PERCENT = 15; // width of a card
-	private final static float LEFT_BORDER_PERCENT = 4; // width of left border
+	private final static float CARD_HEIGHT_PERCENT = 30; // height of a card
+	private final static float CARD_WIDTH_PERCENT = 12; // width of a card
+	private final static float LEFT_BORDER_PERCENT = 3; // width of left border
 	private final static float RIGHT_BORDER_PERCENT = 20; // width of right border
-	private final static float VERTICAL_BORDER_PERCENT = 4; // width of top/bottom borders
+	private final static float VERTICAL_BORDER_PERCENT = 3; // width of top/bottom borders
 
 	// our game state
 	protected GFState state;
@@ -210,7 +210,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		{
 			//If our Hand is not empty, draw our cards so we can see them along side each other.
 			drawCardBacks(g, thisTopLocation,
-					0.12f*width, 0, state.getHand(this.playerNum).size());
+					0.05f*width, 0, state.getHand(this.playerNum).size());
 		}
 //May use similar denotion to mark whose turn, or update a string with the player's name..
 
@@ -241,8 +241,8 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		int width = surface.getWidth();
 		float rectLeft = (100-CARD_WIDTH_PERCENT-RIGHT_BORDER_PERCENT)*width/150;
 		float rectRight = rectLeft + width*CARD_WIDTH_PERCENT/100;
-		float rectTop = (40-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f;
-		float rectBottom = (40-VERTICAL_BORDER_PERCENT)*height/100f;
+		float rectTop = (35-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f;
+		float rectBottom = (35-VERTICAL_BORDER_PERCENT)*height/100f;
 		return new RectF(rectLeft, rectTop, rectRight, rectBottom);
 	}
 
@@ -257,10 +257,10 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		// and width, and the percentages defined above
 		int width = surface.getWidth();
 		int height = surface.getHeight();
-		return new RectF((42-RIGHT_BORDER_PERCENT-CARD_WIDTH_PERCENT)*width/100f,
-				(101-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f,
-				(42-RIGHT_BORDER_PERCENT)*width/100f,
-				(101-VERTICAL_BORDER_PERCENT)*height/100f);
+		return new RectF((50-RIGHT_BORDER_PERCENT-CARD_WIDTH_PERCENT)*width/100f,
+				(102-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f,
+				(50-RIGHT_BORDER_PERCENT)*width/100f,
+				(102-VERTICAL_BORDER_PERCENT)*height/100f);
 	}
 
 	/**
