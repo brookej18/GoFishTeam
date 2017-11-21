@@ -274,6 +274,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		g.drawText("Check Hand",150, 750, paintText);
 	}
 
+
 	/**
 	 *
 	 * @return
