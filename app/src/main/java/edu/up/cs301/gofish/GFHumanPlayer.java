@@ -243,20 +243,38 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		{
 			Log.i( "playerTurnStringDisplay","There are no current players");
 		}
+        //draw the previous messages on the board
+        paintString.setTextSize(25);
+        ArrayList<GFHistory> hist = state.history;
+        if(hist.size() >= 3){
+            g.drawText(histToString(hist.get(hist.size()-1)), 0, 85, paintString);
+            g.drawText(histToString(hist.get(hist.size()-2)), 0, 115, paintString);
+            g.drawText(histToString(hist.get(hist.size()-3)), 0, 145, paintString);
+        }else if(hist.size() >= 2){
+            g.drawText(histToString(hist.get(hist.size()-1)), 0, 85, paintString);
+            g.drawText(histToString(hist.get(hist.size()-2)), 0, 115, paintString);
+        }else if(hist.size() >= 1){
+            g.drawText(histToString(hist.get(hist.size()-1)), 0, 85, paintString);
+        }
 
-		//draw the previous messages on the board
-		paintString.setTextSize(25);
-		ArrayList<GFHistory> hist = state.history;
-		if(hist.size() >= 3){
-			g.drawText(histToString(hist.get(hist.size()-1)), 0, 85, paintString);
-			g.drawText(histToString(hist.get(hist.size()-2)), 0, 115, paintString);
-			g.drawText(histToString(hist.get(hist.size()-3)), 0, 145, paintString);
-		}else if(hist.size() >= 2){
-			g.drawText(histToString(hist.get(hist.size()-1)), 0, 85, paintString);
-			g.drawText(histToString(hist.get(hist.size()-2)), 0, 115, paintString);
-		}else if(hist.size() >= 1){
-			g.drawText(histToString(hist.get(hist.size()-1)), 0, 85, paintString);
-		}
+		Paint paintButton = new Paint();
+		paintButton.setColor(Color.DKGRAY);
+		g.drawRect(checkHandRect(), paintButton);
+		Paint paintText = new Paint();
+		paintText.setColor(Color.CYAN);
+		paintText.setTextSize(35);
+		g.drawText("Check Hand",150, 750, paintText);
+	}
+
+	private RectF checkHandRect()
+	{
+		float rectLeft = 140;
+		float rectRight = 350;
+		float rectTop = 680;
+		float rectBottom = 790;
+		return new RectF(rectLeft, rectTop,rectRight, rectBottom);
+
+
 
 	}
 
@@ -400,9 +418,8 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		// determine whether the touch occurred on the top-card of either
 		// the player's deck or the draw deck
 		RectF myTopCardLoc = thisPlayerTopCardLocation();
-		RectF wholeHandLoc = new RectF(myTopCardLoc.left, myTopCardLoc.top, (int)(myTopCardLoc.right), myTopCardLoc.bottom);
-		RectF drawTopCardLoc = middlePileTopCardLocation();
-		if (wholeHandLoc.contains(x, y)) {
+		RectF drawTopCardLoc = checkHandRect();
+		if (myTopCardLoc.contains(x, y)) {
 			// it's on my pile: we're playing a card: send action to
 			// the game
 			if(state.getHand(0).size() != 0) {
@@ -414,8 +431,8 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 			}
 		}
 		else if (drawTopCardLoc.contains(x, y)) {
-			// it's on the draw pile: we're slapping a card: send
-			// action to the game
+			//The touch is on the Check Hand 'Button'
+			//We are checking our Hand!
 			game.sendAction(new GFCheckHandAction(this));
 		}
 		else {
