@@ -203,15 +203,23 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 			drawCardBacks(g, oppTopLocation,
 					0.01f*width, 0, state.getHand(1-this.playerNum).size());
 		}
-		// draw my cards, face down
+
+		// draw my cards, face up
 		Deck playerOneHand = state.getHand(0);
 		RectF thisTopLocation = thisPlayerTopCardLocation(); // drawing size/location
 		if(playerOneHand != null)
 		{
 			//If our Hand is not empty, draw our cards so we can see them along side each other.
-			drawCardBacks(g, thisTopLocation,
-					0.05f*width, 0, state.getHand(this.playerNum).size());
+			//drawCardBacks(g, thisTopLocation, 0.05f*width, 0, state.getHand(this.playerNum).size());
+			drawOurHand(g, thisTopLocation, 0.05f*width, 0, state.getHand(0).size());
+			/*for(int i = 0; i < state.getHand(0).size(); i++)
+			{
+				drawOurHand(g, thisTopLocation, 0.05f*width, 0, state.getHand(0).size(), state.getHand(0).cards.get(i));
+				//drawCard(g, thisTopLocation , state.getHand(0).cards.get(i));
+			}*/
 		}
+
+
 //May use similar denotion to mark whose turn, or update a string with the player's name..
 
 		// draw a red bar to denote which player is to play (flip) a card
@@ -257,10 +265,11 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		// and width, and the percentages defined above
 		int width = surface.getWidth();
 		int height = surface.getHeight();
-		return new RectF((50-RIGHT_BORDER_PERCENT-CARD_WIDTH_PERCENT)*width/100f,
-				(102-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f,
-				(50-RIGHT_BORDER_PERCENT)*width/100f,
-				(102-VERTICAL_BORDER_PERCENT)*height/100f);
+		float rectLeft = (50-RIGHT_BORDER_PERCENT-CARD_WIDTH_PERCENT)*width/100;
+		float rectRight = (rectLeft + width*CARD_WIDTH_PERCENT/100);
+		float rectTop = (102-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f;
+		float rectBottom = (102-VERTICAL_BORDER_PERCENT)*height/100f;
+		return new RectF(rectLeft, rectTop, rectRight, rectBottom);
 	}
 
 	/**
@@ -308,6 +317,19 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 			drawCard(g,
 					new RectF(left, top, left + topRect.width(), top + topRect.height()),
 					null);
+		}
+	}
+
+	private void drawOurHand(Canvas g, RectF thisRect, float deltaX, float deltaY, int numCards)
+	{
+		//loop through from back to front, drawing a card in each location
+		for(int i = numCards-1; i >= 0; i--)
+		{
+			//determine the position of this card's topLeft corner
+			float left = thisRect.left + i * deltaX;
+			float top = thisRect.top + i * deltaY;
+			//draw a card, into the appropriate rectangle
+			drawCard(g, new RectF(left, top, left + thisRect.width(), top + thisRect.height()), state.getHand(0).cards.get(i));
 		}
 	}
 
