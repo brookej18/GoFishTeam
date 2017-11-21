@@ -40,6 +40,8 @@ public class GFState extends GameState {
     //integer to reflect how many players are present in the game
 	private int numPlayers;
 
+	//arrayList of GFHistory objects for the purpose of keeping track of all actions in the game.
+	//All new objects are added to the back of the ArrayList
 	public ArrayList<GFHistory> history;
 
 
@@ -311,6 +313,16 @@ public class GFState extends GameState {
 		return;
 	}
 
+	/**
+	 * Setter method for the ArrayList history instance variable of this class. For integer null
+	 * values, the value should be set to -1. For null boolean value, the value is false.
+	 *
+	 * @param player
+	 * @param targetPlayer
+	 * @param targetRank
+	 * @param scoreAdded
+	 * @param successful
+	 */
 	public void postHistory(int player, int targetPlayer, int targetRank, int scoreAdded, boolean successful){
 		GFHistory temp = new GFHistory();
 		temp.setPlayer(player);

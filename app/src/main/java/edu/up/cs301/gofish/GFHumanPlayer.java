@@ -330,9 +330,13 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 			float top = thisRect.top + i * deltaY;
 			//draw a card, into the appropriate rectangle
 			synchronized (state.getHand(0)) {
-				if(i != state.getHand(0).cards.size()) {
+				try{
 					drawCard(g, new RectF(left, top, left + thisRect.width(),
 							top + thisRect.height()), state.getHand(0).cards.get(i));
+				}catch(ArrayIndexOutOfBoundsException AE){
+
+				}catch (IndexOutOfBoundsException IE){
+
 				}
 			}
 		}

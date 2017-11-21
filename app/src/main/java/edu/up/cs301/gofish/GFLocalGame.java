@@ -202,6 +202,10 @@ public class GFLocalGame extends LocalGame {
 				//else, we will attempt to find a brook and remove/score those cards
 				state.findBrook(playerIdx);
 
+				/*update the historyStrings arrayList with all of the values that we just missed.
+				* Explanation: due to .findBrook() taking out all cards that need to be scored,
+				* the state.history object is now ahead of the historyStrings arraylist, so we need
+				* to update for all values that we don't have in the list*/
 				for(int i = historyStrings.size(); i < state.history.size(); i++){
 					historyStrings.add(histToString(state.history.get(i)));
 				}
@@ -230,14 +234,17 @@ public class GFLocalGame extends LocalGame {
 				//check if the targetPlayer has that card in their hand
 				if(!checkTargetDeck(state.getHand(moveAction.getTargetPlayer()), moveAction.getTargetCard())){
 
-					//if they do not have that card, change whose turn it currently is to the
+					//if they DON'T have that card, change whose turn it currently is to the
 					//next person, draw a card from the draw pile (provided there are some left)
 					//and sort the current players deck
 					state.setWhoseTurn( (playerIdx+1)%state.getNumPlayers() );
 					state.getHand(4).moveTopCardTo(state.getHand(playerIdx));
 					state.getHand(playerIdx).sort();
 
-					state.postHistory(playerIdx, moveAction.getTargetPlayer(), -1, -1, false);
+					//since the target player DID NOT have the card we were looking for, post to
+					//the history object with a success==false, and add it to historyStrings
+					state.postHistory(playerIdx, moveAction.getTargetPlayer(),
+							moveAction.getTargetCard().getRank().value(14), -1, false);
 					historyStrings.add(histToString(state.history.get(state.history.size()-1)));
 
 					return true;
@@ -246,11 +253,15 @@ public class GFLocalGame extends LocalGame {
 				//if the target player DOES have the target card, pull all similarly ranked cards
 				//out of that players deck and into the current players deck
 				moveTargetCards(playerIdx, moveAction.getTargetPlayer(), moveAction.getTargetCard());
+				state.getHand(playerIdx).sort();
+				state.getHand(moveAction.getTargetPlayer()).sort();
+
+				//since the target player DID have the cards we were looking for, post to the history
+				//object with success==true, and add it to historyStrings
 				state.postHistory(playerIdx, moveAction.getTargetPlayer(),
 						moveAction.getTargetCard().getRank().value(14), -1, true);
 				historyStrings.add(histToString(state.history.get(state.history.size()-1)));
-				state.getHand(playerIdx).sort();
-				state.getHand(moveAction.getTargetPlayer()).sort();
+
 				return true;
 			}
 
@@ -320,18 +331,36 @@ public class GFLocalGame extends LocalGame {
 		state.getHand(targetPlayer).sort();
 	}
 
+	/**
+	 * Method that will take a GFHistory object and convert that object to a human readable string.
+	 * The GFHistory object is coded as
+	 *
+	 *
+	 * @param hist
+	 * @return
+	 */
 	public String histToString(GFHistory hist){
 
+		//if the player in the history object is not in the range of players, return empty string
+		// This should never happen, but will show up if errors occur during debugging
 		if(hist.getCurrentPlayer() < 0 || hist.getCurrentPlayer() > state.getNumPlayers()) return "";
 
+		//if the player asked for a card from another player, and SUCCESSFULLY took that card
 		if(hist.getPlayerAsk() != -1 && hist.getRankTake() != -1 && hist.getSuccess() == true) {
 			return playerNames[hist.getCurrentPlayer()] + " took the " + hist.getRankTake() + " cards from " +
-					playerNames[hist.getPlayerAsk()] + "...";
+					playerNames[hist.getPlayerAsk()] + ".";
+			//Printed in the form: "Player1 took the X cards from Player2."
+
+		//if the player asked for a card, but DID NOT get that card
 		}else if(hist.getPlayerAsk() != -1 && hist.getRankTake() != 1){
 			return playerNames[hist.getCurrentPlayer()]+" asked "+playerNames[hist.getPlayerAsk()]+" for the "+
-					hist.getScoreAdd();
+					hist.getRankTake()+"...";
+			//Printed in the form: "Player1 asked Player2 for the X..."
+
+		//if the player added to their score
 		}else if(hist.getScoreAdd() != -1){
 			return playerNames[hist.getCurrentPlayer()]+" just added "+hist.getScoreAdd()+" to their score!";
+			//Printed in the form: "Player1 just added X to their score!"
 		}
 
 		return "";

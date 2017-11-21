@@ -1,17 +1,37 @@
 package edu.up.cs301.gofish;
 
 /**
- * Created by Jackson on 11/20/17.
+ * A GFHistory object is designed to save the values passed by an action, and involve the current
+ * player, (optional) target player being fished from, (optional) rank of the card being asked for,
+ * (optional) score that was added to the current players score, and (optional) if the Go Fish
+ * was successful or not
+ *
+ * @author: Jackson R. Brooke
+ * @version : November 20, 2017.
  */
 
 public class GFHistory {
 
-    private int currentPlayer;
-    private int playerAsk;
-    private int rankTake;
-    private int scoreAdd;
-    private boolean success;
+    /*Instance variables:
+    * In the situation where a variable is being used OPTIONALLY, because all instance variables
+    * (excluding boolean success) are integers, the null value to be used with this class is -1.
+    * For boolean success, the null value is false*/
 
+    private int currentPlayer;      //the player whose turn it is
+    private int playerAsk;          //(optional) player being fished from
+    private int rankTake;           //(optional) rank being fished for
+    private int scoreAdd;           //(optional) score added to the current players score
+    private boolean success;        //(optional) was the Go Fish successful or not
+
+    /**
+     * Constructor
+     *
+     * @param player
+     * @param playerAsked
+     * @param rankTaken
+     * @param scoreAdded
+     * @param successful
+     */
     public void GFHistory(int player, int playerAsked, int rankTaken, int scoreAdded, boolean successful){
         currentPlayer = player;
         playerAsk = playerAsked;
@@ -20,6 +40,7 @@ public class GFHistory {
         success = successful;
     }
 
+    /*Setter methods for all instance variables*/
 
     public void setScoreAdded(int scoreAdded) {
         this.scoreAdd = scoreAdded;
@@ -40,6 +61,9 @@ public class GFHistory {
     public void setSuccess(boolean successful){
         success = successful;
     }
+
+
+    /*Getter methods for all instance variables*/
 
     public int getCurrentPlayer() {
         return currentPlayer;
