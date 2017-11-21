@@ -69,12 +69,9 @@ public class GFComputerPlayer extends GameComputerPlayer {
 
 		// update our state variable
 		savedState = (GFState)info;
-
-		//game.sendAction(new GFCheckHandAction(this));
-
+		game.sendAction(new GFCheckHandAction(this));
 		// If it's not our turn to play, play a card.
 		if (savedState.whoseTurn() != this.playerNum) {
-			game.sendAction(new GFCheckHandAction(this));
 
 		}else if(savedState.whoseTurn() == this.playerNum) {
 			// If it's my turn to play a card,
@@ -82,7 +79,7 @@ public class GFComputerPlayer extends GameComputerPlayer {
 			sleep(1000);
 			// submit our move to the game object)
 
-			//game.sendAction(new GFCheckHandAction(this));
+
 			savedState.findBrook(this.playerNum);
 
 			if(!difficulty){

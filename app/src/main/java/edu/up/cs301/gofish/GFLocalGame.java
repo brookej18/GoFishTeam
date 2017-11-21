@@ -2,6 +2,8 @@ package edu.up.cs301.gofish;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import edu.up.cs301.card.Card;
 import edu.up.cs301.card.Rank;
 import edu.up.cs301.game.GamePlayer;
@@ -23,6 +25,8 @@ public class GFLocalGame extends LocalGame {
 	//instance variable for the state of the game
     GFState state;
 
+    ArrayList<String> historyStrings;
+
 
     /**
      * Constructor for the GFLocalGame.
@@ -31,6 +35,7 @@ public class GFLocalGame extends LocalGame {
         Log.i("GFLocalGame", "creating game");
         // create the state for the beginning of the game
         state = new GFState();
+        historyStrings = new ArrayList<>();
     }
 
 
@@ -197,6 +202,10 @@ public class GFLocalGame extends LocalGame {
 				//else, we will attempt to find a brook and remove/score those cards
 				state.findBrook(playerIdx);
 
+				for(int i = historyStrings.size(); i < state.history.size(); i++){
+					historyStrings.add(histToString(state.history.get(i)));
+				}
+
 				//successful action, return true
 				return true;
 			}
@@ -227,12 +236,19 @@ public class GFLocalGame extends LocalGame {
 					state.setWhoseTurn( (playerIdx+1)%state.getNumPlayers() );
 					state.getHand(4).moveTopCardTo(state.getHand(playerIdx));
 					state.getHand(playerIdx).sort();
+
+					state.postHistory(playerIdx, moveAction.getTargetPlayer(), -1, -1, false);
+					historyStrings.add(histToString(state.history.get(state.history.size()-1)));
+
 					return true;
 				}
 
 				//if the target player DOES have the target card, pull all similarly ranked cards
 				//out of that players deck and into the current players deck
 				moveTargetCards(playerIdx, moveAction.getTargetPlayer(), moveAction.getTargetCard());
+				state.postHistory(playerIdx, moveAction.getTargetPlayer(),
+						moveAction.getTargetCard().getRank().value(14), -1, true);
+				historyStrings.add(histToString(state.history.get(state.history.size()-1)));
 				state.getHand(playerIdx).sort();
 				state.getHand(moveAction.getTargetPlayer()).sort();
 				return true;
@@ -302,5 +318,22 @@ public class GFLocalGame extends LocalGame {
 		//sort both decks afterwards to keep them in order
 		state.getHand(player).sort();
 		state.getHand(targetPlayer).sort();
+	}
+
+	public String histToString(GFHistory hist){
+
+		if(hist.getCurrentPlayer() < 0 || hist.getCurrentPlayer() > state.getNumPlayers()) return "";
+
+		if(hist.getPlayerAsk() != -1 && hist.getRankTake() != -1 && hist.getSuccess() == true) {
+			return playerNames[hist.getCurrentPlayer()] + " took the " + hist.getRankTake() + " cards from " +
+					playerNames[hist.getPlayerAsk()] + "...";
+		}else if(hist.getPlayerAsk() != -1 && hist.getRankTake() != 1){
+			return playerNames[hist.getCurrentPlayer()]+" asked "+playerNames[hist.getPlayerAsk()]+" for the "+
+					hist.getScoreAdd();
+		}else if(hist.getScoreAdd() != -1){
+			return playerNames[hist.getCurrentPlayer()]+" just added "+hist.getScoreAdd()+" to their score!";
+		}
+
+		return "";
 	}
 }

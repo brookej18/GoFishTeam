@@ -1,5 +1,7 @@
 package edu.up.cs301.gofish;
 
+import java.util.ArrayList;
+
 import edu.up.cs301.card.Card;
 import edu.up.cs301.game.infoMsg.GameState;
 
@@ -37,6 +39,8 @@ public class GFState extends GameState {
 
     //integer to reflect how many players are present in the game
 	private int numPlayers;
+
+	public ArrayList<GFHistory> history;
 
 
     /**
@@ -107,6 +111,9 @@ public class GFState extends GameState {
 		//initialize the score array so that everyone's score starts at zero
 		score = new int[numPlayers];
 		for(i=0; i<numPlayers; i++) score[i] = 0;
+
+		//initialize the history arraylist object
+		history = new ArrayList<>();
     }
     
     /**
@@ -134,6 +141,9 @@ public class GFState extends GameState {
 
     	//set the current players turn
     	whoseTurn = orig.whoseTurn;
+
+    	//set the history object
+    	history = orig.history;
     }
     
     /**
@@ -286,11 +296,29 @@ public class GFState extends GameState {
 					//set our current players score to include the cards added, and set our iterator
 					//value (i) back three places (since we just took out set of four cards)
 					setScore(playerIdx, currValue);
+					postHistory(playerIdx, -1, -1, currValue, false);
 					i -= 3;
 				}
+			}
+
+			//if the player has just emptied his/her/its hand of all cards by calling this method,
+			//and there are cards left in the draw pile, give that player another card.
+			if(getHand(playerIdx).size() == 0 && getHand(4).size() > 0){
+				getHand(4).moveTopCardTo(getHand(playerIdx));
 			}
 		}
 
 		return;
 	}
+
+	public void postHistory(int player, int targetPlayer, int targetRank, int scoreAdded, boolean successful){
+		GFHistory temp = new GFHistory();
+		temp.setPlayer(player);
+		temp.setTargetPlayer(targetPlayer);
+		temp.setTargetRank(targetRank);
+		temp.setScoreAdded(scoreAdded);
+		temp.setSuccess(successful);
+		history.add(temp);
+	}
+
 }
