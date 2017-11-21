@@ -25,8 +25,6 @@ public class GFLocalGame extends LocalGame {
 	//instance variable for the state of the game
     GFState state;
 
-    ArrayList<String> historyStrings;
-
 
     /**
      * Constructor for the GFLocalGame.
@@ -35,7 +33,6 @@ public class GFLocalGame extends LocalGame {
         Log.i("GFLocalGame", "creating game");
         // create the state for the beginning of the game
         state = new GFState();
-        historyStrings = new ArrayList<>();
     }
 
 
@@ -202,14 +199,6 @@ public class GFLocalGame extends LocalGame {
 				//else, we will attempt to find a brook and remove/score those cards
 				state.findBrook(playerIdx);
 
-				/*update the historyStrings arrayList with all of the values that we just missed.
-				* Explanation: due to .findBrook() taking out all cards that need to be scored,
-				* the state.history object is now ahead of the historyStrings arraylist, so we need
-				* to update for all values that we don't have in the list*/
-				for(int i = historyStrings.size(); i < state.history.size(); i++){
-					historyStrings.add(histToString(state.history.get(i)));
-				}
-
 				//successful action, return true
 				return true;
 			}
@@ -242,10 +231,9 @@ public class GFLocalGame extends LocalGame {
 					state.getHand(playerIdx).sort();
 
 					//since the target player DID NOT have the card we were looking for, post to
-					//the history object with a success==false, and add it to historyStrings
+					//the history object with a success==false
 					state.postHistory(playerIdx, moveAction.getTargetPlayer(),
 							moveAction.getTargetCard().getRank().value(14), -1, false);
-					historyStrings.add(histToString(state.history.get(state.history.size()-1)));
 
 					return true;
 				}
@@ -257,10 +245,9 @@ public class GFLocalGame extends LocalGame {
 				state.getHand(moveAction.getTargetPlayer()).sort();
 
 				//since the target player DID have the cards we were looking for, post to the history
-				//object with success==true, and add it to historyStrings
+				//object with success==true
 				state.postHistory(playerIdx, moveAction.getTargetPlayer(),
 						moveAction.getTargetCard().getRank().value(14), -1, true);
-				historyStrings.add(histToString(state.history.get(state.history.size()-1)));
 
 				return true;
 			}
@@ -331,38 +318,4 @@ public class GFLocalGame extends LocalGame {
 		state.getHand(targetPlayer).sort();
 	}
 
-	/**
-	 * Method that will take a GFHistory object and convert that object to a human readable string.
-	 * The GFHistory object is coded as
-	 *
-	 *
-	 * @param hist
-	 * @return
-	 */
-	public String histToString(GFHistory hist){
-
-		//if the player in the history object is not in the range of players, return empty string
-		// This should never happen, but will show up if errors occur during debugging
-		if(hist.getCurrentPlayer() < 0 || hist.getCurrentPlayer() > state.getNumPlayers()) return "";
-
-		//if the player asked for a card from another player, and SUCCESSFULLY took that card
-		if(hist.getPlayerAsk() != -1 && hist.getRankTake() != -1 && hist.getSuccess() == true) {
-			return playerNames[hist.getCurrentPlayer()] + " took the " + hist.getRankTake() + " cards from " +
-					playerNames[hist.getPlayerAsk()] + ".";
-			//Printed in the form: "Player1 took the X cards from Player2."
-
-		//if the player asked for a card, but DID NOT get that card
-		}else if(hist.getPlayerAsk() != -1 && hist.getRankTake() != 1){
-			return playerNames[hist.getCurrentPlayer()]+" asked "+playerNames[hist.getPlayerAsk()]+" for the "+
-					hist.getRankTake()+"...";
-			//Printed in the form: "Player1 asked Player2 for the X..."
-
-		//if the player added to their score
-		}else if(hist.getScoreAdd() != -1){
-			return playerNames[hist.getCurrentPlayer()]+" just added "+hist.getScoreAdd()+" to their score!";
-			//Printed in the form: "Player1 just added X to their score!"
-		}
-
-		return "";
-	}
 }

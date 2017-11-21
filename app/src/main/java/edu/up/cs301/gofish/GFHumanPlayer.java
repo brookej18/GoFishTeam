@@ -10,11 +10,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import edu.up.cs301.animation.AnimationSurface;
 import edu.up.cs301.animation.Animator;
 import edu.up.cs301.card.Card;
 import edu.up.cs301.game.GameHumanPlayer;
 import edu.up.cs301.game.GameMainActivity;
+import edu.up.cs301.game.LocalGame;
 import edu.up.cs301.game.R;
 import edu.up.cs301.game.infoMsg.GameInfo;
 import edu.up.cs301.game.infoMsg.IllegalMoveInfo;
@@ -47,7 +50,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 	// our activity
 	private Activity myActivity;
 
-	// the amination surface
+	// the animation surface
 	private AnimationSurface surface;
 
 	// the background color
@@ -214,18 +217,6 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 			drawOurHand(g, thisTopLocation, 0.05f*width, 0, state.getHand(0).size());
 		}
 
-		// draw a red bar to denote which player is to play (flip) a card
-		/*RectF currentPlayerRect =
-				state.whoseTurn() == this.playerNum ? thisTopLocation : oppTopLocation;
-		RectF turnIndicator =
-				new RectF(currentPlayerRect.left,
-						currentPlayerRect.bottom,
-						currentPlayerRect.right,
-						height);
-		Paint paint = new Paint();
-		paint.setColor(Color.RED);
-		g.drawRect(turnIndicator, paint);*/
-
 		//draw and update a string denoting whose turn it is to play
 		Paint paintString = new Paint();
 		paintString.setColor(Color.BLACK);
@@ -252,6 +243,21 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		{
 			Log.i( "playerTurnStringDisplay","There are no current players");
 		}
+
+		//draw the previous messages on the board
+		paintString.setTextSize(25);
+		ArrayList<GFHistory> hist = state.history;
+		if(hist.size() >= 3){
+			g.drawText(histToString(hist.get(hist.size()-1)), 0, 85, paintString);
+			g.drawText(histToString(hist.get(hist.size()-2)), 0, 115, paintString);
+			g.drawText(histToString(hist.get(hist.size()-3)), 0, 145, paintString);
+		}else if(hist.size() >= 2){
+			g.drawText(histToString(hist.get(hist.size()-1)), 0, 85, paintString);
+			g.drawText(histToString(hist.get(hist.size()-2)), 0, 115, paintString);
+		}else if(hist.size() >= 1){
+			g.drawText(histToString(hist.get(hist.size()-1)), 0, 85, paintString);
+		}
+
 	}
 
 	/**
@@ -394,8 +400,9 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		// determine whether the touch occurred on the top-card of either
 		// the player's deck or the draw deck
 		RectF myTopCardLoc = thisPlayerTopCardLocation();
+		RectF wholeHandLoc = new RectF(myTopCardLoc.left, myTopCardLoc.top, (int)(myTopCardLoc.right), myTopCardLoc.bottom);
 		RectF drawTopCardLoc = middlePileTopCardLocation();
-		if (myTopCardLoc.contains(x, y)) {
+		if (wholeHandLoc.contains(x, y)) {
 			// it's on my pile: we're playing a card: send action to
 			// the game
 			if(state.getHand(0).size() != 0) {
@@ -414,6 +421,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		else {
 			// illegal touch-location: flash for 1/20 second
 			surface.flash(Color.RED, 50);
+
 		}
 	}
 
@@ -479,5 +487,41 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 		// create/return the new rectangle
 		return new RectF(left, top, right, bottom);
+	}
+
+	/**
+	 * Method that will take a GFHistory object and convert that object to a human readable string.
+	 * The GFHistory object is coded as
+	 *
+	 *
+	 * @param hist
+	 * @return
+	 */
+	public String histToString(GFHistory hist){
+		String playerNames[] = allPlayerNames;
+
+		//if the player in the history object is not in the range of players, return empty string
+		// This should never happen, but will show up if errors occur during debugging
+		if(hist.getCurrentPlayer() < 0 || hist.getCurrentPlayer() > state.getNumPlayers()) return "";
+
+		//if the player asked for a card from another player, and SUCCESSFULLY took that card
+		if(hist.getPlayerAsk() != -1 && hist.getRankTake() != -1 && hist.getSuccess() == true) {
+			return playerNames[hist.getCurrentPlayer()] + " took the " + hist.getRankTake() + " cards from " +
+					playerNames[hist.getPlayerAsk()] + ".";
+			//Printed in the form: "Player1 took the X cards from Player2."
+
+			//if the player asked for a card, but DID NOT get that card
+		}else if(hist.getPlayerAsk() != -1 && hist.getRankTake() != 1){
+			return playerNames[hist.getCurrentPlayer()]+" asked "+playerNames[hist.getPlayerAsk()]+" for the "+
+					hist.getRankTake()+"...";
+			//Printed in the form: "Player1 asked Player2 for the X..."
+
+			//if the player added to their score
+		}else if(hist.getScoreAdd() != -1){
+			return playerNames[hist.getCurrentPlayer()]+" just added "+hist.getScoreAdd()+" to their score!";
+			//Printed in the form: "Player1 just added X to their score!"
+		}
+
+		return "";
 	}
 }

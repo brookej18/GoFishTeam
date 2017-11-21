@@ -213,12 +213,6 @@ public class GFState extends GameState {
 		score[idx] += numScore;
 	}
 
-	/**
-	 * NOT IMPLEMENTED YET
-	 */
-	public String[] turnHistory(int whoseTurn, Card cardPlayed){
-		return null;
-	}
 
 	/**
 	 * Getter method to return the number of players from the state
