@@ -243,6 +243,12 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		{
 			Log.i( "playerTurnStringDisplay","There are no current players");
 		}
+
+		//draw and update the Strings denoting the score of each player
+		paintString.setTextSize(40);
+		g.drawText(players[0]+"'s Score: "+state.getScore(0), 400, 810, paintString);
+		g.drawText(players[1]+"'s Score: "+state.getScore(1), 1600, 50, paintString);
+
         //draw the previous messages on the board
         paintString.setTextSize(25);
         ArrayList<GFHistory> hist = state.history;
@@ -257,15 +263,23 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
             g.drawText(histToString(hist.get(hist.size()-1)), 0, 85, paintString);
         }
 
+		//draw the rectangle for the User to touch when wanting to check Hand
 		Paint paintButton = new Paint();
 		paintButton.setColor(Color.DKGRAY);
 		g.drawRect(checkHandRect(), paintButton);
+		//draw Text on top of the Gray rect, identifying the Check Hand 'Button'
 		Paint paintText = new Paint();
 		paintText.setColor(Color.CYAN);
 		paintText.setTextSize(35);
 		g.drawText("Check Hand",150, 750, paintText);
 	}
 
+	/**
+	 *
+	 * @return
+	 * 		The rect that is called to represent the 'Button' location
+	 * 		for the user to select when Checking their Hand.
+	 */
 	private RectF checkHandRect()
 	{
 		float rectLeft = 140;
@@ -273,9 +287,6 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		float rectTop = 680;
 		float rectBottom = 790;
 		return new RectF(rectLeft, rectTop,rectRight, rectBottom);
-
-
-
 	}
 
 	/**
@@ -308,7 +319,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		// and width, and the percentages defined above
 		int width = surface.getWidth();
 		int height = surface.getHeight();
-		float rectLeft = (50-RIGHT_BORDER_PERCENT-CARD_WIDTH_PERCENT)*width/100;
+		float rectLeft = (40-RIGHT_BORDER_PERCENT-CARD_WIDTH_PERCENT)*width/100;
 		float rectRight = (rectLeft + width*CARD_WIDTH_PERCENT/100);
 		float rectTop = (102-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f;
 		float rectBottom = (102-VERTICAL_BORDER_PERCENT)*height/100f;
