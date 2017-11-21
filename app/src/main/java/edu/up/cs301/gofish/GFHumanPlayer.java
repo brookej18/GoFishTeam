@@ -323,13 +323,14 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 	private void drawOurHand(Canvas g, RectF thisRect, float deltaX, float deltaY, int numCards)
 	{
 		//loop through from back to front, drawing a card in each location
-		for(int i = numCards-1; i >= 0; i--)
-		{
+		for(int i = numCards-1; i >= 0; i--){
 			//determine the position of this card's topLeft corner
 			float left = thisRect.left + i * deltaX;
 			float top = thisRect.top + i * deltaY;
 			//draw a card, into the appropriate rectangle
-			drawCard(g, new RectF(left, top, left + thisRect.width(), top + thisRect.height()), state.getHand(0).cards.get(i));
+			synchronized (state.getHand(0)) {
+				drawCard(g, new RectF(left, top, left + thisRect.width(), top + thisRect.height()), state.getHand(0).cards.get(i));
+			}
 		}
 	}
 

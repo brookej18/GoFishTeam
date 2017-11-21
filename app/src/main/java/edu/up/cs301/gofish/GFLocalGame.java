@@ -178,38 +178,40 @@ public class GFLocalGame extends LocalGame {
 		if (!(action instanceof GFMoveAction)) return false;
 
 		//else, continue and cast the action as a GFMoveAction
-		GFMoveAction GFma = (GFMoveAction) action;
+		GFMoveAction moveAction = (GFMoveAction) action;
 		
 		//get the index of the player making the move, and return false if the player
 		//is out of the bounds (i.e. not a legal player)
-		int thisPlayerIdx = getPlayerIdx(GFma.getPlayer());
-		if (thisPlayerIdx < 0 || thisPlayerIdx > state.getNumPlayers()) return false;
+		int playerIdx = getPlayerIdx(moveAction.getPlayer());
+		if (playerIdx < 0 || playerIdx > state.getNumPlayers()) return false;
 
 		//if we have a brook request action, check for that first
-		if (GFma.isBrook()) {
+		if (moveAction.isBrook()) {
 
-			//if we are checking an empty deck, return false. Cannot possibly be a brook
-			if (state.getHand(thisPlayerIdx).size() == 0) {
+			//if we are checking an empty deck, return false. Cannot possibly be a brook, but the
+			//player should be dealt another card from the deck provided some are left
+			if (state.getHand(playerIdx).size() == 0) {
+				dealCardToPlayer(playerIdx);
 				return false;
 			}else{
 				//else, we will attempt to find a brook and remove/score those cards
-				state.findBrook(thisPlayerIdx);
+				state.findBrook(playerIdx);
 
 				//successful action, return true
 				return true;
 			}
 
 		//else, we have a request for a particular card, so we'll go through all the checks
-		}else if (GFma.isRequest()) {
+		}else if (moveAction.isRequest()) {
 
 			//if the player is requesting when it is not their turn, return false
-			if (thisPlayerIdx != state.whoseTurn()) {
+			if (playerIdx != state.whoseTurn()) {
 				return false;
 
 			//else if the player is attempting to request from an empty deck
-			}else if (state.getHand(thisPlayerIdx).size() == 0){
+			}else if (state.getHand(playerIdx).size() == 0){
 				//set the turn to be the next player in line, and return true
-				state.setWhoseTurn( (thisPlayerIdx+1)%state.getNumPlayers() );
+				state.setWhoseTurn( (playerIdx+1)%state.getNumPlayers() );
 				return true;
 
 			//else the correct player is playing, and they will request a card from another
@@ -217,22 +219,22 @@ public class GFLocalGame extends LocalGame {
 			}else{
 
 				//check if the targetPlayer has that card in their hand
-				if(!checkTargetDeck(state.getHand(GFma.getTargetPlayer()), GFma.getTargetCard())){
+				if(!checkTargetDeck(state.getHand(moveAction.getTargetPlayer()), moveAction.getTargetCard())){
 
 					//if they do not have that card, change whose turn it currently is to the
 					//next person, draw a card from the draw pile (provided there are some left)
 					//and sort the current players deck
-					state.setWhoseTurn( (thisPlayerIdx+1)%state.getNumPlayers() );
-					state.getHand(4).moveTopCardTo(state.getHand(thisPlayerIdx));
-					state.getHand(thisPlayerIdx).sort();
+					state.setWhoseTurn( (playerIdx+1)%state.getNumPlayers() );
+					state.getHand(4).moveTopCardTo(state.getHand(playerIdx));
+					state.getHand(playerIdx).sort();
 					return true;
 				}
 
 				//if the target player DOES have the target card, pull all similarly ranked cards
 				//out of that players deck and into the current players deck
-				moveTargetCards(thisPlayerIdx, GFma.getTargetPlayer(), GFma.getTargetCard());
-				state.getHand(thisPlayerIdx).sort();
-				state.getHand(GFma.getTargetPlayer()).sort();
+				moveTargetCards(playerIdx, moveAction.getTargetPlayer(), moveAction.getTargetCard());
+				state.getHand(playerIdx).sort();
+				state.getHand(moveAction.getTargetPlayer()).sort();
 				return true;
 			}
 
