@@ -8,6 +8,7 @@ import android.graphics.RectF;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import edu.up.cs301.animation.AnimationSurface;
 import edu.up.cs301.animation.Animator;
@@ -210,20 +211,11 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		if(playerOneHand != null)
 		{
 			//If our Hand is not empty, draw our cards so we can see them along side each other.
-			//drawCardBacks(g, thisTopLocation, 0.05f*width, 0, state.getHand(this.playerNum).size());
 			drawOurHand(g, thisTopLocation, 0.05f*width, 0, state.getHand(0).size());
-			/*for(int i = 0; i < state.getHand(0).size(); i++)
-			{
-				drawOurHand(g, thisTopLocation, 0.05f*width, 0, state.getHand(0).size(), state.getHand(0).cards.get(i));
-				//drawCard(g, thisTopLocation , state.getHand(0).cards.get(i));
-			}*/
 		}
 
-
-//May use similar denotion to mark whose turn, or update a string with the player's name..
-
 		// draw a red bar to denote which player is to play (flip) a card
-		RectF currentPlayerRect =
+		/*RectF currentPlayerRect =
 				state.whoseTurn() == this.playerNum ? thisTopLocation : oppTopLocation;
 		RectF turnIndicator =
 				new RectF(currentPlayerRect.left,
@@ -232,7 +224,34 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 						height);
 		Paint paint = new Paint();
 		paint.setColor(Color.RED);
-		g.drawRect(turnIndicator, paint);
+		g.drawRect(turnIndicator, paint);*/
+
+		//draw and update a string denoting whose turn it is to play
+		Paint paintString = new Paint();
+		paintString.setColor(Color.BLACK);
+		paintString.setTextSize(50);
+		int player = state.whoseTurn();
+		String[] players = allPlayerNames;
+		if(player == 0)
+		{
+			g.drawText("Player's Turn: " + players[0], 0, 50, paintString);
+		}
+		else if(player == 1)
+		{
+			g.drawText("Player's Turn: " + players[1], 0, 50, paintString);
+		}
+		else if(player == 2)
+		{
+			g.drawText("Player's Turn: " + players[2], 0, 50, paintString);
+		}
+		else if(player == 3)
+		{
+			g.drawText("Player's Turn: " + players[3], 0, 50, paintString);
+		}
+		else
+		{
+			Log.i( "playerTurnStringDisplay","There are no current players");
+		}
 	}
 
 	/**
@@ -320,15 +339,30 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		}
 	}
 
+	/**
+	 * Draws our(the local player's) Hand, each card slightly spaced to the right of the other.
+	 *
+	 * @param g
+	 * 		the canvas to draw on
+	 * @param thisRect
+	 * 		The rectangle that defines the location of the first card of the hand.
+	 * 		(and the size of all the cards)
+	 * @param deltaX
+	 * 		The horizontal change between the drawing position of two consecutive cards
+	 * @param deltaY
+	 * 		The vertical change between the drawing position and the two consecutive cards
+	 * @param numCards
+	 * 		The number of cards in our hand
+	 */
 	private void drawOurHand(Canvas g, RectF thisRect, float deltaX, float deltaY, int numCards)
 	{
-		//loop through from back to front, drawing a card in each location
+		//loop through from front to back, drawing a card in each location
 		for(int i = 0; i < numCards; i++)
 		{
 			//determine the position of this card's topLeft corner
 			float left = thisRect.left + i * deltaX;
 			float top = thisRect.top + i * deltaY;
-			//draw a card, into the appropriate rectangle
+			//draw the correct card, into the appropriate rectangle
 			synchronized (state.getHand(0)) {
 				try{
 					drawCard(g, new RectF(left, top, left + thisRect.width(),

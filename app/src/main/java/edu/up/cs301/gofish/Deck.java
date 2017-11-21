@@ -201,25 +201,6 @@ public class Deck implements Serializable {
 		}
 	}
 
-	//Look at all cards in my hand
-	/*public Card peekAtHand()
-	{
-		synchronized (this.cards)
-		{
-			Card c;
-			if(cards.isEmpty()) return null;
-			else
-			{
-				for(int i = 0; i < cards.size(); i++)
-				{
-					c = cards.get(cards.size()-i);
-					return cards.get(c);
-				}
-			}
-
-		}
-	}*/
-
 	/**
 	 * creates a printable version of the object, a list
 	 * of two-character names for each card in the deck
