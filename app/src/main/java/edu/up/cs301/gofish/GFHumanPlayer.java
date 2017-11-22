@@ -244,24 +244,24 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 			Log.i( "playerTurnStringDisplay","There are no current players");
 		}
 
-		//draw and update the Strings denoting the score of each player
-		paintString.setTextSize(40);
-		g.drawText(players[0]+"'s Score: "+state.getScore(0), 400, 810, paintString);
-		g.drawText(players[1]+"'s Score: "+state.getScore(1), 1600, 50, paintString);
+        //draw and update the Strings denoting the score of each player
+        paintString.setTextSize(40);
+        g.drawText(players[0]+"'s Score: "+state.getScore(0), 400, 810, paintString);
+        g.drawText(players[1]+"'s Score: "+state.getScore(1), 1600, 50, paintString);
 
-        //draw the previous messages on the board
-        paintString.setTextSize(25);
-        ArrayList<GFHistory> hist = state.history;
-        if(hist.size() >= 3){
-            g.drawText(histToString(hist.get(hist.size()-1)), 0, 85, paintString);
-            g.drawText(histToString(hist.get(hist.size()-2)), 0, 115, paintString);
-            g.drawText(histToString(hist.get(hist.size()-3)), 0, 145, paintString);
-        }else if(hist.size() >= 2){
-            g.drawText(histToString(hist.get(hist.size()-1)), 0, 85, paintString);
-            g.drawText(histToString(hist.get(hist.size()-2)), 0, 115, paintString);
-        }else if(hist.size() >= 1){
-            g.drawText(histToString(hist.get(hist.size()-1)), 0, 85, paintString);
-        }
+		//draw the previous messages on the board
+		paintString.setTextSize(25);
+		ArrayList<GFHistory> hist = state.history;
+		if(hist.size() >= 3){
+			g.drawText(histToString(hist.get(hist.size()-1)), 0, 85, paintString);
+			g.drawText(histToString(hist.get(hist.size()-2)), 0, 115, paintString);
+			g.drawText(histToString(hist.get(hist.size()-3)), 0, 145, paintString);
+		}else if(hist.size() >= 2){
+			g.drawText(histToString(hist.get(hist.size()-1)), 0, 85, paintString);
+			g.drawText(histToString(hist.get(hist.size()-2)), 0, 115, paintString);
+		}else if(hist.size() >= 1){
+			g.drawText(histToString(hist.get(hist.size()-1)), 0, 85, paintString);
+		}
 
 		//draw the rectangle for the User to touch when wanting to check Hand
 		Paint paintButton = new Paint();
@@ -422,27 +422,55 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 	public void onTouch(MotionEvent event) {
 
 		// ignore everything except down-touch events
-		if (event.getAction() != MotionEvent.ACTION_DOWN) return;
+		if(event.getAction() != MotionEvent.ACTION_DOWN) return;
 
 		// get the location of the touch on the surface
 		int x = (int) event.getX();
 		int y = (int) event.getY();
 
-		// determine whether the touch occurred on the top-card of either
-		// the player's deck or the draw deck
-		RectF myFirstCardLoc = thisPlayerFirstCardLocation();
+		//determine whether the touch occurred the player's deck or the check hand button
 		RectF drawTopCardLoc = checkHandRect();
-		int n = state.getHand(0).size()+2;
+		//int n = state.getHand(0).size()+2;
+
+		float left = thisPlayerFirstCardLocation().left;
+		float top = thisPlayerFirstCardLocation().top;
+		float right = thisPlayerFirstCardLocation().width()/2*(state.getHand(this.playerNum).size()+2);
+		float bottom = thisPlayerFirstCardLocation().bottom;
+
 		//draw a rect that encompasses the size of the entire human player's hand
-		RectF myHandLoc = new RectF(thisPlayerFirstCardLocation().left, thisPlayerFirstCardLocation().top, (thisPlayerFirstCardLocation().width()/2)*n, thisPlayerFirstCardLocation().bottom);
+		RectF myHandLoc = new RectF(left, top, right, bottom);
+
 		if (myHandLoc.contains(x, y)) {
-			// it's on my pile: we're asking for a card: send action to
-			// the game
+			//it's on the human players hand, get which card it is by sub-dividing the width by
+			//the number of cards in the players hand
 			if(state.getHand(0).size() != 0) {
-				game.sendAction(new GFRequestAction(this, 1, state.getHand(0).
-						cards.get((int) (Math.random() * state.getHand(0).size()))));
-				Log.i("Contains xy", "sent action.");
+
+				//since we are printing every half-card, we can sub-divide the width of the
+				//RectF object into hand.size()+1 halves
+				float widthHalfCard = (right - left)/(state.getHand(this.playerNum).size()+1);
+				//shift the x down to index at zero for simplicity
+				float shiftedX = x - left;
+
+				//for all subdivision of the width, check if shiftedX falls into one
+				int i;
+				for(i = 0; i<state.getHand(this.playerNum).size()+1; i++){
+					//to prevent indexOutOfBounds exception, if the index i is getting past the
+					//number of cards in the hand, set it to hand.size() - 1 and break the forLoop
+					if(i == state.getHand(this.playerNum).size()){
+						i--;
+						break;
+					}
+
+					//if the card is within a sub-division, we have found our card and we can break
+					if(widthHalfCard*i < shiftedX && shiftedX < widthHalfCard*(i+1)) break;
+				}
+
+				//request the card at index i
+				game.sendAction(new GFRequestAction(this, 1, state.getHand(this.playerNum).cards.get(i)));
+
+				//Log.i("Contains xy", "sent action.");
 			}else{
+				//an error has occurred. Request a null card
 				game.sendAction(new GFRequestAction(this, 0, null));
 			}
 		}
