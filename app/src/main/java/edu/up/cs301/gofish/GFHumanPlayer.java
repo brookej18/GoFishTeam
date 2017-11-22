@@ -192,8 +192,8 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 			// if drawPile is not empty, draw a set of N card-backs,
 			// so that the user can see the size of
 			// the pile
-			RectF midTopLocation = middlePileTopCardLocation();
-			drawCardBacks(g, midTopLocation,
+			RectF drawPileLocation = drawPileTopCardLocation();
+			drawCardBacks(g, drawPileLocation,
 					0, 0, state.getHand(4).size());
 		}
 
@@ -210,11 +210,11 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 		// draw my cards, face up
 		Deck playerOneHand = state.getHand(0);
-		RectF thisTopLocation = thisPlayerTopCardLocation(); // drawing size/location
+		RectF thisCardLocation = thisPlayerFirstCardLocation(); // drawing size/location
 		if(playerOneHand != null)
 		{
 			//If our Hand is not empty, draw our cards so we can see them along side each other.
-			drawOurHand(g, thisTopLocation, 0.05f*width, 0, state.getHand(0).size());
+			drawOurHand(g, thisCardLocation, 0.06f*width, 0, state.getHand(0).size());
 		}
 
 		//draw and update a string denoting whose turn it is to play
@@ -315,7 +315,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 	 * 		surface where the top card in the current player's deck is to
 	 * 		be drawn
 	 */
-	private RectF thisPlayerTopCardLocation() {
+	private RectF thisPlayerFirstCardLocation() {
 		// near the right-bottom of the drawing surface, based on the height
 		// and width, and the percentages defined above
 		int width = surface.getWidth();
@@ -333,9 +333,9 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 	 * 		surface where the top card in the draw pile is to
 	 * 		be drawn.
 	 */
-	private RectF middlePileTopCardLocation() {
-		// near the middle-bottom of the drawing surface, based on the height
-		// and width, and the percentages defined above
+	private RectF drawPileTopCardLocation() {
+		// near the middle of the drawing surface, based on the height
+		// and width, and the percentages defined below
 		int height = surface.getHeight();
 		int width = surface.getWidth();
 		float rectLeft = (75-CARD_WIDTH_PERCENT+LEFT_BORDER_PERCENT-RIGHT_BORDER_PERCENT)*width/200;
@@ -412,6 +412,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		}
 	}
 
+
 	/**
 	 * callback method: we have received a touch on the animation surface
 	 *
@@ -429,10 +430,13 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 		// determine whether the touch occurred on the top-card of either
 		// the player's deck or the draw deck
-		RectF myTopCardLoc = thisPlayerTopCardLocation();
+		RectF myFirstCardLoc = thisPlayerFirstCardLocation();
 		RectF drawTopCardLoc = checkHandRect();
-		if (myTopCardLoc.contains(x, y)) {
-			// it's on my pile: we're playing a card: send action to
+		int n = state.getHand(0).size()+2;
+		//draw a rect that encompasses the size of the entire human player's hand
+		RectF myHandLoc = new RectF(thisPlayerFirstCardLocation().left, thisPlayerFirstCardLocation().top, (thisPlayerFirstCardLocation().width()/2)*n, thisPlayerFirstCardLocation().bottom);
+		if (myHandLoc.contains(x, y)) {
+			// it's on my pile: we're asking for a card: send action to
 			// the game
 			if(state.getHand(0).size() != 0) {
 				game.sendAction(new GFRequestAction(this, 1, state.getHand(0).
