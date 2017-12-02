@@ -390,22 +390,26 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 	 * @param numCards
 	 * 		The number of cards in our hand
 	 */
-	private void drawOurHand(Canvas g, RectF thisRect, float deltaX, float deltaY, int numCards)
-	{
+	private void drawOurHand(Canvas g, RectF thisRect, float deltaX, float deltaY, int numCards) {
+
 		//loop through from front to back, drawing a card in each location
-		for(int i = 0; i < numCards; i++)
-		{
+		for(int i = 0; i < numCards; i++){
 			//determine the position of this card's topLeft corner
-			float left = thisRect.left + i * deltaX;
-			float top = thisRect.top + i * deltaY;
+			float left, top;
+			if(state.getHand(this.playerNum).size() < 15) {
+				left = thisRect.left + i * deltaX;
+			}else{
+				left = thisRect.left + i * deltaX/2;
+			}
+			top = thisRect.top + i * deltaY;
 			//draw the correct card, into the appropriate rectangle
 			synchronized (state.getHand(0)) {
-				try{
+				try {
 					drawCard(g, new RectF(left, top, left + thisRect.width(),
 							top + thisRect.height()), state.getHand(0).cards.get(i));
-				}catch(ArrayIndexOutOfBoundsException AE){
+				} catch (ArrayIndexOutOfBoundsException AE) {
 
-				}catch (IndexOutOfBoundsException IE){
+				} catch (IndexOutOfBoundsException IE) {
 
 				}
 			}
@@ -430,11 +434,15 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 		//determine whether the touch occurred the player's deck or the check hand button
 		RectF checkHandLoc = checkHandRect();
-		//int n = state.getHand(0).size()+2;
 
 		float left = thisPlayerFirstCardLocation().left;
 		float top = thisPlayerFirstCardLocation().top;
-		float right = thisPlayerFirstCardLocation().width()/2*(state.getHand(this.playerNum).size()+2);
+		float right;
+		if(state.getHand(this.playerNum).size() < 15) {
+			right = thisPlayerFirstCardLocation().width() / 2 * (state.getHand(this.playerNum).size() + 2);
+		}else{
+			right = thisPlayerFirstCardLocation().width() / 4 * (state.getHand(this.playerNum).size() + 6);
+		}
 		float bottom = thisPlayerFirstCardLocation().bottom;
 
 		//draw a rect that encompasses the size of the entire human player's hand
@@ -446,8 +454,13 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 			if(state.getHand(0).size() != 0) {
 
 				//since we are printing every half-card, we can sub-divide the width of the
-				//RectF object into hand.size()+1 halves
-				float widthHalfCard = (right - left)/(state.getHand(this.playerNum).size()+1);
+				//RectF object into hand.size()+1 halves, or for more than 15 cards, hand.size()+3 quarters
+				float widthHalfCard;
+				if(state.getHand(this.playerNum).size() < 15){
+					widthHalfCard = (right - left)/(state.getHand(this.playerNum).size()+1);
+				}else{
+					widthHalfCard = (right - left)/(state.getHand(this.playerNum).size()+3);
+				}
 				//shift the x down to index at zero for simplicity
 				float shiftedX = x - left;
 
