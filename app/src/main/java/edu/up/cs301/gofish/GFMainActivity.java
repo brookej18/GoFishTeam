@@ -31,23 +31,27 @@ public class GFMainActivity extends GameMainActivity {
 		
 		playerTypes.add(new GamePlayerType("human player (green)") {
 			public GamePlayer createPlayer(String name) {
+				if(name.length() > 15) name = name.substring(0, 15);
 				return new GFHumanPlayer(name, Color.GREEN);
 			}});
 
 		playerTypes.add(new GamePlayerType("human player (yellow)") {
 			public GamePlayer createPlayer(String name) {
+				if(name.length() > 15) name = name.substring(0, 15);
 				return new GFHumanPlayer(name, Color.YELLOW);
 			}
 		});
 
 		playerTypes.add(new GamePlayerType("Computer Player (simple)") {
 			public GamePlayer createPlayer(String name) {
+				if(name.length() > 15) name = name.substring(0, 15);
 				return new GFComputerPlayer(name, false);
 			}
 		});
 
 		playerTypes.add(new GamePlayerType("Computer Player (smart)") {
 			public GamePlayer createPlayer(String name) {
+				if(name.length() > 15) name = name.substring(0, 15);
 				return new GFComputerPlayer(name, true);
 			}
 		});

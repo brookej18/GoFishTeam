@@ -70,33 +70,32 @@ public class GFComputerPlayer extends GameComputerPlayer {
 		// update our state variable
 		savedState = (GFState)info;
 		game.sendAction(new GFCheckHandAction(this));
-		// If it's not our turn to play, play a card.
-		if (savedState.whoseTurn() != this.playerNum) {
+		int playerNum = this.playerNum;
 
-		}else if(savedState.whoseTurn() == this.playerNum) {
+
+		if(savedState.whoseTurn() == playerNum) {
 			// If it's my turn to play a card,
 			// delay for up to two seconds; then play
 			sleep(2000);
 			// submit our move to the game object)
 
-
-			savedState.findBrook(this.playerNum);
+			savedState.findBrook(playerNum);
 
 			if(!compDifficulty){
 
 				//Simple computerPlayer implementation, so request random card to a random player
 
 				//if the computers hand is larger than 0 cards
-				if (savedState.getHand(this.playerNum).size() > 0) {
-					int handSize = savedState.getHand(this.playerNum).size();
+				if (savedState.getHand(playerNum).size() > 0) {
+
 
 					//get a random rank from the computers hand to ask for
-					Card requestCard = savedState.getHand(this.playerNum).cards.get(
-							(int) (Math.random() * handSize));
+					Card requestCard = savedState.getHand(playerNum).cards.get(
+							(int) (Math.random() * (savedState.getHand(playerNum).size()-1)));
 
 					//get this players number, so to make sure not to ask itself for a card
-					int requestPlayer = this.playerNum;
-					while (requestPlayer == this.playerNum) {
+					int requestPlayer = playerNum;
+					while (requestPlayer == playerNum) {
 						requestPlayer = (int)(Math.random()*savedState.getNumPlayers());
 					}
 					game.sendAction(new GFRequestAction(this, requestPlayer, requestCard));
@@ -108,6 +107,59 @@ public class GFComputerPlayer extends GameComputerPlayer {
 			}else{
 
 				//smart AI implementation of the computer player
+
+				//as long as the players hand is not empty
+				if(savedState.getHand(playerNum).size() > 0){
+
+					//index variables
+					int i = savedState.history.size()-1, j;
+
+					//while we start at the back of the history ArrayList and make our way to the front
+					while(i > -1){
+
+						//if a history object has yet to be used by an AI and this player didn't ask for it
+						if(savedState.history.get(i).getUsedByAI() == false  &&
+								savedState.history.get(i).getCurrentPlayer() != playerNum){
+
+							//get the rank of the card requested during that move
+							int rank = savedState.history.get(i).getRankTake();
+
+							//for all cards in this players hand, check if we have that rank of card
+							for(j = 0; j < savedState.getHand(playerNum).size(); j++){
+
+								//if we found a card in our hand with that rank, request it from that player
+								if(rank == savedState.getHand(playerNum).cards.get(j).getRank().value(14)){
+									//update the history object to reflect that this was used by an AI
+									savedState.history.get(i).setUsedByAI(true);
+
+									game.sendAction(new GFRequestAction(this,
+											savedState.history.get(i).getCurrentPlayer(),
+											savedState.getHand(playerNum).cards.get(j)));
+									return;
+								}
+							}
+						}
+						i--;
+					}
+					//if we got all the way through the history object, revert to random actions.
+
+					//get a random rank from the computers hand to ask for
+
+					Card requestCard = savedState.getHand(playerNum).cards.get(
+							(int) (Math.random()*(savedState.getHand(playerNum).size() - 1)));
+
+					//get this players number, so to make sure not to ask itself for a card
+					int requestPlayer = playerNum;
+					while (requestPlayer == playerNum) {
+						requestPlayer = (int) (Math.random() * savedState.getNumPlayers());
+					}
+					game.sendAction(new GFRequestAction(this, requestPlayer, requestCard));
+
+				//else, just request a null card to end the turn.
+				}else{
+					game.sendAction(new GFRequestAction(this, 0, null));
+				}
+
 			}
 		}
 	}

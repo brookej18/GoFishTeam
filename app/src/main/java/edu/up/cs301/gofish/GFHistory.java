@@ -22,6 +22,9 @@ public class GFHistory {
     private int rankTake;           //(optional) rank being fished for
     private int scoreAdd;           //(optional) score added to the current players score
     private boolean success;        //(optional) was the Go Fish successful or not
+    private boolean usedByAI;       //denotes whether the smart AI has used an instance of this
+                                    //object for requesting cards. Initially set to false, set to
+                                    //true if used by any AI
 
     /**
      * Constructor
@@ -31,13 +34,15 @@ public class GFHistory {
      * @param rankTaken
      * @param scoreAdded
      * @param successful
+     * @param usedBySmartAI
      */
-    public void GFHistory(int player, int playerAsked, int rankTaken, int scoreAdded, boolean successful){
+    public void GFHistory(int player, int playerAsked, int rankTaken, int scoreAdded, boolean successful, boolean usedBySmartAI){
         currentPlayer = player;
         playerAsk = playerAsked;
         rankTake = rankTaken;
         scoreAdd = scoreAdded;
         success = successful;
+        usedByAI = usedBySmartAI;
     }
 
     /*Setter methods for all instance variables*/
@@ -62,6 +67,10 @@ public class GFHistory {
         success = successful;
     }
 
+    public void setUsedByAI(boolean usedBySmartAI){
+        usedByAI = usedBySmartAI;
+    }
+
 
     /*Getter methods for all instance variables*/
 
@@ -83,5 +92,9 @@ public class GFHistory {
 
     public boolean getSuccess(){
         return success;
+    }
+
+    public boolean getUsedByAI(){
+        return usedByAI;
     }
 }

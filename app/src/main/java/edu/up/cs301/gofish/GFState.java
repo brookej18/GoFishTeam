@@ -324,6 +324,7 @@ public class GFState extends GameState {
 		temp.setTargetRank(targetRank);
 		temp.setScoreAdded(scoreAdded);
 		temp.setSuccess(successful);
+		temp.setUsedByAI(false);
 		history.add(temp);
 	}
 
