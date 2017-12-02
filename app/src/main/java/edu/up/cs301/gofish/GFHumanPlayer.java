@@ -565,21 +565,40 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		// This should never happen, but will show up if errors occur during debugging
 		if(hist.getCurrentPlayer() < 0 || hist.getCurrentPlayer() > state.getNumPlayers()) return "";
 
+		//set the rank as a string variable (mainly for Jack, Queen, King, Ace)
+		String rank;
+		switch (hist.getRankTake()){
+			case 11:
+				rank = "Jack";
+				break;
+			case 12:
+				rank = "Queen";
+				break;
+			case 13:
+				rank = "King";
+				break;
+			case 14:
+				rank = "Ace";
+				break;
+			default:
+				rank = ""+hist.getRankTake();
+		}
+
 		//if the player asked for a card from another player, and SUCCESSFULLY took that card
 		if(hist.getPlayerAsk() != -1 && hist.getRankTake() != -1 && hist.getSuccess() == true) {
-			return playerNames[hist.getCurrentPlayer()] + " took the " + hist.getRankTake() + " cards from " +
+			return playerNames[hist.getCurrentPlayer()] + " took the " + rank + " cards from " +
 					playerNames[hist.getPlayerAsk()] + ".";
 			//Printed in the form: "Player1 took the X cards from Player2."
 
 			//if the player asked for a card, but DID NOT get that card
 		}else if(hist.getPlayerAsk() != -1 && hist.getRankTake() != 1){
 			return playerNames[hist.getCurrentPlayer()]+" asked "+playerNames[hist.getPlayerAsk()]+" for the "+
-					hist.getRankTake()+"...";
+					rank+"...";
 			//Printed in the form: "Player1 asked Player2 for the X..."
 
 			//if the player added to their score
 		}else if(hist.getScoreAdd() != -1){
-			return playerNames[hist.getCurrentPlayer()]+" just added "+hist.getScoreAdd()+" to their score!";
+			return playerNames[hist.getCurrentPlayer()]+" just added "+rank+"s to their score!";
 			//Printed in the form: "Player1 just added X to their score!"
 		}
 
