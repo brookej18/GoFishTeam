@@ -22,7 +22,7 @@ public class GFStateTest {
 
     @Test
     public void testGetHand() throws Exception {
-        GFState state = new GFState();
+        GFState state = new GFState(2);
         state.getHand(0).add52();
 
         Deck hand = new Deck();
@@ -41,7 +41,7 @@ public class GFStateTest {
 
     @Test
     public void testWhoseTurn() throws Exception {
-        GFState state = new GFState();
+        GFState state = new GFState(2);
 
         //assuming the game starts with player index 1
         assertEquals(state.whoseTurn(), 0);
@@ -53,7 +53,7 @@ public class GFStateTest {
 
     @Test
     public void testGetScore() throws Exception {
-        GFState state = new GFState();
+        GFState state = new GFState(2);
 
         assertEquals(state.getScore(0), 0);
         assertEquals(state.getScore(1), 0);
@@ -61,7 +61,7 @@ public class GFStateTest {
 
     @Test
     public void testSetScore() throws Exception {
-        GFState state = new GFState();
+        GFState state = new GFState(2);
 
         //test for functionality first, to make sure the correct player gets the correct score
         state.setScore(1, 32);
@@ -74,12 +74,12 @@ public class GFStateTest {
 
     @Test
     public void testTurnHistory() throws Exception {
-        GFState state = new GFState();
+        GFState state = new GFState(2);
     }
 
     @Test
     public void testGFStateCopy() throws Exception {
-        GFState state = new GFState();
+        GFState state = new GFState(2);
 
         state.getHand(0).add52();
         state.setWhoseTurn(1);

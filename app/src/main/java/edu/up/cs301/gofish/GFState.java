@@ -49,11 +49,11 @@ public class GFState extends GameState {
      * Constructor for objects of class GFState. Initializes for the beginning of the
      * game, with player 1 as the first to play
      */
-    public GFState() {
+    public GFState(int numberOfPlayers) {
     	/*Currently, while we focus on just two players to start the game, numPlayers is going
     	* to be defaulted to 2 players. Later implementations will see the numPlayers parameter
     	* being passed to the constructor for more dynamic games*/
-    	numPlayers = 2;
+    	numPlayers = numberOfPlayers;
 
     	//initialize so that the local player always goes first
     	whoseTurn = 0;

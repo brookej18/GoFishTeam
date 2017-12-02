@@ -429,7 +429,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		int y = (int) event.getY();
 
 		//determine whether the touch occurred the player's deck or the check hand button
-		RectF drawTopCardLoc = checkHandRect();
+		RectF checkHandLoc = checkHandRect();
 		//int n = state.getHand(0).size()+2;
 
 		float left = thisPlayerFirstCardLocation().left;
@@ -474,10 +474,14 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 				game.sendAction(new GFRequestAction(this, 0, null));
 			}
 		}
-		else if (drawTopCardLoc.contains(x, y)) {
-			//The touch is on the Check Hand 'Button'
-			//We are checking our Hand!
-			game.sendAction(new GFCheckHandAction(this));
+		else if (checkHandLoc.contains(x, y)) {
+			if(state.getHand(this.playerNum).size() > 0) {
+				//The touch is on the Check Hand 'Button', so we will check our hand
+				game.sendAction(new GFCheckHandAction(this));
+			}else{
+				//if we have no cards left, request a null card
+				game.sendAction(new GFRequestAction(this, 0, null));
+			}
 		}
 		else {
 			// illegal touch-location: flash for 1/20 second
@@ -598,7 +602,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 			//if the player added to their score
 		}else if(hist.getScoreAdd() != -1){
-			return playerNames[hist.getCurrentPlayer()]+" just added "+rank+"s to their score!";
+			return playerNames[hist.getCurrentPlayer()]+" just added "+hist.getScoreAdd()+" to their score!";
 			//Printed in the form: "Player1 just added X to their score!"
 		}
 

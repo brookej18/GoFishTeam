@@ -19,7 +19,7 @@ public class GFComputerPlayer extends GameComputerPlayer {
 	// the most recent state of the game
 	private GFState savedState;
 
-	private boolean difficulty;
+	private boolean compDifficulty;
 
 	/**
 	 * Constructor for the GFComputerPlayer class; creates an "average"
@@ -40,7 +40,7 @@ public class GFComputerPlayer extends GameComputerPlayer {
 	public GFComputerPlayer(String name, boolean difficulty) {
 		// invoke superclass constructor
 		super(name);
-		difficulty = difficulty;
+		compDifficulty = difficulty;
 
 	}
 
@@ -82,22 +82,32 @@ public class GFComputerPlayer extends GameComputerPlayer {
 
 			savedState.findBrook(this.playerNum);
 
-			if(!difficulty){
-				//Random request move for computer player
+			if(!compDifficulty){
+
+				//Simple computerPlayer implementation, so request random card to a random player
+
+				//if the computers hand is larger than 0 cards
 				if (savedState.getHand(this.playerNum).size() > 0) {
 					int handSize = savedState.getHand(this.playerNum).size();
+
+					//get a random rank from the computers hand to ask for
 					Card requestCard = savedState.getHand(this.playerNum).cards.get(
 							(int) (Math.random() * handSize));
+
+					//get this players number, so to make sure not to ask itself for a card
 					int requestPlayer = this.playerNum;
 					while (requestPlayer == this.playerNum) {
-						requestPlayer = 0;
+						requestPlayer = (int)(Math.random()*savedState.getNumPlayers());
 					}
 					game.sendAction(new GFRequestAction(this, requestPlayer, requestCard));
+
+				//else, just request a null card to end the turn.
 				} else {
 					game.sendAction(new GFRequestAction(this, 0, null));
 				}
 			}else{
-				//smart AI implementation goes here
+
+				//smart AI implementation of the computer player
 			}
 		}
 	}

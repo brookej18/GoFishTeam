@@ -110,7 +110,7 @@ View.OnClickListener {
 	 * @return a new, game-specific instance of a sub-class of the LocalGame
 	 *         class.
 	 */
-	public abstract LocalGame createLocalGame();
+	public abstract LocalGame createLocalGame(int numberOfPlayers);
 
 	/**
 	 * Creates a "proxy" game that acts as an intermediary between a local
@@ -263,7 +263,7 @@ View.OnClickListener {
 		// until further down so that we do not attempt to make the
 		// network connection until other errors are checked)
 		if (config.isLocal()) { // local game
-			game = createLocalGame();
+			game = createLocalGame(config.getNumPlayers());
 			// verify we have a game
 			if (game == null) {
 				return "Game creation failed.";

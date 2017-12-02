@@ -67,7 +67,7 @@ public class GFMainActivity extends GameMainActivity {
 	}//createDefaultConfig
 
 	@Override
-	public LocalGame createLocalGame() {
-		return new GFLocalGame();
+	public LocalGame createLocalGame(int numberOfPlayers) {
+		return new GFLocalGame(numberOfPlayers);
 	}
 }

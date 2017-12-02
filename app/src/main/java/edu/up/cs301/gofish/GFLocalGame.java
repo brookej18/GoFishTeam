@@ -29,10 +29,10 @@ public class GFLocalGame extends LocalGame {
     /**
      * Constructor for the GFLocalGame.
      */
-    public GFLocalGame() {
+    public GFLocalGame(int numberOfPlayers) {
         Log.i("GFLocalGame", "creating game");
         // create the state for the beginning of the game
-        state = new GFState();
+        state = new GFState(numberOfPlayers);
     }
 
 
