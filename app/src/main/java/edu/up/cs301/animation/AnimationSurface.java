@@ -218,7 +218,9 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
 						// draw the background
 						if (flashCount > 0) {
 							// we are flashing: draw the "flash" color
-							canvas.drawRect(0,0,getWidth(),getHeight(), flashPaint);
+							synchronized (canvas){
+								canvas.drawRect(0,0,getWidth(),getHeight(), flashPaint);
+							}
 							
 							// decrement the flash count by the number of milliseconds in
 							// our interval

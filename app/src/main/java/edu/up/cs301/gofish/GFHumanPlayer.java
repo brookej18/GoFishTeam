@@ -43,6 +43,8 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 	private final static float LEFT_BORDER_PERCENT = 3; // width of left border
 	private final static float RIGHT_BORDER_PERCENT = 20; // width of right border
 	private final static float VERTICAL_BORDER_PERCENT = 3; // width of top/bottom borders
+	private float cardHighLight = 0;
+	private Card card;
 
 	// our game state
 	protected GFState state;
@@ -272,6 +274,16 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		paintText.setColor(Color.CYAN);
 		paintText.setTextSize(35);
 		g.drawText("Check Hand",150, 750, paintText);
+
+		Paint pHighLight = new Paint();
+		pHighLight.setColor(Color.RED);
+		if(cardHighLight != 0){
+			if(state.getHand(this.playerNum).size() < 15){
+				g.drawRect(cardHighLight, height-15, cardHighLight + 125, height, pHighLight);
+			}else{
+				g.drawRect(cardHighLight, height-15, cardHighLight + 62, height, pHighLight);
+			}
+		}
 	}
 
 
@@ -475,16 +487,18 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 					}
 
 					//if the card is within a sub-division, we have found our card and we can break
-					if(widthHalfCard*i < shiftedX && shiftedX < widthHalfCard*(i+1)) break;
+					if(widthHalfCard*i < shiftedX && shiftedX < widthHalfCard*(i+1)){
+						if(state.getHand(this.playerNum).size() < 15){
+							cardHighLight = (float)(left + widthHalfCard*i + 5.3*i);
+						}else{
+							cardHighLight = left + widthHalfCard*i;
+						}
+						break;
+					}
 				}
 
-				//request the card at index i
-				game.sendAction(new GFRequestAction(this, 1, state.getHand(this.playerNum).cards.get(i)));
+				card = state.getHand(this.playerNum).cards.get(i);
 
-				//Log.i("Contains xy", "sent action.");
-			}else{
-				//an error has occurred. Request a null card
-				game.sendAction(new GFRequestAction(this, 0, null));
 			}
 		}
 		else if (checkHandLoc.contains(x, y)) {
@@ -495,8 +509,18 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 				//if we have no cards left, request a null card
 				game.sendAction(new GFRequestAction(this, 0, null));
 			}
-		}
-		else {
+
+			/********************************CHANGE THINGS HERE************************************/
+			//replace the true with the RectF that describes the opponents tops cards
+		}else if(true) {
+			if(card != null) {
+				game.sendAction(new GFRequestAction(this, 1, card));
+
+				//set the highlighted card back to nothing
+				card = null;
+				cardHighLight = -1000;
+			}
+		}else{
 			// illegal touch-location: flash for 1/20 second
 			surface.flash(Color.RED, 50);
 
