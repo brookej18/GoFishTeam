@@ -199,26 +199,6 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 					0, 0, state.getHand(4).size());
 		}
 
-		// draw the opponent's cards, face down
-		Deck playerTwoHand  = state.getHand(1);
-		RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
-		if(playerTwoHand != null)
-		{
-			//if player Two's Hand is not empty, draw a set of N card-backs,
-			//so the user's can see the size of the pile.
-			drawCardBacks(g, oppTopLocation,
-					0.01f*width, 0, state.getHand(1-this.playerNum).size());
-		}
-
-		// draw my cards, face up
-		Deck playerOneHand = state.getHand(0);
-		RectF thisCardLocation = thisPlayerFirstCardLocation(); // drawing size/location
-		if(playerOneHand != null)
-		{
-			//If our Hand is not empty, draw our cards so we can see them along side each other.
-			drawOurHand(g, thisCardLocation, 0.06f*width, 0, state.getHand(0).size());
-		}
-
 		//draw and update a string denoting whose turn it is to play
 		Paint paintString = new Paint();
 		paintString.setColor(Color.BLACK);
@@ -246,10 +226,408 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 			Log.i( "playerTurnStringDisplay","There are no current players");
 		}
 
-        //draw and update the Strings denoting the score of each player
-        paintString.setTextSize(40);
-        g.drawText(players[0]+"'s Score: "+state.getScore(0), 400, 810, paintString);
-        g.drawText(players[1]+"'s Score: "+state.getScore(1), 1600, 50, paintString);
+		int playerSouth = this.playerNum;
+		int playerNorth;
+		int playerEast;
+		int playerWest;
+		int totalPlayers = state.getNumPlayers();
+
+		if(state.getNumPlayers() == 2)
+		{
+			playerNorth = 1-this.playerNum;
+
+			//draw and update the Strings denoting the score of each player
+			paintString.setTextSize(40);
+			g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 800, 810, paintString);
+			g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 1600, 50, paintString);
+
+			// draw opponent North's cards, face down
+			Deck playerNorthHand  = state.getHand(playerNorth);
+			RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
+			if(playerNorthHand != null)
+			{
+				//if the player's Hand located int the upperCenter of the screen, North, draw a set of N card-backs,
+				//so the user's can see the size of the pile.
+				drawCardBacks(g, oppTopLocation,
+						0.01f*width, 0, state.getHand(playerNorth).size());
+			}
+
+			// draw my cards, player South, face up
+			Deck playerSouthHand = state.getHand(this.playerNum);
+			RectF thisCardLocation = thisPlayerFirstCardLocation(); // drawing size/location
+			if(playerSouthHand != null)
+			{
+				//If our Hand is not empty, draw our cards so we can see them along side each other.
+				drawOurHand(g, thisCardLocation, 0.06f*width, 0, state.getHand(this.playerNum).size());
+			}
+		}
+		else if(state.getNumPlayers() == 3)
+		{
+			if(playerSouth == 0)
+			{
+				playerWest = 1;
+				playerNorth = 2;
+
+				//draw and update the Strings denoting the score of each player
+				paintString.setTextSize(40);
+				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 800, 810, paintString);
+				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 300, 650, paintString);
+				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 1600, 50, paintString);
+
+				//draw my cards, player South, face up
+				Deck playerSouthHand = state.getHand(this.playerNum);
+				RectF thisCardLocation = thisPlayerFirstCardLocation(); // drawing size/location
+				if(playerSouthHand != null)
+				{
+					//If our Hand is not empty, draw our cards so we can see them along side each other.
+					drawOurHand(g, thisCardLocation, 0.06f*width, 0, state.getHand(this.playerNum).size());
+				}
+
+				//draw opponent West's cards, face down
+				Deck playerWestHand = state.getHand(playerWest);
+				RectF oppWestLocation = opponentWestTopCardLocation(); //drawing size/location
+				if(playerWestHand != null)
+				{
+					//if the player's Hand located in the left of the screen, West, is not empty, draw
+					//a set of N card-backs, so the user's can see the size of the pile.
+					drawCardBacks(g, oppWestLocation, 0, .01f*height, state.getHand(playerWest).size());
+				}
+
+				// draw opponent North's cards, face down
+				Deck playerNorthHand  = state.getHand(playerNorth);
+				RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
+				if(playerNorthHand != null)
+				{
+					//if the player's Hand located int the upperCenter of the screen, North, is not empty
+					// draw a set of N card-backs, so the user's can see the size of the pile.
+					drawCardBacks(g, oppTopLocation,
+							0.01f*width, 0, state.getHand(playerNorth).size());
+				}
+			}
+			else if(playerSouth == 1)
+			{
+				playerWest = 2;
+				playerNorth = 0;
+
+				//draw and update the Strings denoting the score of each player
+				paintString.setTextSize(40);
+				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 800, 810, paintString);
+				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 300, 650, paintString);
+				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 1600, 50, paintString);
+
+				//draw my cards, player South, face up
+				Deck playerSouthHand = state.getHand(this.playerNum);
+				RectF thisCardLocation = thisPlayerFirstCardLocation(); // drawing size/location
+				if(playerSouthHand != null)
+				{
+					//If our Hand is not empty, draw our cards so we can see them along side each other.
+					drawOurHand(g, thisCardLocation, 0.06f*width, 0, state.getHand(this.playerNum).size());
+				}
+
+				//draw opponent West's cards, face down
+				Deck playerWestHand = state.getHand(playerWest);
+				RectF oppWestLocation = opponentWestTopCardLocation(); //drawing size/location
+				if(playerWestHand != null)
+				{
+					//if the player's Hand located in the left of the screen, West, is not empty, draw
+					//a set of N card-backs, so the user's can see the size of the pile.
+					drawCardBacks(g, oppWestLocation, 0, .01f*height, state.getHand(playerWest).size());
+				}
+
+				// draw opponent North's cards, face down
+				Deck playerNorthHand  = state.getHand(playerNorth);
+				RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
+				if(playerNorthHand != null)
+				{
+					//if the player's Hand located int the upperCenter of the screen, North, is not empty
+					// draw a set of N card-backs, so the user's can see the size of the pile.
+					drawCardBacks(g, oppTopLocation,
+							0.01f*width, 0, state.getHand(playerNorth).size());
+				}
+			}
+			else if(playerSouth == 2)
+			{
+				playerWest = 0;
+				playerNorth = 1;
+
+				//draw and update the Strings denoting the score of each player
+				paintString.setTextSize(40);
+				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 800, 810, paintString);
+				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 300, 650, paintString);
+				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 1600, 50, paintString);
+
+				//draw my cards, player South, face up
+				Deck playerSouthHand = state.getHand(this.playerNum);
+				RectF thisCardLocation = thisPlayerFirstCardLocation(); // drawing size/location
+				if(playerSouthHand != null)
+				{
+					//If our Hand is not empty, draw our cards so we can see them along side each other.
+					drawOurHand(g, thisCardLocation, 0.06f*width, 0, state.getHand(this.playerNum).size());
+				}
+
+				//draw opponent West's cards, face down
+				Deck playerWestHand = state.getHand(playerWest);
+				RectF oppWestLocation = opponentWestTopCardLocation(); //drawing size/location
+				if(playerWestHand != null)
+				{
+					//if the player's Hand located in the left of the screen, West, is not empty, draw
+					//a set of N card-backs, so the user's can see the size of the pile.
+					drawCardBacks(g, oppWestLocation, 0, .01f*height, state.getHand(playerWest).size());
+				}
+
+				// draw opponent North's cards, face down
+				Deck playerNorthHand  = state.getHand(playerNorth);
+				RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
+				if(playerNorthHand != null)
+				{
+					//if the player's Hand located int the upperCenter of the screen, North, is not empty
+					// draw a set of N card-backs, so the user's can see the size of the pile.
+					drawCardBacks(g, oppTopLocation,
+							0.01f*width, 0, state.getHand(playerNorth).size());
+				}
+			}
+		}
+		else if(state.getNumPlayers() == 4)
+		{
+			if(playerSouth == 0)
+			{
+				playerWest = 1;
+				playerNorth = 2;
+				playerEast = 3;
+
+				//draw and update the Strings denoting the score of each player
+				paintString.setTextSize(40);
+				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 800, 810, paintString);
+				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 300, 650, paintString);
+				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 1600, 50, paintString);
+				g.drawText(players[playerEast]+"'s Score: "+state.getScore(playerEast), 1600, 810, paintString);
+
+				//draw my cards, player South, face up
+				Deck playerSouthHand = state.getHand(this.playerNum);
+				RectF thisCardLocation = thisPlayerFirstCardLocation(); // drawing size/location
+				if(playerSouthHand != null)
+				{
+					//If our Hand is not empty, draw our cards so we can see them along side each other.
+					drawOurHand(g, thisCardLocation, 0.06f*width, 0, state.getHand(this.playerNum).size());
+				}
+
+				//draw opponent West's cards, face down
+				Deck playerWestHand = state.getHand(playerWest);
+				RectF oppWestLocation = opponentWestTopCardLocation(); //drawing size/location
+				if(playerWestHand != null)
+				{
+					//if the player's Hand located in the left of the screen, West, is not empty, draw
+					//a set of N card-backs, so the user's can see the size of the pile.
+					drawCardBacks(g, oppWestLocation, 0, .01f*height, state.getHand(playerWest).size());
+				}
+
+				// draw opponent North's cards, face down
+				Deck playerNorthHand  = state.getHand(playerNorth);
+				RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
+				if(playerNorthHand != null)
+				{
+					//if the player's Hand located int the upperCenter of the screen, North, is not empty
+					// draw a set of N card-backs, so the user's can see the size of the pile.
+					drawCardBacks(g, oppTopLocation,
+							0.01f*width, 0, state.getHand(playerNorth).size());
+				}
+
+				//draw opponent East's cards, face down
+				Deck playerEastHand = state.getHand(playerEast);
+				RectF oppEastLocation = opponentEastTopCardLocation(); //drawing size/location
+				if(playerEastHand != null)
+				{
+					//if the player's Hand located in the right of the screen, East, is not empty,
+					//draw a set of N card-backs, so the user's can see the size of the pile.
+					drawCardBacks(g, oppEastLocation, 0, .01f*height, state.getHand(playerEast).size());
+				}
+			}
+			else if(playerSouth == 1)
+			{
+				playerWest = 2;
+				playerNorth = 3;
+				playerEast = 0;
+
+				//draw and update the Strings denoting the score of each player
+				paintString.setTextSize(40);
+				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 800, 810, paintString);
+				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 300, 650, paintString);
+				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 1600, 50, paintString);
+				g.drawText(players[playerEast]+"'s Score: "+state.getScore(playerEast), 1600, 810, paintString);
+
+				//draw my cards, player South, face up
+				Deck playerSouthHand = state.getHand(this.playerNum);
+				RectF thisCardLocation = thisPlayerFirstCardLocation(); // drawing size/location
+				if(playerSouthHand != null)
+				{
+					//If our Hand is not empty, draw our cards so we can see them along side each other.
+					drawOurHand(g, thisCardLocation, 0.06f*width, 0, state.getHand(this.playerNum).size());
+				}
+
+				//draw opponent West's cards, face down
+				Deck playerWestHand = state.getHand(playerWest);
+				RectF oppWestLocation = opponentWestTopCardLocation(); //drawing size/location
+				if(playerWestHand != null)
+				{
+					//if the player's Hand located in the left of the screen, West, is not empty, draw
+					//a set of N card-backs, so the user's can see the size of the pile.
+					drawCardBacks(g, oppWestLocation, 0, .01f*height, state.getHand(playerWest).size());
+				}
+
+				// draw opponent North's cards, face down
+				Deck playerNorthHand  = state.getHand(playerNorth);
+				RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
+				if(playerNorthHand != null)
+				{
+					//if the player's Hand located int the upperCenter of the screen, North, is not empty
+					// draw a set of N card-backs, so the user's can see the size of the pile.
+					drawCardBacks(g, oppTopLocation,
+							0.01f*width, 0, state.getHand(playerNorth).size());
+				}
+
+				//draw opponent East's cards, face down
+				Deck playerEastHand = state.getHand(playerEast);
+				RectF oppEastLocation = opponentEastTopCardLocation(); //drawing size/location
+				if(playerEastHand != null)
+				{
+					//if the player's Hand located in the right of the screen, East, is not empty,
+					//draw a set of N card-backs, so the user's can see the size of the pile.
+					drawCardBacks(g, oppEastLocation, 0, .01f*height, state.getHand(playerEast).size());
+				}
+			}
+			else if(playerSouth == 2)
+			{
+				playerWest = 3;
+				playerNorth = 0;
+				playerEast = 1;
+
+				//draw and update the Strings denoting the score of each player
+				paintString.setTextSize(40);
+				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 800, 810, paintString);
+				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 300, 650, paintString);
+				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 1600, 50, paintString);
+				g.drawText(players[playerEast]+"'s Score: "+state.getScore(playerEast), 1600, 810, paintString);
+
+				//draw my cards, player South, face up
+				Deck playerSouthHand = state.getHand(this.playerNum);
+				RectF thisCardLocation = thisPlayerFirstCardLocation(); // drawing size/location
+				if(playerSouthHand != null)
+				{
+					//If our Hand is not empty, draw our cards so we can see them along side each other.
+					drawOurHand(g, thisCardLocation, 0.06f*width, 0, state.getHand(this.playerNum).size());
+				}
+
+				//draw opponent West's cards, face down
+				Deck playerWestHand = state.getHand(playerWest);
+				RectF oppWestLocation = opponentWestTopCardLocation(); //drawing size/location
+				if(playerWestHand != null)
+				{
+					//if the player's Hand located in the left of the screen, West, is not empty, draw
+					//a set of N card-backs, so the user's can see the size of the pile.
+					drawCardBacks(g, oppWestLocation, 0, .01f*height, state.getHand(playerWest).size());
+				}
+
+				// draw opponent North's cards, face down
+				Deck playerNorthHand  = state.getHand(playerNorth);
+				RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
+				if(playerNorthHand != null)
+				{
+					//if the player's Hand located int the upperCenter of the screen, North, is not empty
+					// draw a set of N card-backs, so the user's can see the size of the pile.
+					drawCardBacks(g, oppTopLocation,
+							0.01f*width, 0, state.getHand(playerNorth).size());
+				}
+
+				//draw opponent East's cards, face down
+				Deck playerEastHand = state.getHand(playerEast);
+				RectF oppEastLocation = opponentEastTopCardLocation(); //drawing size/location
+				if(playerEastHand != null)
+				{
+					//if the player's Hand located in the right of the screen, East, is not empty,
+					//draw a set of N card-backs, so the user's can see the size of the pile.
+					drawCardBacks(g, oppEastLocation, 0, .01f*height, state.getHand(playerEast).size());
+				}
+			}
+			else if(playerSouth == 3)
+			{
+				playerWest = 0;
+				playerNorth = 1;
+				playerEast = 2;
+
+				//draw and update the Strings denoting the score of each player
+				paintString.setTextSize(40);
+				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 800, 810, paintString);
+				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 300, 650, paintString);
+				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 1600, 50, paintString);
+				g.drawText(players[playerEast]+"'s Score: "+state.getScore(playerEast), 1600, 810, paintString);
+
+				//draw my cards, player South, face up
+				Deck playerSouthHand = state.getHand(this.playerNum);
+				RectF thisCardLocation = thisPlayerFirstCardLocation(); // drawing size/location
+				if(playerSouthHand != null)
+				{
+					//If our Hand is not empty, draw our cards so we can see them along side each other.
+					drawOurHand(g, thisCardLocation, 0.06f*width, 0, state.getHand(this.playerNum).size());
+				}
+
+				//draw opponent West's cards, face down
+				Deck playerWestHand = state.getHand(playerWest);
+				RectF oppWestLocation = opponentWestTopCardLocation(); //drawing size/location
+				if(playerWestHand != null)
+				{
+					//if the player's Hand located in the left of the screen, West, is not empty, draw
+					//a set of N card-backs, so the user's can see the size of the pile.
+					drawCardBacks(g, oppWestLocation, 0, .01f*height, state.getHand(playerWest).size());
+				}
+
+				// draw opponent North's cards, face down
+				Deck playerNorthHand  = state.getHand(playerNorth);
+				RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
+				if(playerNorthHand != null)
+				{
+					//if the player's Hand located int the upperCenter of the screen, North, is not empty
+					// draw a set of N card-backs, so the user's can see the size of the pile.
+					drawCardBacks(g, oppTopLocation,
+							0.01f*width, 0, state.getHand(playerNorth).size());
+				}
+
+				//draw opponent East's cards, face down
+				Deck playerEastHand = state.getHand(playerEast);
+				RectF oppEastLocation = opponentEastTopCardLocation(); //drawing size/location
+				if(playerEastHand != null)
+				{
+					//if the player's Hand located in the right of the screen, East, is not empty,
+					//draw a set of N card-backs, so the user's can see the size of the pile.
+					drawCardBacks(g, oppEastLocation, 0, .01f*height, state.getHand(playerEast).size());
+				}
+			}
+		}
+
+		/*// draw opponent North's cards, face down
+		Deck playerNorthHand  = state.getHand(1-this.playerNum);
+		RectF oppTopCardLocation = opponentTopCardLocation(); // drawing size/location
+		if(playerNorthHand != null)
+		{
+			//if player Two's Hand is not empty, draw a set of N card-backs,
+			//so the user's can see the size of the pile.
+			drawCardBacks(g, oppTopLocation,
+					0.01f*width, 0, state.getHand(4-this.playerNum).size());
+		}*/
+
+		//draw opponent East's cards, face down
+		//Deck playerEastHand = state.getHand();
+
+		//draw opponent West's cards, face down
+		//Deck playerWestHand = state.getHand();
+
+		/*// draw my cards, player South, face up
+		Deck playerSouthHand = state.getHand(this.playerNum);
+		RectF thisCardLocation = thisPlayerFirstCardLocation(); // drawing size/location
+		if(playerSouthHand != null)
+		{
+			//If our Hand is not empty, draw our cards so we can see them along side each other.
+			drawOurHand(g, thisCardLocation, 0.06f*width, 0, state.getHand(this.playerNum).size());
+		}*/
 
 		//draw the previous messages on the board
 		paintString.setTextSize(25);
@@ -273,7 +651,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		Paint paintText = new Paint();
 		paintText.setColor(Color.CYAN);
 		paintText.setTextSize(35);
-		g.drawText("Check Hand",150, 750, paintText);
+		g.drawText("Check Hand",1350, 550, paintText);
 
 		Paint pHighLight = new Paint();
 		pHighLight.setColor(Color.RED);
@@ -295,10 +673,10 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 	 */
 	private RectF checkHandRect()
 	{
-		float rectLeft = 140;
-		float rectRight = 350;
-		float rectTop = 680;
-		float rectBottom = 790;
+		float rectLeft = 1340;
+		float rectRight = 1550;
+		float rectTop = 480;
+		float rectBottom = 590;
 		return new RectF(rectLeft, rectTop,rectRight, rectBottom);
 	}
 
@@ -310,15 +688,62 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 	 */
 
 	private RectF opponentTopCardLocation() {
-		// near the left-bottom of the drawing surface, based on the height
+		// near the top-middle of the drawing surface, based on the height
 		// and width, and the percentages defined above
 		int height = surface.getHeight();
 		int width = surface.getWidth();
 		float rectLeft = (100-CARD_WIDTH_PERCENT-RIGHT_BORDER_PERCENT)*width/150;
 		float rectRight = rectLeft + width*CARD_WIDTH_PERCENT/100;
-		float rectTop = (35-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f;
-		float rectBottom = (35-VERTICAL_BORDER_PERCENT)*height/100f;
+		float rectTop = (20-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f;
+		float rectBottom = (25-VERTICAL_BORDER_PERCENT)*height/100f;
 		return new RectF(rectLeft, rectTop, rectRight, rectBottom);
+	}
+
+	/**
+	 * @return
+	 * 		the rectangle that represents the location on the
+	 * 		drawing surface where the top card in the West
+	 * 		player's deck is to be drawn
+	 */
+	private RectF opponentWestTopCardLocation()
+	{
+		//centered along the left edge of the drawing surface, based on the height
+		//and width, and the percentages defined above.
+		int height = surface.getHeight();
+		int width = surface.getWidth();
+		float rectLeft = (33-CARD_WIDTH_PERCENT-RIGHT_BORDER_PERCENT)*width/100;
+		float rectRight = rectLeft + width*CARD_WIDTH_PERCENT/100;
+		float rectTop = (60-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f;
+		float rectBottom = (60-VERTICAL_BORDER_PERCENT)*height/100f;
+		return new RectF(rectLeft, rectTop, rectRight, rectBottom);
+	}
+
+	/**
+	 * @return
+	 * 		the rectangle that represents the location on the
+	 * 		drawing surface where the top card in the East
+	 * 		player's deck is to be drawn
+	 */
+	private RectF opponentEastTopCardLocation()
+	{
+		//centered alon the right edge of hte drawing surface, based on the height
+		//and width, and the percentages defined above.
+		int height = surface.getHeight();
+		int width = surface.getWidth();
+		/*float rectLeft = (119-CARD_WIDTH_PERCENT-RIGHT_BORDER_PERCENT)*width/100;
+		float rectRight = rectLeft + width*CARD_WIDTH_PERCENT/100;
+		float rectTop = (60-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f;
+		float rectBottom = (60-VERTICAL_BORDER_PERCENT)*height/100f;*/
+
+		float rectLeft = (122-CARD_WIDTH_PERCENT-RIGHT_BORDER_PERCENT)*width/100;
+		float rectRight = rectLeft + width*CARD_WIDTH_PERCENT/100;
+		float rectTop = (65-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f;
+		float rectBottom = (60-VERTICAL_BORDER_PERCENT)*height/100f;
+		float rRight = rectLeft - (rectTop - rectBottom);
+		float rBottom = rectTop - (rectLeft - rectRight);
+		return new RectF(rectLeft, rectTop, rRight, rBottom);
+
+		//return new RectF(rectBottom, rectTop, rectLeft, rectRight);
 	}
 
 	/**
@@ -350,7 +775,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		// and width, and the percentages defined below
 		int height = surface.getHeight();
 		int width = surface.getWidth();
-		float rectLeft = (75-CARD_WIDTH_PERCENT+LEFT_BORDER_PERCENT-RIGHT_BORDER_PERCENT)*width/200;
+		float rectLeft = (125-CARD_WIDTH_PERCENT+LEFT_BORDER_PERCENT-RIGHT_BORDER_PERCENT)*width/200;
 		float rectRight = rectLeft + width*CARD_WIDTH_PERCENT/100;
 		float rectTop = (60-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f;
 		float rectBottom = (60-VERTICAL_BORDER_PERCENT)*height/100f;
@@ -415,11 +840,11 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 			}
 			top = thisRect.top + i * deltaY;
 			//draw the correct card, into the appropriate rectangle
-			synchronized (state.getHand(0)) {
-				try {
+			synchronized (state.getHand(this.playerNum)) {
+				try{
 					drawCard(g, new RectF(left, top, left + thisRect.width(),
-							top + thisRect.height()), state.getHand(0).cards.get(i));
-				} catch (ArrayIndexOutOfBoundsException AE) {
+							top + thisRect.height()), state.getHand(this.playerNum).cards.get(i));
+				}catch(ArrayIndexOutOfBoundsException AE){
 
 				} catch (IndexOutOfBoundsException IE) {
 
@@ -463,7 +888,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		if (myHandLoc.contains(x, y)) {
 			//it's on the human players hand, get which card it is by sub-dividing the width by
 			//the number of cards in the players hand
-			if(state.getHand(0).size() != 0) {
+			if(state.getHand(this.playerNum).size() != 0) {
 
 				//since we are printing every half-card, we can sub-divide the width of the
 				//RectF object into hand.size()+1 halves, or for more than 15 cards, hand.size()+3 quarters
