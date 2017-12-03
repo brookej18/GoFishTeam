@@ -629,7 +629,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 			drawOurHand(g, thisCardLocation, 0.06f*width, 0, state.getHand(this.playerNum).size());
 		}*/
 
-		//draw the previous messages on the board
+		//draw the previous messages on the board\]
 		paintString.setTextSize(25);
 		ArrayList<GFHistory> hist = state.history;
 		if(hist.size() >= 3){
@@ -711,11 +711,13 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		//and width, and the percentages defined above.
 		int height = surface.getHeight();
 		int width = surface.getWidth();
-		float rectLeft = (33-CARD_WIDTH_PERCENT-RIGHT_BORDER_PERCENT)*width/100;
+		float rectLeft = (23-CARD_WIDTH_PERCENT-RIGHT_BORDER_PERCENT)*width/100;
 		float rectRight = rectLeft + width*CARD_WIDTH_PERCENT/100;
 		float rectTop = (60-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f;
 		float rectBottom = (60-VERTICAL_BORDER_PERCENT)*height/100f;
-		return new RectF(rectLeft, rectTop, rectRight, rectBottom);
+		float rRight = rectLeft - (rectTop - rectBottom);
+		float rBottom = rectTop - (rectLeft - rectRight);
+		return new RectF(rectLeft, rectTop, rRight, rBottom);
 	}
 
 	/**
@@ -730,11 +732,6 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		//and width, and the percentages defined above.
 		int height = surface.getHeight();
 		int width = surface.getWidth();
-		/*float rectLeft = (119-CARD_WIDTH_PERCENT-RIGHT_BORDER_PERCENT)*width/100;
-		float rectRight = rectLeft + width*CARD_WIDTH_PERCENT/100;
-		float rectTop = (60-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f;
-		float rectBottom = (60-VERTICAL_BORDER_PERCENT)*height/100f;*/
-
 		float rectLeft = (122-CARD_WIDTH_PERCENT-RIGHT_BORDER_PERCENT)*width/100;
 		float rectRight = rectLeft + width*CARD_WIDTH_PERCENT/100;
 		float rectTop = (65-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f;
@@ -742,8 +739,6 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		float rRight = rectLeft - (rectTop - rectBottom);
 		float rBottom = rectTop - (rectLeft - rectRight);
 		return new RectF(rectLeft, rectTop, rRight, rBottom);
-
-		//return new RectF(rectBottom, rectTop, rectLeft, rectRight);
 	}
 
 	/**
