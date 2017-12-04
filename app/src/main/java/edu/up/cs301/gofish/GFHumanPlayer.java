@@ -243,7 +243,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 			// draw opponent North's cards, face down
 			Deck playerNorthHand  = state.getHand(playerNorth);
-			RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
+			RectF oppTopLocation = opponentNorthCardLocation(); // drawing size/location
 			if(playerNorthHand != null)
 			{
 				//if the player's Hand located int the upperCenter of the screen, North, draw a set of N card-backs,
@@ -295,7 +295,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 				// draw opponent North's cards, face down
 				Deck playerNorthHand  = state.getHand(playerNorth);
-				RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
+				RectF oppTopLocation = opponentNorthCardLocation(); // drawing size/location
 				if(playerNorthHand != null)
 				{
 					//if the player's Hand located int the upperCenter of the screen, North, is not empty
@@ -336,7 +336,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 				// draw opponent North's cards, face down
 				Deck playerNorthHand  = state.getHand(playerNorth);
-				RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
+				RectF oppTopLocation = opponentNorthCardLocation(); // drawing size/location
 				if(playerNorthHand != null)
 				{
 					//if the player's Hand located int the upperCenter of the screen, North, is not empty
@@ -377,7 +377,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 				// draw opponent North's cards, face down
 				Deck playerNorthHand  = state.getHand(playerNorth);
-				RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
+				RectF oppTopLocation = opponentNorthCardLocation(); // drawing size/location
 				if(playerNorthHand != null)
 				{
 					//if the player's Hand located int the upperCenter of the screen, North, is not empty
@@ -423,7 +423,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 				// draw opponent North's cards, face down
 				Deck playerNorthHand  = state.getHand(playerNorth);
-				RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
+				RectF oppTopLocation = opponentNorthCardLocation(); // drawing size/location
 				if(playerNorthHand != null)
 				{
 					//if the player's Hand located int the upperCenter of the screen, North, is not empty
@@ -476,7 +476,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 				// draw opponent North's cards, face down
 				Deck playerNorthHand  = state.getHand(playerNorth);
-				RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
+				RectF oppTopLocation = opponentNorthCardLocation(); // drawing size/location
 				if(playerNorthHand != null)
 				{
 					//if the player's Hand located int the upperCenter of the screen, North, is not empty
@@ -529,7 +529,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 				// draw opponent North's cards, face down
 				Deck playerNorthHand  = state.getHand(playerNorth);
-				RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
+				RectF oppTopLocation = opponentNorthCardLocation(); // drawing size/location
 				if(playerNorthHand != null)
 				{
 					//if the player's Hand located int the upperCenter of the screen, North, is not empty
@@ -582,7 +582,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 				// draw opponent North's cards, face down
 				Deck playerNorthHand  = state.getHand(playerNorth);
-				RectF oppTopLocation = opponentTopCardLocation(); // drawing size/location
+				RectF oppTopLocation = opponentNorthCardLocation(); // drawing size/location
 				if(playerNorthHand != null)
 				{
 					//if the player's Hand located int the upperCenter of the screen, North, is not empty
@@ -687,7 +687,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 	 * 		be drawn
 	 */
 
-	private RectF opponentTopCardLocation() {
+	private RectF opponentNorthCardLocation() {
 		// near the top-middle of the drawing surface, based on the height
 		// and width, and the percentages defined above
 		int height = surface.getHeight();
@@ -695,7 +695,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		float rectLeft = (100-CARD_WIDTH_PERCENT-RIGHT_BORDER_PERCENT)*width/150;
 		float rectRight = rectLeft + width*CARD_WIDTH_PERCENT/100;
 		float rectTop = (20-VERTICAL_BORDER_PERCENT-CARD_HEIGHT_PERCENT)*height/100f;
-		float rectBottom = (25-VERTICAL_BORDER_PERCENT)*height/100f;
+		float rectBottom = (22-VERTICAL_BORDER_PERCENT)*height/100f;
 		return new RectF(rectLeft, rectTop, rectRight, rectBottom);
 	}
 
