@@ -920,8 +920,8 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 				card = state.getHand(this.playerNum).cards.get(i);
 
 			}
-		}
-		else if (checkHandLoc.contains(x, y)) {
+		//else the check hand button was pressed, so check our hand for brooks
+		}else if(checkHandLoc.contains(x, y)){
 			if(state.getHand(this.playerNum).size() > 0) {
 				//The touch is on the Check Hand 'Button', so we will check our hand
 				game.sendAction(new GFCheckHandAction(this));
@@ -929,21 +929,71 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 				//if we have no cards left, request a null card
 				game.sendAction(new GFRequestAction(this, 0, null));
 			}
+		///////////////////////////////////////////////////////////////////////////////////////////
+		//else, we are trying to ask for a card from someone in the playing field
+		}else if(state.getNumPlayers() == 2) {
+			if (opponentNorthCardLocation().contains(x, y)) {
+				if (card != null) {
+					game.sendAction(new GFRequestAction(this, 1, card));
 
-			/********************************CHANGE THINGS HERE************************************/
-			//replace the true with the RectF that describes the opponents tops cards
-		}else if(true) {
-			if(card != null) {
-				game.sendAction(new GFRequestAction(this, 1, card));
+					//set the highlighted card back to nothing
+					card = null;
+					cardHighLight = -1000;
+				}
+			}else{
+				surface.flash(Color.RED, 50);
+			}
+		}else if(state.getNumPlayers() == 3) {
+			if (opponentWestTopCardLocation().contains(x, y)) {
+				if (card != null) {
+					game.sendAction(new GFRequestAction(this, 1, card));
 
-				//set the highlighted card back to nothing
-				card = null;
-				cardHighLight = -1000;
+					//set the highlighted card back to nothing
+					card = null;
+					cardHighLight = -1000;
+				}
+			} else if (opponentNorthCardLocation().contains(x, y)) {
+				if (card != null) {
+					game.sendAction(new GFRequestAction(this, 2, card));
+
+					//set the highlighted card back to nothing
+					card = null;
+					cardHighLight = -1000;
+				}
+			}else{
+				surface.flash(Color.RED, 50);
+			}
+		}else if(state.getNumPlayers() == 4){
+			if(opponentWestTopCardLocation().contains(x,y)){
+				if (card != null) {
+					game.sendAction(new GFRequestAction(this, 1, card));
+
+					//set the highlighted card back to nothing
+					card = null;
+					cardHighLight = -1000;
+				}
+			}else if(opponentNorthCardLocation().contains(x,y)){
+				if (card != null) {
+					game.sendAction(new GFRequestAction(this, 2, card));
+
+					//set the highlighted card back to nothing
+					card = null;
+					cardHighLight = -1000;
+				}
+			}else if(opponentEastTopCardLocation().contains(x,y)){
+				if (card != null) {
+					game.sendAction(new GFRequestAction(this, 3, card));
+
+					//set the highlighted card back to nothing
+					card = null;
+					cardHighLight = -1000;
+				}
+			}else{
+				surface.flash(Color.RED, 50);
 			}
 		}else{
 			// illegal touch-location: flash for 1/20 second
 			surface.flash(Color.RED, 50);
-
 		}
 	}
 
