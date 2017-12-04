@@ -238,8 +238,8 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 			//draw and update the Strings denoting the score of each player
 			paintString.setTextSize(40);
-			g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 800, 810, paintString);
-			g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 1600, 50, paintString);
+			g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 900, 810, paintString);
+			g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 900, 290, paintString);
 
 			// draw opponent North's cards, face down
 			Deck playerNorthHand  = state.getHand(playerNorth);
@@ -249,7 +249,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 				//if the player's Hand located int the upperCenter of the screen, North, draw a set of N card-backs,
 				//so the user's can see the size of the pile.
 				drawCardBacks(g, oppTopLocation,
-						0.01f*width, 0, state.getHand(playerNorth).size());
+						0.0065f*width, 0, state.getHand(playerNorth).size());
 			}
 
 			// draw my cards, player South, face up
@@ -270,9 +270,12 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 				//draw and update the Strings denoting the score of each player
 				paintString.setTextSize(40);
-				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 800, 810, paintString);
-				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 300, 650, paintString);
-				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 1600, 50, paintString);
+				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 900, 810, paintString);
+				g.save();
+				g.rotate(90f, 220, 330);
+				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 220, 330, paintString);
+				g.restore();
+				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 900, 290, paintString);
 
 				//draw my cards, player South, face up
 				Deck playerSouthHand = state.getHand(this.playerNum);
@@ -301,7 +304,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 					//if the player's Hand located int the upperCenter of the screen, North, is not empty
 					// draw a set of N card-backs, so the user's can see the size of the pile.
 					drawCardBacks(g, oppTopLocation,
-							0.01f*width, 0, state.getHand(playerNorth).size());
+							0.0065f*width, 0, state.getHand(playerNorth).size());
 				}
 			}
 			else if(playerSouth == 1)
@@ -311,9 +314,12 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 				//draw and update the Strings denoting the score of each player
 				paintString.setTextSize(40);
-				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 800, 810, paintString);
-				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 300, 650, paintString);
-				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 1600, 50, paintString);
+				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 900, 810, paintString);
+				g.save();
+				g.rotate(90f, 220, 330);
+				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 220, 330, paintString);
+				g.restore();
+				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 900, 290, paintString);
 
 				//draw my cards, player South, face up
 				Deck playerSouthHand = state.getHand(this.playerNum);
@@ -342,7 +348,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 					//if the player's Hand located int the upperCenter of the screen, North, is not empty
 					// draw a set of N card-backs, so the user's can see the size of the pile.
 					drawCardBacks(g, oppTopLocation,
-							0.01f*width, 0, state.getHand(playerNorth).size());
+							0.0065f*width, 0, state.getHand(playerNorth).size());
 				}
 			}
 			else if(playerSouth == 2)
@@ -352,9 +358,12 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 				//draw and update the Strings denoting the score of each player
 				paintString.setTextSize(40);
-				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 800, 810, paintString);
-				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 300, 650, paintString);
-				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 1600, 50, paintString);
+				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 900, 810, paintString);
+				g.save();
+				g.rotate(90f, 220, 330);
+				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 220, 330, paintString);
+				g.restore();
+				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 900, 290, paintString);
 
 				//draw my cards, player South, face up
 				Deck playerSouthHand = state.getHand(this.playerNum);
@@ -383,7 +392,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 					//if the player's Hand located int the upperCenter of the screen, North, is not empty
 					// draw a set of N card-backs, so the user's can see the size of the pile.
 					drawCardBacks(g, oppTopLocation,
-							0.01f*width, 0, state.getHand(playerNorth).size());
+							0.0065f*width, 0, state.getHand(playerNorth).size());
 				}
 			}
 		}
@@ -397,10 +406,16 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 				//draw and update the Strings denoting the score of each player
 				paintString.setTextSize(40);
-				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 800, 810, paintString);
-				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 300, 650, paintString);
-				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 1600, 50, paintString);
-				g.drawText(players[playerEast]+"'s Score: "+state.getScore(playerEast), 1600, 810, paintString);
+				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 900, 810, paintString);
+				g.save();
+				g.rotate(90f, 220, 330);
+				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 220, 330, paintString);
+				g.restore();
+				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 900, 290, paintString);
+				g.save();
+				g.rotate(270f, 1820, 730);
+				g.drawText(players[playerEast]+"'s Score: "+state.getScore(playerEast), 1820, 730, paintString);
+				g.restore();
 
 				//draw my cards, player South, face up
 				Deck playerSouthHand = state.getHand(this.playerNum);
@@ -429,7 +444,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 					//if the player's Hand located int the upperCenter of the screen, North, is not empty
 					// draw a set of N card-backs, so the user's can see the size of the pile.
 					drawCardBacks(g, oppTopLocation,
-							0.01f*width, 0, state.getHand(playerNorth).size());
+							0.0065f*width, 0, state.getHand(playerNorth).size());
 				}
 
 				//draw opponent East's cards, face down
@@ -450,10 +465,16 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 				//draw and update the Strings denoting the score of each player
 				paintString.setTextSize(40);
-				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 800, 810, paintString);
-				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 300, 650, paintString);
-				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 1600, 50, paintString);
-				g.drawText(players[playerEast]+"'s Score: "+state.getScore(playerEast), 1600, 810, paintString);
+				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 900, 810, paintString);
+				g.save();
+				g.rotate(90f, 220, 330);
+				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 220, 330, paintString);
+				g.restore();
+				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 900, 290, paintString);
+				g.save();
+				g.rotate(270f, 1820, 730);
+				g.drawText(players[playerEast]+"'s Score: "+state.getScore(playerEast), 1820, 730, paintString);
+				g.restore();
 
 				//draw my cards, player South, face up
 				Deck playerSouthHand = state.getHand(this.playerNum);
@@ -482,7 +503,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 					//if the player's Hand located int the upperCenter of the screen, North, is not empty
 					// draw a set of N card-backs, so the user's can see the size of the pile.
 					drawCardBacks(g, oppTopLocation,
-							0.01f*width, 0, state.getHand(playerNorth).size());
+							0.0065f*width, 0, state.getHand(playerNorth).size());
 				}
 
 				//draw opponent East's cards, face down
@@ -503,10 +524,16 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 				//draw and update the Strings denoting the score of each player
 				paintString.setTextSize(40);
-				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 800, 810, paintString);
-				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 300, 650, paintString);
-				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 1600, 50, paintString);
-				g.drawText(players[playerEast]+"'s Score: "+state.getScore(playerEast), 1600, 810, paintString);
+				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 900, 810, paintString);
+				g.save();
+				g.rotate(90f, 220, 330);
+				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 220, 330, paintString);
+				g.restore();
+				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 900, 290, paintString);
+				g.save();
+				g.rotate(270f, 1820, 730);
+				g.drawText(players[playerEast]+"'s Score: "+state.getScore(playerEast), 1820, 730, paintString);
+				g.restore();
 
 				//draw my cards, player South, face up
 				Deck playerSouthHand = state.getHand(this.playerNum);
@@ -535,7 +562,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 					//if the player's Hand located int the upperCenter of the screen, North, is not empty
 					// draw a set of N card-backs, so the user's can see the size of the pile.
 					drawCardBacks(g, oppTopLocation,
-							0.01f*width, 0, state.getHand(playerNorth).size());
+							0.0065f*width, 0, state.getHand(playerNorth).size());
 				}
 
 				//draw opponent East's cards, face down
@@ -556,10 +583,16 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 				//draw and update the Strings denoting the score of each player
 				paintString.setTextSize(40);
-				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 800, 810, paintString);
-				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 300, 650, paintString);
-				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 1600, 50, paintString);
-				g.drawText(players[playerEast]+"'s Score: "+state.getScore(playerEast), 1600, 810, paintString);
+				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 900, 810, paintString);
+				g.save();
+				g.rotate(90f, 220, 330);
+				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 220, 330, paintString);
+				g.restore();
+				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 900, 290, paintString);
+				g.save();
+				g.rotate(270f, 1820, 730);
+				g.drawText(players[playerEast]+"'s Score: "+state.getScore(playerEast), 1820, 730, paintString);
+				g.restore();
 
 				//draw my cards, player South, face up
 				Deck playerSouthHand = state.getHand(this.playerNum);
@@ -588,7 +621,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 					//if the player's Hand located int the upperCenter of the screen, North, is not empty
 					// draw a set of N card-backs, so the user's can see the size of the pile.
 					drawCardBacks(g, oppTopLocation,
-							0.01f*width, 0, state.getHand(playerNorth).size());
+							0.0065f*width, 0, state.getHand(playerNorth).size());
 				}
 
 				//draw opponent East's cards, face down
@@ -602,32 +635,6 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 				}
 			}
 		}
-
-		/*// draw opponent North's cards, face down
-		Deck playerNorthHand  = state.getHand(1-this.playerNum);
-		RectF oppTopCardLocation = opponentTopCardLocation(); // drawing size/location
-		if(playerNorthHand != null)
-		{
-			//if player Two's Hand is not empty, draw a set of N card-backs,
-			//so the user's can see the size of the pile.
-			drawCardBacks(g, oppTopLocation,
-					0.01f*width, 0, state.getHand(4-this.playerNum).size());
-		}*/
-
-		//draw opponent East's cards, face down
-		//Deck playerEastHand = state.getHand();
-
-		//draw opponent West's cards, face down
-		//Deck playerWestHand = state.getHand();
-
-		/*// draw my cards, player South, face up
-		Deck playerSouthHand = state.getHand(this.playerNum);
-		RectF thisCardLocation = thisPlayerFirstCardLocation(); // drawing size/location
-		if(playerSouthHand != null)
-		{
-			//If our Hand is not empty, draw our cards so we can see them along side each other.
-			drawOurHand(g, thisCardLocation, 0.06f*width, 0, state.getHand(this.playerNum).size());
-		}*/
 
 		//draw the previous messages on the board\]
 		paintString.setTextSize(25);
