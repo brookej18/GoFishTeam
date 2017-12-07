@@ -225,9 +225,22 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 			playerNorth = 1-this.playerNum;
 
 			//draw and update the Strings denoting the score of each player
-			paintString.setTextSize(40);
-			g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 900, 810, paintString);
-			g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 900, 290, paintString);
+			//and highlight that of which, whose turn it is currently.
+			if(state.whoseTurn()==playerSouth) {
+				paintString.setColor(Color.RED);
+				paintString.setTextSize(40);
+				g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+				paintString.setColor(Color.BLACK);
+				g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+			}
+			else if(state.whoseTurn()==playerNorth)
+			{
+				paintString.setColor(Color.BLACK);
+				paintString.setTextSize(40);
+				g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+				paintString.setColor(Color.RED);
+				g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+			}
 
 			// draw opponent North's cards, face down
 			Deck playerNorthHand  = state.getHand(playerNorth);
@@ -257,13 +270,44 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 				playerNorth = 2;
 
 				//draw and update the Strings denoting the score of each player
-				paintString.setTextSize(40);
-				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 900, 810, paintString);
-				g.save();
-				g.rotate(90f, 220, 330);
-				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 220, 330, paintString);
-				g.restore();
-				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 900, 290, paintString);
+				//and highlight that of which, whose turn it is currently.
+				if(state.whoseTurn()==playerSouth) {
+					paintString.setColor(Color.RED);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					paintString.setColor(Color.BLACK);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+				}
+				else if(state.whoseTurn()==playerWest)
+				{
+					paintString.setColor(Color.BLACK);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					paintString.setColor(Color.RED);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					paintString.setColor(Color.BLACK);
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+				}
+				else if(state.whoseTurn()==playerNorth)
+				{
+					paintString.setColor(Color.BLACK);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					paintString.setColor(Color.RED);
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+					paintString.setColor(Color.BLACK);
+				}
 
 				//draw my cards, player South, face up
 				Deck playerSouthHand = state.getHand(this.playerNum);
@@ -301,13 +345,44 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 				playerNorth = 0;
 
 				//draw and update the Strings denoting the score of each player
-				paintString.setTextSize(40);
-				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 900, 810, paintString);
-				g.save();
-				g.rotate(90f, 220, 330);
-				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 220, 330, paintString);
-				g.restore();
-				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 900, 290, paintString);
+				//and highlight that of which, whose turn it is currently.
+				if(state.whoseTurn()==playerSouth) {
+					paintString.setColor(Color.RED);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					paintString.setColor(Color.BLACK);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+				}
+				else if(state.whoseTurn()==playerWest)
+				{
+					paintString.setColor(Color.BLACK);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					paintString.setColor(Color.RED);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					paintString.setColor(Color.BLACK);
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+				}
+				else if(state.whoseTurn()==playerNorth)
+				{
+					paintString.setColor(Color.BLACK);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					paintString.setColor(Color.RED);
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+					paintString.setColor(Color.BLACK);
+				}
 
 				//draw my cards, player South, face up
 				Deck playerSouthHand = state.getHand(this.playerNum);
@@ -345,13 +420,44 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 				playerNorth = 1;
 
 				//draw and update the Strings denoting the score of each player
-				paintString.setTextSize(40);
-				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 900, 810, paintString);
-				g.save();
-				g.rotate(90f, 220, 330);
-				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 220, 330, paintString);
-				g.restore();
-				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 900, 290, paintString);
+				//and highlight that of which, whose turn it is currently.
+				if(state.whoseTurn()==playerSouth) {
+					paintString.setColor(Color.RED);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					paintString.setColor(Color.BLACK);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+				}
+				else if(state.whoseTurn()==playerWest)
+				{
+					paintString.setColor(Color.BLACK);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					paintString.setColor(Color.RED);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					paintString.setColor(Color.BLACK);
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+				}
+				else if(state.whoseTurn()==playerNorth)
+				{
+					paintString.setColor(Color.BLACK);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					paintString.setColor(Color.RED);
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+					paintString.setColor(Color.BLACK);
+				}
 
 				//draw my cards, player South, face up
 				Deck playerSouthHand = state.getHand(this.playerNum);
@@ -393,17 +499,75 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 				playerEast = 3;
 
 				//draw and update the Strings denoting the score of each player
-				paintString.setTextSize(40);
-				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 900, 810, paintString);
-				g.save();
-				g.rotate(90f, 220, 330);
-				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 220, 330, paintString);
-				g.restore();
-				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 900, 290, paintString);
-				g.save();
-				g.rotate(270f, 1820, 730);
-				g.drawText(players[playerEast]+"'s Score: "+state.getScore(playerEast), 1820, 730, paintString);
-				g.restore();
+				//and highlight that of which, whose turn it is currently.
+				if(state.whoseTurn()==playerSouth) {
+					paintString.setColor(Color.RED);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					paintString.setColor(Color.BLACK);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+					g.save();
+					g.rotate(270f, 1820, 730);
+					g.drawText(players[playerEast] + "'s Score: " + state.getScore(playerEast), 1820, 730, paintString);
+					g.restore();
+				}
+				else if(state.whoseTurn()==playerWest)
+				{
+					paintString.setColor(Color.BLACK);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					paintString.setColor(Color.RED);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					paintString.setColor(Color.BLACK);
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+					g.save();
+					g.rotate(270f, 1820, 730);
+					g.drawText(players[playerEast] + "'s Score: " + state.getScore(playerEast), 1820, 730, paintString);
+					g.restore();
+					paintString.setColor(Color.BLACK);
+				}
+				else if(state.whoseTurn()==playerNorth)
+				{
+					paintString.setColor(Color.BLACK);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					paintString.setColor(Color.RED);
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+					paintString.setColor(Color.BLACK);
+					g.save();
+					g.rotate(270f, 1820, 730);
+					g.drawText(players[playerEast] + "'s Score: " + state.getScore(playerEast), 1820, 730, paintString);
+					g.restore();
+					paintString.setColor(Color.BLACK);
+				}
+				else if(state.whoseTurn()==playerEast)
+				{
+					paintString.setColor(Color.BLACK);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+					paintString.setColor(Color.RED);
+					g.save();
+					g.rotate(270f, 1820, 730);
+					g.drawText(players[playerEast] + "'s Score: " + state.getScore(playerEast), 1820, 730, paintString);
+					g.restore();
+					paintString.setColor(Color.BLACK);
+				}
 
 				//draw my cards, player South, face up
 				Deck playerSouthHand = state.getHand(this.playerNum);
@@ -452,17 +616,72 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 				playerEast = 0;
 
 				//draw and update the Strings denoting the score of each player
-				paintString.setTextSize(40);
-				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 900, 810, paintString);
-				g.save();
-				g.rotate(90f, 220, 330);
-				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 220, 330, paintString);
-				g.restore();
-				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 900, 290, paintString);
-				g.save();
-				g.rotate(270f, 1820, 730);
-				g.drawText(players[playerEast]+"'s Score: "+state.getScore(playerEast), 1820, 730, paintString);
-				g.restore();
+				//and highlight that of which, whose turn it is currently.
+				if(state.whoseTurn()==playerSouth) {
+					paintString.setColor(Color.RED);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					paintString.setColor(Color.BLACK);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+					g.save();
+					g.rotate(270f, 1820, 730);
+					g.drawText(players[playerEast] + "'s Score: " + state.getScore(playerEast), 1820, 730, paintString);
+					g.restore();
+				}
+				else if(state.whoseTurn()==playerWest)
+				{
+					paintString.setColor(Color.BLACK);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					paintString.setColor(Color.RED);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					paintString.setColor(Color.BLACK);
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+					g.save();
+					g.rotate(270f, 1820, 730);
+					g.drawText(players[playerEast] + "'s Score: " + state.getScore(playerEast), 1820, 730, paintString);
+					g.restore();
+				}
+				else if(state.whoseTurn()==playerNorth)
+				{
+					paintString.setColor(Color.BLACK);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					paintString.setColor(Color.RED);
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+					paintString.setColor(Color.BLACK);
+					g.save();
+					g.rotate(270f, 1820, 730);
+					g.drawText(players[playerEast] + "'s Score: " + state.getScore(playerEast), 1820, 730, paintString);
+					g.restore();
+				}
+				else if(state.whoseTurn()==playerEast)
+				{
+					paintString.setColor(Color.BLACK);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+					paintString.setColor(Color.RED);
+					g.save();
+					g.rotate(270f, 1820, 730);
+					g.drawText(players[playerEast] + "'s Score: " + state.getScore(playerEast), 1820, 730, paintString);
+					g.restore();
+				}
 
 				//draw my cards, player South, face up
 				Deck playerSouthHand = state.getHand(this.playerNum);
@@ -511,17 +730,72 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 				playerEast = 1;
 
 				//draw and update the Strings denoting the score of each player
-				paintString.setTextSize(40);
-				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 900, 810, paintString);
-				g.save();
-				g.rotate(90f, 220, 330);
-				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 220, 330, paintString);
-				g.restore();
-				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 900, 290, paintString);
-				g.save();
-				g.rotate(270f, 1820, 730);
-				g.drawText(players[playerEast]+"'s Score: "+state.getScore(playerEast), 1820, 730, paintString);
-				g.restore();
+				//and highlight that of which, whose turn it is currently.
+				if(state.whoseTurn()==playerSouth) {
+					paintString.setColor(Color.RED);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					paintString.setColor(Color.BLACK);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+					g.save();
+					g.rotate(270f, 1820, 730);
+					g.drawText(players[playerEast] + "'s Score: " + state.getScore(playerEast), 1820, 730, paintString);
+					g.restore();
+				}
+				else if(state.whoseTurn()==playerWest)
+				{
+					paintString.setColor(Color.BLACK);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					paintString.setColor(Color.RED);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					paintString.setColor(Color.BLACK);
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+					g.save();
+					g.rotate(270f, 1820, 730);
+					g.drawText(players[playerEast] + "'s Score: " + state.getScore(playerEast), 1820, 730, paintString);
+					g.restore();
+				}
+				else if(state.whoseTurn()==playerNorth)
+				{
+					paintString.setColor(Color.BLACK);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					paintString.setColor(Color.RED);
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+					paintString.setColor(Color.BLACK);
+					g.save();
+					g.rotate(270f, 1820, 730);
+					g.drawText(players[playerEast] + "'s Score: " + state.getScore(playerEast), 1820, 730, paintString);
+					g.restore();
+				}
+				else if(state.whoseTurn()==playerEast)
+				{
+					paintString.setColor(Color.BLACK);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+					paintString.setColor(Color.RED);
+					g.save();
+					g.rotate(270f, 1820, 730);
+					g.drawText(players[playerEast] + "'s Score: " + state.getScore(playerEast), 1820, 730, paintString);
+					g.restore();
+				}
 
 				//draw my cards, player South, face up
 				Deck playerSouthHand = state.getHand(this.playerNum);
@@ -570,17 +844,72 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 				playerEast = 2;
 
 				//draw and update the Strings denoting the score of each player
-				paintString.setTextSize(40);
-				g.drawText(players[playerSouth]+"'s Score: "+state.getScore(playerSouth), 900, 810, paintString);
-				g.save();
-				g.rotate(90f, 220, 330);
-				g.drawText(players[playerWest]+"'s Score: "+state.getScore(playerWest), 220, 330, paintString);
-				g.restore();
-				g.drawText(players[playerNorth]+"'s Score: "+state.getScore(playerNorth), 900, 290, paintString);
-				g.save();
-				g.rotate(270f, 1820, 730);
-				g.drawText(players[playerEast]+"'s Score: "+state.getScore(playerEast), 1820, 730, paintString);
-				g.restore();
+				//and highlight that of which, whose turn it is currently.
+				if(state.whoseTurn()==playerSouth) {
+					paintString.setColor(Color.RED);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					paintString.setColor(Color.BLACK);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+					g.save();
+					g.rotate(270f, 1820, 730);
+					g.drawText(players[playerEast] + "'s Score: " + state.getScore(playerEast), 1820, 730, paintString);
+					g.restore();
+				}
+				else if(state.whoseTurn()==playerWest)
+				{
+					paintString.setColor(Color.BLACK);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					paintString.setColor(Color.RED);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					paintString.setColor(Color.BLACK);
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+					g.save();
+					g.rotate(270f, 1820, 730);
+					g.drawText(players[playerEast] + "'s Score: " + state.getScore(playerEast), 1820, 730, paintString);
+					g.restore();
+				}
+				else if(state.whoseTurn()==playerNorth)
+				{
+					paintString.setColor(Color.BLACK);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					paintString.setColor(Color.RED);
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+					paintString.setColor(Color.BLACK);
+					g.save();
+					g.rotate(270f, 1820, 730);
+					g.drawText(players[playerEast] + "'s Score: " + state.getScore(playerEast), 1820, 730, paintString);
+					g.restore();
+				}
+				else if(state.whoseTurn()==playerEast)
+				{
+					paintString.setColor(Color.BLACK);
+					paintString.setTextSize(40);
+					g.drawText(players[playerSouth] + "'s Score: " + state.getScore(playerSouth), 900, 810, paintString);
+					g.save();
+					g.rotate(90f, 220, 330);
+					g.drawText(players[playerWest] + "'s Score: " + state.getScore(playerWest), 220, 330, paintString);
+					g.restore();
+					g.drawText(players[playerNorth] + "'s Score: " + state.getScore(playerNorth), 900, 290, paintString);
+					paintString.setColor(Color.RED);
+					g.save();
+					g.rotate(270f, 1820, 730);
+					g.drawText(players[playerEast] + "'s Score: " + state.getScore(playerEast), 1820, 730, paintString);
+					g.restore();
+				}
 
 				//draw my cards, player South, face up
 				Deck playerSouthHand = state.getHand(this.playerNum);
