@@ -76,7 +76,7 @@ public class GFComputerPlayer extends GameComputerPlayer {
 		if(savedState.whoseTurn() == playerNum) {
 			// If it's my turn to play a card,
 			// delay for up to two seconds; then play
-			sleep(2000);
+			sleep(3000);
 			// submit our move to the game object)
 
 			savedState.findBrook(playerNum);
@@ -97,6 +97,8 @@ public class GFComputerPlayer extends GameComputerPlayer {
 					int requestPlayer = playerNum;
 					while (requestPlayer == playerNum) {
 						requestPlayer = (int)(Math.random()*savedState.getNumPlayers());
+						//if the player we're asking doesn't have any cards, try again
+						if(savedState.getHand(requestPlayer).size() == 0) requestPlayer = playerNum;
 					}
 					game.sendAction(new GFRequestAction(this, requestPlayer, requestCard));
 
@@ -152,6 +154,8 @@ public class GFComputerPlayer extends GameComputerPlayer {
 					int requestPlayer = playerNum;
 					while (requestPlayer == playerNum) {
 						requestPlayer = (int) (Math.random() * savedState.getNumPlayers());
+						//if the player we're asking doesn't have any cards, try again
+						if(savedState.getHand(requestPlayer).size() == 0) requestPlayer = playerNum;
 					}
 					game.sendAction(new GFRequestAction(this, requestPlayer, requestCard));
 

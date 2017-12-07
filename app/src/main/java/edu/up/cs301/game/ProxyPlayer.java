@@ -142,11 +142,11 @@ public class ProxyPlayer implements GamePlayer {
     }
 
     /**
-     * Getter method to return the players index for the game. NOT IMPLEMENTED CORRECTLY
+     * Getter method to return the players index for the game.
      *
      */
     public int getPlayerNum(){
-        return this.getPlayerNum();
+        return -1;
     }
 }
 

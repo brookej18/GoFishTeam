@@ -186,8 +186,6 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		int height = surface.getHeight();
 		int width = surface.getWidth();
 
-//Edit for the GUI as it's developing
-
 		// draw the Local DrawPile
 		Deck drawPile = state.getHand(4);
 		if (drawPile != null) {
@@ -205,24 +203,15 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		paintString.setTextSize(50);
 		int player = state.whoseTurn();
 		String[] players = allPlayerNames;
-		if(player == 0)
-		{
+		if(player == 0){
 			g.drawText("Player's Turn: " + players[0], 0, 50, paintString);
-		}
-		else if(player == 1)
-		{
+		}else if(player == 1){
 			g.drawText("Player's Turn: " + players[1], 0, 50, paintString);
-		}
-		else if(player == 2)
-		{
+		}else if(player == 2){
 			g.drawText("Player's Turn: " + players[2], 0, 50, paintString);
-		}
-		else if(player == 3)
-		{
+		}else if(player == 3){
 			g.drawText("Player's Turn: " + players[3], 0, 50, paintString);
-		}
-		else
-		{
+		}else{
 			Log.i( "playerTurnStringDisplay","There are no current players");
 		}
 
@@ -230,7 +219,6 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		int playerNorth;
 		int playerEast;
 		int playerWest;
-		int totalPlayers = state.getNumPlayers();
 
 		if(state.getNumPlayers() == 2)
 		{
@@ -636,19 +624,25 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 			}
 		}
 
-		//draw the previous messages on the board\]
+		//draw the previous messages on the board
 		paintString.setTextSize(25);
 		ArrayList<GFHistory> hist = state.history;
 		if(hist.size() >= 3){
-			g.drawText(histToString(hist.get(hist.size()-1)), 0, 85, paintString);
-			g.drawText(histToString(hist.get(hist.size()-2)), 0, 115, paintString);
-			g.drawText(histToString(hist.get(hist.size()-3)), 0, 145, paintString);
+			g.drawText(histToString(hist.get(hist.size()-1)), 10, 85, paintString);
+			g.drawText(histToString(hist.get(hist.size()-2)), 10, 115, paintString);
+			g.drawText(histToString(hist.get(hist.size()-3)), 10, 145, paintString);
 		}else if(hist.size() >= 2){
-			g.drawText(histToString(hist.get(hist.size()-1)), 0, 85, paintString);
-			g.drawText(histToString(hist.get(hist.size()-2)), 0, 115, paintString);
+			g.drawText(histToString(hist.get(hist.size()-1)), 10, 85, paintString);
+			g.drawText(histToString(hist.get(hist.size()-2)), 10, 115, paintString);
 		}else if(hist.size() >= 1){
-			g.drawText(histToString(hist.get(hist.size()-1)), 0, 85, paintString);
+			g.drawText(histToString(hist.get(hist.size()-1)), 10, 85, paintString);
 		}
+
+		//draw the text the denotes how many cards are left in the pile
+		paintString.setTextSize(50);
+		if(state.getHand(4).size() > 0) paintString.setColor(Color.WHITE);
+		g.drawText("Deck", 1000, 500, paintString);
+		g.drawText(state.getHand(4).size()+" cards", 1000, 575, paintString);
 
 		//draw the rectangle for the User to touch when wanting to check Hand
 		Paint paintButton = new Paint();
@@ -657,8 +651,9 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		//draw Text on top of the Gray rect, identifying the Check Hand 'Button'
 		Paint paintText = new Paint();
 		paintText.setColor(Color.CYAN);
-		paintText.setTextSize(35);
-		g.drawText("Check Hand",1350, 550, paintText);
+		paintText.setTextSize(30);
+		g.drawText("Add to score/",1350, 530, paintText);
+		g.drawText("end turn", 1385, 570, paintText);
 
 		Paint pHighLight = new Paint();
 		pHighLight.setColor(Color.RED);
@@ -916,7 +911,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 					//if the card is within a sub-division, we have found our card and we can break
 					if(widthHalfCard*i < shiftedX && shiftedX < widthHalfCard*(i+1)){
 						if(state.getHand(this.playerNum).size() < 15){
-							cardHighLight = (float)(left + widthHalfCard*i + 5.3*i);
+							cardHighLight = (float)(left + widthHalfCard*i + 4.8*i);
 						}else{
 							cardHighLight = left + widthHalfCard*i;
 						}
@@ -1071,13 +1066,13 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 		//if the player asked for a card from another player, and SUCCESSFULLY took that card
 		if(hist.getPlayerAsk() != -1 && hist.getRankTake() != -1 && hist.getSuccess() == true) {
-			return playerNames[hist.getCurrentPlayer()] + " took the " + rank + " cards from " +
+			return playerNames[hist.getCurrentPlayer()] + " TOOK the " + rank + " cards from " +
 					playerNames[hist.getPlayerAsk()] + ".";
 			//Printed in the form: "Player1 took the X cards from Player2."
 
 			//if the player asked for a card, but DID NOT get that card
 		}else if(hist.getPlayerAsk() != -1 && hist.getRankTake() != 1){
-			return playerNames[hist.getCurrentPlayer()]+" asked "+playerNames[hist.getPlayerAsk()]+" for the "+
+			return "GO FISH: "+playerNames[hist.getCurrentPlayer()]+" asked "+playerNames[hist.getPlayerAsk()]+" for the "+
 					rank+"...";
 			//Printed in the form: "Player1 asked Player2 for the X..."
 
