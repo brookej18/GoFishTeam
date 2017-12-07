@@ -142,7 +142,6 @@ public class GFLocalGame extends LocalGame {
 
 		//make a copy of the state and null out all card that are irrelevant to the player
 		GFState stateForPlayer = new GFState(state); // copy of state
-		stateForPlayer.nullCards(player.getPlayerNum());
 		
 		//send the modified copy of the state to the player
 		player.sendInfo(stateForPlayer);

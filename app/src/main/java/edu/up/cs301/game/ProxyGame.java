@@ -83,7 +83,7 @@ public class ProxyGame implements Game {
         		try {
         			boolean b = obj instanceof GameInfo;
         			if (b) {
-        				// object is a GameStae object
+        				// object is a GameState object
         				GameInfo gs = (GameInfo)obj;
         				gs.setGame(ProxyGame.this);
         				synchronized(this) {

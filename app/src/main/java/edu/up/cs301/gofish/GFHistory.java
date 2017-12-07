@@ -1,5 +1,7 @@
 package edu.up.cs301.gofish;
 
+import java.io.Serializable;
+
 /**
  * A GFHistory object is designed to save the values passed by an action, and involve the current
  * player, (optional) target player being fished from, (optional) rank of the card being asked for,
@@ -10,7 +12,10 @@ package edu.up.cs301.gofish;
  * @version : November 20, 2017.
  */
 
-public class GFHistory {
+public class GFHistory implements Serializable{
+
+    // to satisfy the Serializable interface
+    private static final long serialVersionUID = 838923981980128935L;
 
     /*Instance variables:
     * In the situation where a variable is being used OPTIONALLY, because all instance variables

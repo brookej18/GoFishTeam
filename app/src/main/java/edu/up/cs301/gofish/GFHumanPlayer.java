@@ -858,7 +858,7 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 	 * 		the motion-event
 	 */
 	public void onTouch(MotionEvent event) {
-
+		if(state == null) return;
 		// ignore everything except down-touch events
 		if(event.getAction() != MotionEvent.ACTION_DOWN) return;
 
@@ -916,6 +916,13 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 							cardHighLight = left + widthHalfCard*i;
 						}
 						break;
+					//else, we probably touched the last card, so highlight the last card
+					}else{
+						if(state.getHand(this.playerNum).size() < 15){
+							cardHighLight = (float)(left + widthHalfCard*(state.getHand(this.playerNum).size()-1) + 4.8*i);
+						}else{
+							cardHighLight = left + widthHalfCard*(state.getHand(this.playerNum).size()-1);
+						}
 					}
 				}
 
