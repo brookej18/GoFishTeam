@@ -953,6 +953,8 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 			}
 		}
 
+		paintString.setColor(Color.BLACK);
+
 		//draw the previous messages on the board
 		paintString.setTextSize(25);
 		ArrayList<GFHistory> hist = state.history;
