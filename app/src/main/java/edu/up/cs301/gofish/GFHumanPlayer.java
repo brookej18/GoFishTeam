@@ -982,9 +982,8 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 		//draw Text on top of the Gray rect, identifying the Check Hand 'Button'
 		Paint paintText = new Paint();
 		paintText.setColor(Color.CYAN);
-		paintText.setTextSize(30);
-		g.drawText("Add to score/",1350, 530, paintText);
-		g.drawText("end turn", 1385, 570, paintText);
+		paintText.setTextSize(33);
+		g.drawText("Add to Score",1350, 550, paintText);
 
 		Paint pHighLight = new Paint();
 		pHighLight.setColor(Color.RED);
@@ -994,6 +993,13 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 			}else{
 				g.drawRect(cardHighLight, height-15, cardHighLight + 62, height, pHighLight);
 			}
+		}
+
+		//Handler for if it is the players turn, there are no cards left in the dealing deck,
+		//and the human player has no cards
+		if(state.whoseTurn() == this.playerNum && state.getHand(4).size() == 0
+				&& state.getHand(this.playerNum).size() == 0){
+			game.sendAction(new GFRequestAction(this, 0, null));
 		}
 	}
 
@@ -1189,9 +1195,18 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 	 * 		the motion-event
 	 */
 	public void onTouch(MotionEvent event) {
+
+		// if the state is null, return
 		if(state == null) return;
+
 		// ignore everything except down-touch events
 		if(event.getAction() != MotionEvent.ACTION_DOWN) return;
+
+		// if it is not our turn, flash and return
+		if(state.whoseTurn() != this.playerNum){
+			surface.flash(Color.RED, 50);
+			return;
+		}
 
 		// get the location of the touch on the surface
 		int x = (int) event.getX();
@@ -1272,9 +1287,9 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 				game.sendAction(new GFRequestAction(this, 0, null));
 			}
 
-			////////////////////////////////////////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////////////////////////////////////
 			//else, we are trying to ask for a card from someone in the playing field
-			////////////////////////////////////////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////////////////////////////////////
 		}else if(opponentWestTopCardLocation().contains(x,y) || opponentEastTopCardLocation().contains(x,y) ||
 				opponentNorthCardLocation().contains(x,y)){
 			if(card != null) {
@@ -1291,10 +1306,13 @@ public class GFHumanPlayer extends GameHumanPlayer implements Animator {
 
 				int playerAsking = (this.playerNum + location)%state.getNumPlayers();
 
-				game.sendAction(new GFRequestAction(this, playerAsking, card));
-
-				card = null;
-				cardHighLight = -1000;
+				if(state.getHand(playerAsking).size() != 0) {
+					game.sendAction(new GFRequestAction(this, playerAsking, card));
+					card = null;
+					cardHighLight = -1000;
+				}else{
+					surface.flash(Color.RED, 50);
+				}
 			}else{
 				surface.flash(Color.RED, 50);
 			}

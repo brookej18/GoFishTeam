@@ -76,7 +76,7 @@ public class GFComputerPlayer extends GameComputerPlayer {
 		if(savedState.whoseTurn() == playerNum) {
 			// If it's my turn to play a card,
 			// delay for up to two seconds; then play
-			sleep(3000);
+			sleep(2500);
 			// submit our move to the game object)
 
 			savedState.findBrook(playerNum);
